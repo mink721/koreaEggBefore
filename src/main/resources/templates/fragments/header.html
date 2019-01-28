@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="/layout/layout" >
+
+    <header layout:fragment="header" id="header" class="u-header u-header--modern u-header--bordered u-header--bg-transparent u-header--white-nav-links u-header--sticky-top-lg" >
+        <div class="u-header__section">
+            <div id="logoAndNav" class="container-fluid">
+                <!-- Nav -->
+                <nav class="navbar navbar-expand-lg u-header__navbar">
+                    <!-- Logo -->
+                    <div class="u-header__navbar-brand-wrapper">
+                        <a class="navbar-brand u-header__navbar-brand" href="index.html" aria-label="Space">
+                            <img class="u-header__navbar-brand-default" th:src="@{/svg/logos/logo-white.svg}" alt="Logo"/>
+                            <img class="u-header__navbar-brand-on-scroll" th:src="@{/svg/logos/logo.svg}" alt="Logo"/>
+                            <img class="u-header__navbar-brand-mobile" th:src="@{/svg/logos/logo-short.svg}" alt="Logo"/>
+                        </a>
+                    </div>
+                    <!-- End Logo -->
+                    <!-- Responsive Toggle Button -->
+                    <button type="button" class="navbar-toggler btn u-hamburger u-header__hamburger"
+                            aria-label="Toggle navigation"
+                            aria-expanded="false"
+                            aria-controls="navBar"
+                            data-toggle="collapse"
+                            data-target="#navBar">
+                        <span class="d-none d-sm-inline-block">Menu</span>
+                        <span id="hamburgerTrigger" class="u-hamburger__box ml-3">
+              <span class="u-hamburger__inner"></span>
+            </span>
+                    </button>
+                    <!-- End Responsive Toggle Button -->
+                    <!-- Navigation -->
+                    <div id="navBar" class="collapse navbar-collapse u-header__navbar-collapse py-0">
+                        <ul class="navbar-nav u-header__navbar-nav">
+                            <!-- Home -->
+                            <li class="nav-item u-header__nav-item">
+                                <a class="nav-link u-header__nav-link" href="index.html">
+                                    Home
+                                </a>
+                            </li>
+                            <!-- End Home -->
+                            <!-- Works -->
+                            <li class="nav-item u-header__nav-item">
+                                <a class="nav-link u-header__nav-link" href="info.html">
+                                    난가정보
+                                </a>
+                            </li>
+                            <!-- End Works -->
+                            <!-- Blog -->
+                            <li class="nav-item u-header__nav-item">
+                                <a class="nav-link u-header__nav-link" href="board.html">
+                                    게시판
+                                </a>
+                            </li>
+                            <!-- End Blog -->
+                            <!-- 로그인 버튼 -->
+                            <li class="nav-item u-header__nav-item-btn u-header__navbar-v-divider navbar-collapse-xs d-none d-lg-block" >
+                                <a class="btn btn-sm btn-primary" href="javascript:;" role="button">
+                                    <span class="fa fa-user mr-1"> 로그인/회원가입</span>
+                                </a>
+                            </li>
+                            <!-- End 로그인 버튼 -->
+                        </ul>
+                    </div>
+                    <!-- End Navigation -->
+                    <ul class="navbar-nav flex-row u-header__secondary-nav">
+                        <!-- Responsive 로그인 Button -->
+                        <li class="nav-item u-header__navbar-icon-wrapper u-header__navbar-icon navbar-toggler">
+                            <a class="btn btn-xs btn-icon btn-text-dark" href="javascript:;" role="button" >
+                                <span class="fa fa-user btn-icon__inner"></span>
+                            </a>
+                        </li>
+                        <!-- End Responsive 로그인 Button -->
+                        <!-- Shopping Cart -->
+                        <li class="nav-item u-header__navbar-icon-wrapper u-header__navbar-icon">
+                            <a id="shoppingCartDropdownInvoker" class="btn btn-xs btn-icon btn-text-dark" href="javascript:;" role="button"
+                               aria-controls="shoppingCartDropdown"
+                               aria-haspopup="true"
+                               aria-expanded="false"
+                               data-unfold-event="click"
+                               data-unfold-target="#shoppingCartDropdown"
+                               data-unfold-type="css-animation"
+                               data-unfold-duration="300"
+                               data-unfold-delay="300"
+                               data-unfold-hide-on-scroll="true"
+                               data-unfold-animation-in="slideInUp"
+                               data-unfold-animation-out="fadeOut">
+                                <span class="fa fa-shopping-cart btn-icon__inner"></span>
+                            </a>
+                            <div id="shoppingCartDropdown" class="u-unfold u-unfold--cart text-center border rounded-0 right-0 p-7" aria-labelledby="shoppingCartDropdownInvoker" style="min-width: 250px;">
+                <span class="u-icon u-icon--primary u-icon--md rounded-circle mb-3">
+                  <span class="fa fa-shopping-basket u-icon__inner"></span>
+                </span>
+                                <span class="d-block">Your Cart is Empty</span>
+                            </div>
+                        </li>
+                        <!-- End Shopping Cart -->
+                    </ul>
+                </nav>
+                <!-- End Nav -->
+            </div>
+        </div>
+    </header>
+
+</html>

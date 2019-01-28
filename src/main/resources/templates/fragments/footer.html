@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="/layout/layout" >
+
+<footer layout:fragment="footer" class="bg-dark">
+    <div class="container space-1">
+        <div class="row justify-content-md-between">
+            <div class="col-6 col-md-3 col-lg-2 order-lg-3 mb-2 mb-lg-0">
+                <h3 class="h6 text-white mb-3">회사소개</h3>
+            </div>
+
+            <div class="col-6 col-md-3 col-lg-2 order-lg-3 mb-2 mb-lg-0">
+                <h3 class="h6 text-white mb-3">공지사항</h3>
+            </div>
+
+            <div class="col-6 col-md-3 col-lg-2 order-lg-3 mb-2 mb-lg-0">
+                <h3 class="h6 text-white mb-3">이용약관</h3>
+            </div>
+
+            <div class="col-6 col-md-3 col-lg-2 order-lg-3 mb-2 mb-lg-0">
+                <h3 class="h6 text-white mb-3">개인정보처리방침</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="d-flex align-items-start flex-column">
+                <!-- Logo -->
+                <!-- <a class="d-inline-block mb-5" href="index.html" aria-label="Space">
+                  <img src="assets/svg/logos/logo-short-white.svg" alt="Logo" style="width: 40px; max-width: 100%;">
+                </a> -->
+                <!-- End Logo -->
+                <p class="small text-muted">계란유통전문 코리아에그
+                    경기도 수원시 권선구 권선동 1039-6
+                    대표자 : 강병열 사업자등록번호:130-90-14617 통신판매업신고:2014-수원권선-0346 (031) 297-8243 kbre2000@gmail.com</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<footer  layout:fragment="footer-js" >
+
+    <!-- JS Global Compulsory -->
+    <script type="text/javascript" th:src="@{/vendor/jquery/dist/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{vendor/jquery-migrate/dist/jquery-migrate.min.js}"></script>
+    <script type="text/javascript" th:src="@{/vendor/popper.js/dist/umd/popper.min.js}"></script>
+    <script type="text/javascript" th:src="@{/vendor/bootstrap/bootstrap.min.js}"></script>
+
+    <!-- JS Implementing Plugins -->
+    <script type="text/javascript" th:src="@{vendor/jquery-validation/dist/jquery.validate.min.js}"></script>
+
+    <!-- JS Space -->
+    <script type="text/javascript" th:src="@{/js/hs.core.js}"></script>
+    <script type="text/javascript" th:src="@{/js/components/hs.header.js}"></script>
+    <script type="text/javascript" th:src="@{/js/components/hs.unfold.js}"></script>
+    <script type="text/javascript" th:src="@{/js/components/hs.validation.js}"></script>
+    <script type="text/javascript" th:src="@{js/components/hs.show-animation.js}"></script>
+
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=af40a347c5a17c5118392cee56f35da6&libraries=services"></script>
+
+    <script>
+        $(window).on('load', function () {
+        });
+
+        $(document).on('ready', function () {
+            // initialization of header
+            $.HSCore.components.HSHeader.init($('#header'));
+
+            // initialization of unfold component
+            $.HSCore.components.HSUnfold.init($('[data-unfold-target]'));
+
+            // initialization of form validation
+            $.HSCore.components.HSValidation.init('.js-validate', {
+                rules: {
+                    confirmPassword: {
+                        equalTo: '#password'
+                    }
+                }
+            });
+
+        });
+
+        var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
+        var options = { //지도를 생성할 때 필요한 기본 옵션
+            center: new daum.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
+            level: 3 //지도의 레벨(확대, 축소 정도)
+        };
+
+        var map = new daum.maps.Map(container, options); //지도 생성 및 객체 리턴\
+
+        // 마커가 표시될 위치입니다
+        var markerPosition  = new daum.maps.LatLng(33.450701, 126.570667);
+
+        // 마커를 생성합니다
+        var marker = new daum.maps.Marker({
+            position: markerPosition
+        });
+
+        // 마커가 지도 위에 표시되도록 설정합니다
+        marker.setMap(map);
+
+        // 이미지 지도에서 마커가 표시될 위치입니다
+        var markerPosition  = new daum.maps.LatLng(33.450701, 126.570667);
+
+        // 이미지 지도에 표시할 마커입니다
+        // 이미지 지도에 표시할 마커는 Object 형태입니다
+        var marker = {
+            position: markerPosition
+        };
+
+        var staticMapContainer  = document.getElementById('staticMap'), // 이미지 지도를 표시할 div
+            staticMapOption = {
+                center: new daum.maps.LatLng(33.450701, 126.570667), // 이미지 지도의 중심좌표
+                level: 3, // 이미지 지도의 확대 레벨
+                marker: marker // 이미지 지도에 표시할 마커
+            };
+
+        // 이미지 지도를 생성합니다
+        var staticMap = new daum.maps.StaticMap(staticMapContainer, staticMapOption);
+
+
+    </script>
+</footer>
+</html>
