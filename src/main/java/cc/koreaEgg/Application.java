@@ -41,7 +41,6 @@ public class Application extends WebMvcConfigurerAdapter {
 
   @Override
   public void addViewControllers(ViewControllerRegistry registry) {
-    registry.addViewController("/").setViewName("main/index");
     registry.addViewController("/error").setViewName("error");
     registry.addViewController("/profile").setViewName("profile");
     registry.addViewController("/index").setViewName("main/index");

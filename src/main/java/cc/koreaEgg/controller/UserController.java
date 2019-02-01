@@ -60,6 +60,12 @@ public class UserController {
    *@PostAuthorize("isAuthenticated() and returnObject.user_id == principal.username") https://syaku.tistory.com/292
    * */
 
+  @RequestMapping(value = "/", method = RequestMethod.GET)
+  public String indexPage() {
+    System.out.println("Home Page");
+    return "main/index";
+  }
+
   @RequestMapping(value = "/index", method = RequestMethod.GET)
   public String retailPage() {
     return "main/index";
