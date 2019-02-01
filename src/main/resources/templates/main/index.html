@@ -112,7 +112,7 @@
             <!--상품 리스트 -->
             <div class="card-deck d-block d-lg-flex">
                 <article class="card border-0 mb-2">
-                    <a href="product.html" class="text-dark">
+                    <a href="product" class="text-dark">
                         <div class="card-body row align-items-stretch no-gutters p-0">
                             <!-- News Blog Card -->
                             <div class="col-4 col-sm-3 card-img-left border border-right-0 bg-img-hero" th:attr="data-bg-img-src=@{/img/test/10_0l.jpg}"></div>
@@ -129,7 +129,7 @@
                     <!-- End News Blog Card -->
                 </article>
                 <article class="card border-0 mb-2">
-                    <a href="product.html" class="text-dark">
+                    <a href="product" class="text-dark">
 
                         <div class="card-body row align-items-stretch no-gutters p-0">
                             <!-- News Blog Card -->
@@ -149,7 +149,7 @@
             </div>
             <div class="card-deck d-block d-lg-flex">
                 <article class="card border-0 mb-2">
-                    <a href="product.html" class="text-dark">
+                    <a href="product" class="text-dark">
                         <div class="card-body row align-items-stretch no-gutters p-0">
                             <!-- News Blog Card -->
                             <div class="col-4 col-sm-3 card-img-left border border-right-0 bg-img-hero" th:attr="data-bg-img-src=@{/img/test/7_0l.jpg}"></div>
@@ -166,7 +166,7 @@
                     <!-- End News Blog Card -->
                 </article>
                 <article class="card border-0 mb-2">
-                    <a href="product.html" class="text-dark">
+                    <a href="product" class="text-dark">
 
                         <div class="card-body row align-items-stretch no-gutters p-0">
                             <!-- News Blog Card -->
@@ -186,7 +186,7 @@
             </div>
             <div class="card-deck d-block d-lg-flex">
                 <article class="card border-0 mb-2">
-                    <a href="product.html" class="text-dark">
+                    <a href="product" class="text-dark">
                         <div class="card-body row align-items-stretch no-gutters p-0">
                             <!-- News Blog Card -->
                             <div class="col-4 col-sm-3 card-img-left border border-right-0 bg-img-hero" th:attr="data-bg-img-src=@{/img/test/img4.jpg}"></div>
@@ -203,7 +203,7 @@
                     <!-- End News Blog Card -->
                 </article>
                 <article class="card border-0 mb-2">
-                    <a href="product.html" class="text-dark">
+                    <a href="product" class="text-dark">
                         <div class="card-body row align-items-stretch no-gutters p-0">
                             <!-- News Blog Card -->
                             <div class="col-4 col-sm-3 card-img-left border border-right-0 bg-img-hero" th:attr="data-bg-img-src=@{/img/test/img4.jpg}"></div>
@@ -235,7 +235,7 @@
             <!-- 대리점 리스트 -->
             <div class="card-deck d-block d-lg-flex">
                 <article class="card border-0 mb-2">
-                    <a href="partner.html" class="text-dark">
+                    <a href="agent" class="text-dark">
                         <div class="card-body row align-items-stretch no-gutters p-0">
                             <!-- News Blog Card -->
                             <div class="col-8 border border-right-0 ">
@@ -256,7 +256,7 @@
                     <!-- End News Blog Card -->
                 </article>
                 <article class="card border-0 mb-2">
-                    <a href="partner.html" class="text-dark">
+                    <a href="agent" class="text-dark">
                         <div class="card-body row align-items-stretch no-gutters p-0">
                             <!-- News Blog Card -->
                             <div class="col-8 border border-right-0 ">
@@ -292,7 +292,7 @@
 
             <div class="card-deck d-block d-lg-flex">
                 <article class="card border-0 mb-2">
-                    <a href="partner.html" class="text-dark">
+                    <a href="partner" class="text-dark">
                         <div class="card-body row align-items-stretch no-gutters p-0">
                             <!-- News Blog Card -->
                             <div class="col-8 border border-right-0 ">
@@ -313,7 +313,7 @@
                     <!-- End News Blog Card -->
                 </article>
                 <article class="card border-0 mb-2">
-                    <a href="partner.html" class="text-dark">
+                    <a href="partner" class="text-dark">
                         <div class="card-body row align-items-stretch no-gutters p-0">
                             <!-- News Blog Card -->
                             <div class="col-8 border border-right-0 ">
@@ -337,4 +337,48 @@
         </div>
     </main>
 </section>
+<footer layout:fragment="footer">
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=af40a347c5a17c5118392cee56f35da6&libraries=services"></script>
+    <script>
+        var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
+        var options = { //지도를 생성할 때 필요한 기본 옵션
+            center: new daum.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
+            level: 3 //지도의 레벨(확대, 축소 정도)
+        };
+
+        var map = new daum.maps.Map(container, options); //지도 생성 및 객체 리턴\
+
+        // 마커가 표시될 위치입니다
+        var markerPosition  = new daum.maps.LatLng(33.450701, 126.570667);
+
+        // 마커를 생성합니다
+        var marker = new daum.maps.Marker({
+            position: markerPosition
+        });
+
+        // 마커가 지도 위에 표시되도록 설정합니다
+        marker.setMap(map);
+
+        // 이미지 지도에서 마커가 표시될 위치입니다
+        var markerPosition  = new daum.maps.LatLng(33.450701, 126.570667);
+
+        // 이미지 지도에 표시할 마커입니다
+        // 이미지 지도에 표시할 마커는 Object 형태입니다
+        var marker = {
+            position: markerPosition
+        };
+
+        var staticMapContainer  = document.getElementById('staticMap'), // 이미지 지도를 표시할 div
+            staticMapOption = {
+                center: new daum.maps.LatLng(33.450701, 126.570667), // 이미지 지도의 중심좌표
+                level: 3, // 이미지 지도의 확대 레벨
+                marker: marker // 이미지 지도에 표시할 마커
+            };
+
+        // 이미지 지도를 생성합니다
+        var staticMap = new daum.maps.StaticMap(staticMapContainer, staticMapOption);
+
+    </script>
+
+</footer>
 </html>

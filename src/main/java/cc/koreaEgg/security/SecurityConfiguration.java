@@ -23,9 +23,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             //static resources configuration
             .antMatchers("/resources/**", "/webjars/**", "/img/**").permitAll()
             //login page and registration end-point
-            .antMatchers("/login", "/registration").permitAll()
-            //all other requests
-            .anyRequest().authenticated()
+            //.antMatchers("/login", "/registration").permitAll()
+            //.antMatchers("/cast").hasAnyAuthority("CAST_READ","ROLE_ADMIN")
+            .antMatchers("/cast/**").hasAnyAuthority("ROLE_ADMIN,CAST_READ")
+              //all other requests
+            //.anyRequest().authenticated()
+            .anyRequest().permitAll()
             .and()
           // login form configuration
           .formLogin()
@@ -37,7 +40,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
           //logout configuration
           .logout()
             .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-            .logoutSuccessUrl("/login");
+            .logoutSuccessUrl("/");
   }
 
   @Override

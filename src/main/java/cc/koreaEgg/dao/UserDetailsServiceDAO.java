@@ -11,7 +11,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.util.StringUtils;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 import static java.util.Collections.singletonList;
@@ -29,6 +32,10 @@ public class UserDetailsServiceDAO implements UserDetailsService {
 
   private static final String ROLE_PREFIX = "ROLE_";
 
+  private Properties businessFunctions;
+
+
+
   /**
    *
    * @param username
@@ -37,15 +44,33 @@ public class UserDetailsServiceDAO implements UserDetailsService {
    */
   @Override
   public UserDetails loadUserByUsername(final String username)
-      throws UsernameNotFoundException {
+          throws UsernameNotFoundException {
     User user = loadUserEntityByUsername(username);
     if (user == null) {
       throw new UsernameNotFoundException(username + " not found");
     }
+
+    businessFunctions = new Properties();
+      String resourceName = "role-to-bf.properties"; // could also be a constant
+      ClassLoader loader = Thread.currentThread().getContextClassLoader();
+      try(InputStream resourceStream = loader.getResourceAsStream(resourceName)) {
+        businessFunctions.load(resourceStream);
+      } catch (IOException ex) {
+        // handle error
+      }
+
+    Set<String> sourceSet =  StringUtils.commaDelimitedListToSet(businessFunctions.getProperty(user.getRole()));
+
+    List<GrantedAuthority> grantedAuthorityList = new ArrayList<GrantedAuthority>();
+    for(String userRole  : sourceSet){
+      grantedAuthorityList.add(new SimpleGrantedAuthority(userRole));
+    }
+
     return new UserDetails() {
       @Override
       public Collection<? extends GrantedAuthority> getAuthorities() {
-        return singletonList(new SimpleGrantedAuthority(user.getRole()));
+        //return singletonList(new SimpleGrantedAuthority(role));
+        return grantedAuthorityList;
       }
 
       @Override

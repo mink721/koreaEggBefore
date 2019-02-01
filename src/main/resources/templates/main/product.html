@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="/layout/layout" >
+
+<section layout:fragment="content">
+    <!-- ========== MAIN CONTENT ========== -->
+    <main id="content" role="main">
+        <!-- Product Description Section -->
+        <div class="container space-2 space-3--lg">
+            <div class="row">
+                <div class="col-lg-7 mb-7 mb-lg-0">
+                    <!-- Red Product Gallery -->
+                    <div id="redShoeProduct" data-target-group="idProductSwitcher">
+                        <div class="row align-items-center">
+                            <div class="col-2">
+                                <!-- Slick Carousel - Thumbnail Shop Product -->
+                                <div id="redShoeNavThumb" class="js-slick-carousel u-slick u-slick--transform-off-lg u-slick--pagination-active-border"
+                                     data-infinite="true"
+                                     data-center-mode="true"
+                                     data-slides-show="4"
+                                     data-is-thumbs="true"
+                                     data-vertical="true"
+                                     data-focus-on-select="true"
+                                     data-nav-for="#redShoeNavMain">
+                                    <div class="js-slide my-2">
+                                        <img class="img-fluid u-slick--pagination-active-border__item" src="../../assets/img/100x100/img5.jpg" alt="Image Description">
+                                    </div>
+                                    <div class="js-slide my-2">
+                                        <img class="img-fluid u-slick--pagination-active-border__item" src="../../assets/img/100x100/img6.jpg" alt="Image Description">
+                                    </div>
+                                    <div class="js-slide my-2">
+                                        <img class="img-fluid u-slick--pagination-active-border__item" src="../../assets/img/100x100/img7.jpg" alt="Image Description">
+                                    </div>
+                                    <div class="js-slide my-2">
+                                        <img class="img-fluid u-slick--pagination-active-border__item" src="../../assets/img/100x100/img8.jpg" alt="Image Description">
+                                    </div>
+                                </div>
+                                <!-- End Slick Carousel - Thumbnail Shop Product -->
+                            </div>
+
+                            <div class="col-10">
+                                <!-- Slick Carousel - Main Shop Product -->
+                                <div id="redShoeNavMain" class="js-slick-carousel u-slick"
+                                     data-infinite="true"
+                                     data-nav-for="#redShoeNavThumb">
+                                    <div class="js-slide">
+                                        <img class="img-fluid" src="../../assets/img/700x400/img1.jpg" alt="Image Description">
+                                    </div>
+                                    <div class="js-slide">
+                                        <img class="img-fluid" src="../../assets/img/700x400/img2.jpg" alt="Image Description">
+                                    </div>
+                                    <div class="js-slide">
+                                        <img class="img-fluid" src="../../assets/img/700x400/img3.jpg" alt="Image Description">
+                                    </div>
+                                    <div class="js-slide">
+                                        <img class="img-fluid" src="../../assets/img/700x400/img4.jpg" alt="Image Description">
+                                    </div>
+                                </div>
+                                <!-- End Slick Carousel - Main Shop Product -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Red Product Gallery -->
+
+                    <!-- Black Product Gallery -->
+                    <div id="blackShoeProduct" style="display: none; opacity: 0;" data-target-group="idProductSwitcher">
+                        <div class="row align-items-center">
+                            <div class="col-2">
+                                <!-- Slick Carousel - Thumbnail Shop Product -->
+                                <div id="blackShoeNavThumb" class="js-slick-carousel u-slick u-slick--transform-off-lg u-slick--pagination-active-border"
+                                     data-infinite="true"
+                                     data-center-mode="true"
+                                     data-slides-show="4"
+                                     data-is-thumbs="true"
+                                     data-vertical="true"
+                                     data-focus-on-select="true"
+                                     data-nav-for="#blackShoeNavMain">
+                                    <div class="js-slide my-2">
+                                        <img class="img-fluid u-slick--pagination-active-border__item" src="../../assets/img/100x100/img9.jpg" alt="Image Description">
+                                    </div>
+                                    <div class="js-slide my-2">
+                                        <img class="img-fluid u-slick--pagination-active-border__item" src="../../assets/img/100x100/img10.jpg" alt="Image Description">
+                                    </div>
+                                    <div class="js-slide my-2">
+                                        <img class="img-fluid u-slick--pagination-active-border__item" src="../../assets/img/100x100/img11.jpg" alt="Image Description">
+                                    </div>
+                                    <div class="js-slide my-2">
+                                        <img class="img-fluid u-slick--pagination-active-border__item" src="../../assets/img/100x100/img12.jpg" alt="Image Description">
+                                    </div>
+                                </div>
+                                <!-- End Slick Carousel - Thumbnail Shop Product -->
+                            </div>
+
+                            <div class="col-10">
+                                <!-- Slick Carousel - Main Shop Product -->
+                                <div id="blackShoeNavMain" class="js-slick-carousel u-slick"
+                                     data-infinite="true"
+                                     data-nav-for="#blackShoeNavThumb">
+                                    <div class="js-slide">
+                                        <img class="img-fluid" src="../../assets/img/700x400/img5.jpg" alt="Image Description">
+                                    </div>
+                                    <div class="js-slide">
+                                        <img class="img-fluid" src="../../assets/img/700x400/img6.jpg" alt="Image Description">
+                                    </div>
+                                    <div class="js-slide">
+                                        <img class="img-fluid" src="../../assets/img/700x400/img7.jpg" alt="Image Description">
+                                    </div>
+                                    <div class="js-slide">
+                                        <img class="img-fluid" src="../../assets/img/700x400/img8.jpg" alt="Image Description">
+                                    </div>
+                                </div>
+                                <!-- End Slick Carousel - Main Shop Product -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Black Product Gallery -->
+                </div>
+
+                <div class="col-lg-5">
+                    <!-- Content -->
+                    <div class="mb-5">
+                        <h1 class="font-weight-normal">The Space shoes</h1>
+                        <span class="d-block h3 mb-3">$99</span>
+                        <p>Our Space Design Makeup collection – to create your coolest look, then switch it up again tomorrow.</p>
+                    </div>
+
+                    <!-- Color Select -->
+                    <h2 class="h6">Color:</h2>
+                    <span class="js-animation-link active u-shopping-cart-color-selector mr-2" style="background-image: url(../../assets/img/20x20/red.jpg);"
+                          data-target="#redShoeProduct"
+                          data-link-group="idProductSwitcher"></span>
+                    <span class="js-animation-link u-shopping-cart-color-selector mr-2" style="background-image: url(../../assets/img/20x20/black.jpg);"
+                          data-target="#blackShoeProduct"
+                          data-link-group="idProductSwitcher"></span>
+                    <!-- End Color Select -->
+
+                    <hr class="my-4">
+
+                    <!-- Size Select -->
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h3 class="h6 mb-0">Size:</h3>
+                        <a class="d-flex align-items-center text-muted" href="#shoppingCartModal" role="button"
+                           data-modal-target="#shoppingCartModal"
+                           data-overlay-color="#111722">
+                            <span class="fa fa-ruler-horizontal font-size-18 mr-2"></span>
+                            <small>Size guide</small>
+                        </a>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="custom-control custom-radio custom-control-inline form-selector">
+                            <input type="radio" id="shoeSize6" name="shoeSizeSelectorName" class="custom-control-input form-selector__input">
+                            <label class="custom-control-label form-selector__label" for="shoeSize6">6</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline form-selector">
+                            <input type="radio" id="shoeSize7" name="shoeSizeSelectorName" class="custom-control-input form-selector__input">
+                            <label class="custom-control-label form-selector__label" for="shoeSize7">7</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline form-selector">
+                            <input type="radio" id="shoeSize8" name="shoeSizeSelectorName" class="custom-control-input form-selector__input">
+                            <label class="custom-control-label form-selector__label" for="shoeSize8">8</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline form-selector">
+                            <input type="radio" id="shoeSize9" name="shoeSizeSelectorName" class="custom-control-input form-selector__input">
+                            <label class="custom-control-label form-selector__label" for="shoeSize9">9</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline form-selector">
+                            <input type="radio" id="shoeSize10" name="shoeSizeSelectorName" class="custom-control-input form-selector__input">
+                            <label class="custom-control-label form-selector__label" for="shoeSize10">10</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline form-selector">
+                            <input type="radio" id="shoeSize11" name="shoeSizeSelectorName" class="custom-control-input form-selector__input">
+                            <label class="custom-control-label form-selector__label" for="shoeSize11">11</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline form-selector">
+                            <input type="radio" id="shoeSize12" name="shoeSizeSelectorName" class="custom-control-input form-selector__input">
+                            <label class="custom-control-label form-selector__label" for="shoeSize12">12</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline form-selector">
+                            <input type="radio" id="shoeSize13" name="shoeSizeSelectorName" class="custom-control-input form-selector__input">
+                            <label class="custom-control-label form-selector__label" for="shoeSize13">13</label>
+                        </div>
+                    </div>
+                    <!-- End Size Select -->
+
+                    <hr class="my-4">
+
+                    <a class="btn btn-block btn-primary" href="#">Add to Cart</a>
+                    <!-- End Content -->
+                </div>
+            </div>
+        </div>
+        <!-- End Product Description Section -->
+
+        <hr class="my-0">
+
+        <!-- Product Details Section -->
+        <div class="container space-2 space-3--lg">
+            <div class="row">
+                <div class="col-sm-6 col-md-4 mb-5 mb-md-0">
+                    <h4 class="h6">Product details</h4>
+                    <ul class="text-secondary pl-3">
+                        <li>A failsafe wardrobe addition</li>
+                        <li>Crew neck</li>
+                        <li>Long sleeves</li>
+                        <li>Looser in the chest and hem</li>
+                    </ul>
+                </div>
+
+                <div class="col-sm-6 col-md-4 mb-5 mb-md-0">
+                    <h4 class="h6">Material &amp; care</h4>
+                    <ul class="text-secondary pl-3">
+                        <li>100% Cotton</li>
+                        <li>Machine wash cold, with like colors</li>
+                        <li>Tumble dry low</li>
+                        <li>Do not dry clean</li>
+                    </ul>
+                </div>
+
+                <div class="col-sm-6 col-md-4">
+                    <h4 class="h6">Look after me</h4>
+                    <p class="mb-0">Avoid post-wash regrets.</p>
+                    <p class="mb-0">Always check the label.</p>
+                    <p class="mb-0">Basic jersey fabric.</p>
+                </div>
+            </div>
+        </div>
+        <!-- End Product Details Section -->
+
+        <hr class="my-0">
+
+        <!-- History Section -->
+        <div class="position-relative space-2 space-3--lg">
+            <div class="container">
+                <div class="row align-self-md-center">
+                    <div class="col-md-4 order-md-2">
+                        <h2>The Space shoes</h2>
+                        <p class="mb-0">Men's timeless mid-cut shoes in premium navy blue suede. The classic sporty lines and seasonal shade make them the perfect summer slip-ons while a contrast sole keeps the look fresh. The vulcanised rubber sole adds grip and absorbs impact, while a fabric lining means that you stay comfortable even when barefoot.</p>
+                    </div>
+                </div>
+
+                <div class="d-none d-md-inline-block col-md-7 position-absolute-top-right-0--md bg-img-hero" style="min-height: 100%; background-image: url(../../assets/img/900x450/img5.jpg);"></div>
+            </div>
+        </div>
+        <!-- End History Section -->
+
+        <!-- Divider -->
+        <div class="d-md-none">
+            <hr class="my-0">
+        </div>
+        <!-- End Divider -->
+
+        <!-- About Section -->
+        <div class="position-relative space-2 space-3--lg">
+            <div class="container">
+                <div class="row justify-content-md-end align-self-md-center">
+                    <div class="col-md-4">
+                        <h2>Quality over quantity</h2>
+                        <p class="mb-0">At Space, we're building a place where everything from the most immediate details to the big picture are organized. With Space, each person knows what they should be doing and why. This clarity, transparency, and focus allows teams to collaborate with less friction and produce great results.</p>
+                    </div>
+                </div>
+
+                <div class="d-none d-md-inline-block col-md-7 position-absolute-top-left-0--md bg-img-hero" style="min-height: 100%; background-image: url(../../assets/img/900x450/img6.jpg);"></div>
+            </div>
+        </div>
+        <!-- End About Section -->
+    </main>
+    <!-- ========== END MAIN CONTENT ========== -->
+</section>

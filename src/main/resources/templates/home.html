@@ -21,9 +21,12 @@
                 Logged as :
                 <span sec:authentication="name"></span>
                 Role :
+                <span sec:authorize="hasRole('ems')">e</span>
+                <span sec:authorize="hasRole('ROLE_AGENT')">e</span>
                 <span sec:authorize="hasRole('ROLE_ADMIN')">admin</span>
                 <span sec:authorize="hasRole('ROLE_USER')">user</span>
-            </a>
+                <span sec:authorize="hasRole('ROLE_EMS')">EMS</span></a>
+                <span sec:authorize="hasRole('ROLE_ems')">ems</span></a>
         </div>
         <ul class="navbar-header pull-right">
             <a name="header" href="profile" class="navbar-brand"><span class="glyphicon glyphicon-user"></span> Profile</a>
@@ -83,6 +86,8 @@
             </div>
         </div>
     </div>
+    <div sec:authentication="principal.authorities" }></div>
+
 
 </div>
 </body>

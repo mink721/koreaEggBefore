@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="/layout/layout" >
+
+<section layout:fragment="content">
+
+    <!-- ========== MAIN CONTENT ========== -->
+    <main id="content" role="main">
+        <!-- Hero Section -->
+        <div class="gradient-overlay-half-dark-v3 bg-img-hero" th:style="'background-image: url('+@{/img/test/000.jpg}+');'">
+            <!--<div class="d-lg-flex align-items-lg-center height-45vh&#45;&#45;lg">-->
+            <div class="w-md-80 w-lg-60 text-center  height-45vh--lg mx-auto">
+                <!--검색 Form -->
+                <!-- Title -->
+                <div class="mb-9">
+                    <h1 class="display-4 text-white">Find a plan</h1>
+                    <p class="lead text-white">All our plans include a 14-day free trial. Money-back guarantee, cancel any time.</p>
+                </div>
+            </div>
+        </div>
+        <!-- End Hero Section -->
+
+        <!-- 난가정보 section -->
+        <div class="container">
+            <div class="shadow-lg rounded mt-offset-9 mb-7">
+                <!-- Individual -->
+                <div class="row align-items-lg-center mx-gutters-2">
+                    <div class="col-md-6 col-lg-4 offset-md-3 col-lg-4 offset-lg-0 mb-3 mb-lg-0">
+                        <!-- Pricing -->
+                        <div class="bg-white text-center border rounded pt-7 p-5">
+                            <header class="mb-4">
+                                <h4 class="h6 text-uppercase text-secondary mb-3">Free trial</h4>
+                                <div class="mb-2">
+                                    <span class="display-4 text-purple">$0</span>
+                                    <span class="text-secondary">/month</span>
+                                </div>
+                            </header>
+
+                            <ul class="list-unstyled mb-4">
+                                <li class="d-flex align-items-center py-2">
+                                    <span class="fa fa-check font-size-13 mr-3"></span>
+                                    Community support
+                                </li>
+                                <li class="d-flex align-items-center py-2">
+                                    <span class="fa fa-check font-size-13 mr-3"></span>
+                                    400+ pages
+                                </li>
+                                <li class="d-flex align-items-center py-2">
+                                    <span class="fa fa-check font-size-13 mr-3"></span>
+                                    100+ header variations
+                                </li>
+                                <li class="d-flex align-items-center py-2">
+                                    <span class="fa fa-check font-size-13 mr-3"></span>
+                                    20+ home page options
+                                </li>
+                            </ul>
+
+                            <div class="mb-4">
+                                <button type="button" class="btn btn-block btn-sm btn-purple">Start Free Trial</button>
+                            </div>
+                            <span class="d-block text-secondary">Free forever</span>
+                        </div>
+                        <!-- End Pricing -->
+                    </div>
+
+                    <div class="col-md-6 col-lg-4 mb-3 mb-md-0">
+                        <!-- Pricing -->
+                        <div class="bg-white text-center border rounded pt-7 p-5">
+                            <header class="mb-4">
+                                <h4 class="h6 text-uppercase text-secondary mb-3">Free trial</h4>
+                                <div class="mb-2">
+                                    <span class="display-4 text-purple">$0</span>
+                                    <span class="text-secondary">/month</span>
+                                </div>
+                            </header>
+
+                            <ul class="list-unstyled mb-4">
+                                <li class="d-flex align-items-center py-2">
+                                    <span class="fa fa-check font-size-13 mr-3"></span>
+                                    Community support
+                                </li>
+                                <li class="d-flex align-items-center py-2">
+                                    <span class="fa fa-check font-size-13 mr-3"></span>
+                                    400+ pages
+                                </li>
+                                <li class="d-flex align-items-center py-2">
+                                    <span class="fa fa-check font-size-13 mr-3"></span>
+                                    100+ header variations
+                                </li>
+                                <li class="d-flex align-items-center py-2">
+                                    <span class="fa fa-check font-size-13 mr-3"></span>
+                                    20+ home page options
+                                </li>
+                            </ul>
+
+                            <div class="mb-4">
+                                <button type="button" class="btn btn-block btn-sm btn-purple">Start Free Trial</button>
+                            </div>
+                            <span class="d-block text-secondary">Free forever</span>
+                        </div>
+                        <!-- End Pricing -->
+                    </div>
+
+                    <div class="col-md-6 col-lg-4">
+                        <!-- Pricing -->
+                        <div class="bg-white text-center border rounded pt-7 p-5">
+                            <header class="mb-4">
+                                <h4 class="h6 text-uppercase text-secondary mb-3">Enterprise teams</h4>
+                                <div class="mb-2">
+                                    <span class="display-4 text-danger">$79</span>
+                                    <span class="text-secondary">/month</span>
+                                </div>
+                            </header>
+
+                            <ul class="list-unstyled mb-4">
+                                <li class="d-flex align-items-center py-2">
+                                    <span class="fa fa-check font-size-13 mr-3"></span>
+                                    Community support
+                                </li>
+                                <li class="d-flex align-items-center py-2">
+                                    <span class="fa fa-check font-size-13 mr-3"></span>
+                                    400+ pages
+                                </li>
+                                <li class="d-flex align-items-center py-2">
+                                    <span class="fa fa-check font-size-13 mr-3"></span>
+                                    100+ header variations
+                                </li>
+                                <li class="d-flex align-items-center py-2">
+                                    <span class="fa fa-check font-size-13 mr-3"></span>
+                                    20+ home page options
+                                </li>
+                            </ul>
+
+                            <div class="mb-4">
+                                <button type="button" class="btn btn-block btn-sm btn-danger">Start Free Trial</button>
+                            </div>
+                            <span class="d-block text-secondary">Free for 14 days</span>
+                        </div>
+                        <!-- End Pricing -->
+                    </div>
+                </div>
+                <!-- End Individual -->
+            </div>
+        </div>
+        <!-- End Pricing Section -->
+
+        </div>
+        <!--END 난가정보 section-->
+    </main>
+    <!-- ========== END MAIN CONTENT ========== -->
+
+</section>

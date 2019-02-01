@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="/layout/layout" >
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="/layout/layout"  xmlns:th="http://www.thymeleaf.org" >
 
 <footer layout:fragment="footer" class="bg-dark">
     <div class="container space-1">
@@ -39,24 +39,38 @@
 
     <!-- JS Global Compulsory -->
     <script type="text/javascript" th:src="@{/vendor/jquery/dist/jquery.min.js}"></script>
-    <script type="text/javascript" th:src="@{vendor/jquery-migrate/dist/jquery-migrate.min.js}"></script>
+    <script type="text/javascript" th:src="@{/vendor/jquery-migrate/dist/jquery-migrate.min.js}"></script>
     <script type="text/javascript" th:src="@{/vendor/popper.js/dist/umd/popper.min.js}"></script>
     <script type="text/javascript" th:src="@{/vendor/bootstrap/bootstrap.min.js}"></script>
 
     <!-- JS Implementing Plugins -->
-    <script type="text/javascript" th:src="@{vendor/jquery-validation/dist/jquery.validate.min.js}"></script>
+    <script type="text/javascript" th:src="@{/vendor/hs-megamenu/src/hs.megamenu.js}"></script>
+    <script type="text/javascript" th:src="@{/vendor/jquery-validation/dist/jquery.validate.min.js}"></script>
+    <script type="text/javascript" th:src="@{/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js}"></script>
+    <script type="text/javascript" th:src="@{/vendor/malibu/jquery.mCustomScrollbar.concat.min.js}"></script>
+    <script type="text/javascript" th:src="@{/vendor/custombox/dist/custombox.min.js}"></script>
+    <script type="text/javascript" th:src="@{/vendor/custombox/dist/custombox.legacy.min.js}"></script>
 
     <!-- JS Space -->
     <script type="text/javascript" th:src="@{/js/hs.core.js}"></script>
     <script type="text/javascript" th:src="@{/js/components/hs.header.js}"></script>
     <script type="text/javascript" th:src="@{/js/components/hs.unfold.js}"></script>
     <script type="text/javascript" th:src="@{/js/components/hs.validation.js}"></script>
-    <script type="text/javascript" th:src="@{js/components/hs.show-animation.js}"></script>
-
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=af40a347c5a17c5118392cee56f35da6&libraries=services"></script>
+    <script type="text/javascript" th:src="@{/js/helpers/hs.focus-state.js}"></script>
+    <script type="text/javascript" th:src="@{/js/components/hs.malihu-scrollbar.js}"></script>
+    <script type="text/javascript" th:src="@{/js/components/hs.modal-window.js}"></script>
+    <script type="text/javascript" th:src="@{/js/components/hs.show-animation.js}"></script>
+    <script type="text/javascript" th:src="@{/js/components/hs.go-to.js}"></script>
 
     <script>
         $(window).on('load', function () {
+            // initialization of HSMegaMenu component
+            $('.js-mega-menu').HSMegaMenu({
+                event: 'click',
+                pageContainer: $('.container'),
+                breakpoint: 991,
+                hideTimeOut: 0
+            });
         });
 
         $(document).on('ready', function () {
@@ -64,7 +78,11 @@
             $.HSCore.components.HSHeader.init($('#header'));
 
             // initialization of unfold component
-            $.HSCore.components.HSUnfold.init($('[data-unfold-target]'));
+            $.HSCore.components.HSUnfold.init($('[data-unfold-target]'), {
+                afterOpen: function () {
+                    $(this).find('input[type="search"]').focus();
+                }
+            });
 
             // initialization of form validation
             $.HSCore.components.HSValidation.init('.js-validate', {
@@ -75,47 +93,32 @@
                 }
             });
 
+            // initialization of forms
+            $.HSCore.helpers.HSFocusState.init();
+
+            // initialization of autonomous popups
+            $.HSCore.components.HSModalWindow.init('[data-modal-target]', '.js-signup-account', {
+                autonomous: true
+            });
+
+            // initialization of show animations
+            $.HSCore.components.HSShowAnimation.init('.js-animation-link');
+
+            // initialization of go to
+            $.HSCore.components.HSGoTo.init('.js-go-to');
+
+            // initialization scrollbar in header
+            var $navBar = $('#navBar');
+
+            $navBar.on('shown.bs.collapse', function () {
+                $.HSCore.components.HSMalihuScrollBar.init($('.js-scrollbar-header'));
+            });
+
+            $navBar.on('hide.bs.collapse', function () {
+                $('.js-scrollbar-header').mCustomScrollbar("destroy");
+            });
         });
-
-        var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
-        var options = { //지도를 생성할 때 필요한 기본 옵션
-            center: new daum.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
-            level: 3 //지도의 레벨(확대, 축소 정도)
-        };
-
-        var map = new daum.maps.Map(container, options); //지도 생성 및 객체 리턴\
-
-        // 마커가 표시될 위치입니다
-        var markerPosition  = new daum.maps.LatLng(33.450701, 126.570667);
-
-        // 마커를 생성합니다
-        var marker = new daum.maps.Marker({
-            position: markerPosition
-        });
-
-        // 마커가 지도 위에 표시되도록 설정합니다
-        marker.setMap(map);
-
-        // 이미지 지도에서 마커가 표시될 위치입니다
-        var markerPosition  = new daum.maps.LatLng(33.450701, 126.570667);
-
-        // 이미지 지도에 표시할 마커입니다
-        // 이미지 지도에 표시할 마커는 Object 형태입니다
-        var marker = {
-            position: markerPosition
-        };
-
-        var staticMapContainer  = document.getElementById('staticMap'), // 이미지 지도를 표시할 div
-            staticMapOption = {
-                center: new daum.maps.LatLng(33.450701, 126.570667), // 이미지 지도의 중심좌표
-                level: 3, // 이미지 지도의 확대 레벨
-                marker: marker // 이미지 지도에 표시할 마커
-            };
-
-        // 이미지 지도를 생성합니다
-        var staticMap = new daum.maps.StaticMap(staticMapContainer, staticMapOption);
-
-
     </script>
+
 </footer>
 </html>

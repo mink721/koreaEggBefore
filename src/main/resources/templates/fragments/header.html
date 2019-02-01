@@ -1,101 +1,226 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="/layout/layout" >
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="/layout/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" >
 
-    <header layout:fragment="header" id="header" class="u-header u-header--modern u-header--bordered u-header--bg-transparent u-header--white-nav-links u-header--sticky-top-lg" >
+    <header layout:fragment="header" id="header" class="u-header u-header--modern u-header--bordered u-header--sticky-top-sm">
         <div class="u-header__section">
             <div id="logoAndNav" class="container-fluid">
-                <!-- Nav -->
-                <nav class="navbar navbar-expand-lg u-header__navbar">
-                    <!-- Logo -->
-                    <div class="u-header__navbar-brand-wrapper">
-                        <a class="navbar-brand u-header__navbar-brand" href="index.html" aria-label="Space">
-                            <img class="u-header__navbar-brand-default" th:src="@{/svg/logos/logo-white.svg}" alt="Logo"/>
-                            <img class="u-header__navbar-brand-on-scroll" th:src="@{/svg/logos/logo.svg}" alt="Logo"/>
-                            <img class="u-header__navbar-brand-mobile" th:src="@{/svg/logos/logo-short.svg}" alt="Logo"/>
-                        </a>
-                    </div>
-                    <!-- End Logo -->
-                    <!-- Responsive Toggle Button -->
-                    <button type="button" class="navbar-toggler btn u-hamburger u-header__hamburger"
-                            aria-label="Toggle navigation"
-                            aria-expanded="false"
-                            aria-controls="navBar"
-                            data-toggle="collapse"
-                            data-target="#navBar">
-                        <span class="d-none d-sm-inline-block">Menu</span>
-                        <span id="hamburgerTrigger" class="u-hamburger__box ml-3">
-              <span class="u-hamburger__inner"></span>
-            </span>
-                    </button>
-                    <!-- End Responsive Toggle Button -->
-                    <!-- Navigation -->
-                    <div id="navBar" class="collapse navbar-collapse u-header__navbar-collapse py-0">
-                        <ul class="navbar-nav u-header__navbar-nav">
-                            <!-- Home -->
-                            <li class="nav-item u-header__nav-item">
-                                <a class="nav-link u-header__nav-link" href="index.html">
-                                    Home
+                <div id="logoAndNav" class="container-fluid">
+                    <div class="js-scrollbar-header u-header--sticky__inner">
+                        <!-- Nav -->
+                        <nav class="js-mega-menu navbar navbar-expand-lg u-header__navbar">
+                            <!-- Logo -->
+                            <div class="u-header__navbar-brand-wrapper">
+                                <a class="navbar-brand u-header__navbar-brand" href="/index" aria-label="Space">
+                                    <img class="u-header__navbar-brand-on-scroll" th:src="@{/svg/logos/logo.svg}" alt="Logo"/>
+                                    <img class="u-header__navbar-brand-mobile" th:src="@{/svg/logos/logo-short.svg}" alt="Logo"/>
                                 </a>
-                            </li>
-                            <!-- End Home -->
-                            <!-- Works -->
-                            <li class="nav-item u-header__nav-item">
-                                <a class="nav-link u-header__nav-link" href="info.html">
-                                    난가정보
-                                </a>
-                            </li>
-                            <!-- End Works -->
-                            <!-- Blog -->
-                            <li class="nav-item u-header__nav-item">
-                                <a class="nav-link u-header__nav-link" href="board.html">
-                                    게시판
-                                </a>
-                            </li>
-                            <!-- End Blog -->
-                            <!-- 로그인 버튼 -->
-                            <li class="nav-item u-header__nav-item-btn u-header__navbar-v-divider navbar-collapse-xs d-none d-lg-block" >
-                                <a class="btn btn-sm btn-primary" href="javascript:;" role="button">
-                                    <span class="fa fa-user mr-1"> 로그인/회원가입</span>
-                                </a>
-                            </li>
-                            <!-- End 로그인 버튼 -->
-                        </ul>
-                    </div>
-                    <!-- End Navigation -->
-                    <ul class="navbar-nav flex-row u-header__secondary-nav">
-                        <!-- Responsive 로그인 Button -->
-                        <li class="nav-item u-header__navbar-icon-wrapper u-header__navbar-icon navbar-toggler">
-                            <a class="btn btn-xs btn-icon btn-text-dark" href="javascript:;" role="button" >
-                                <span class="fa fa-user btn-icon__inner"></span>
-                            </a>
-                        </li>
-                        <!-- End Responsive 로그인 Button -->
-                        <!-- Shopping Cart -->
-                        <li class="nav-item u-header__navbar-icon-wrapper u-header__navbar-icon">
-                            <a id="shoppingCartDropdownInvoker" class="btn btn-xs btn-icon btn-text-dark" href="javascript:;" role="button"
-                               aria-controls="shoppingCartDropdown"
-                               aria-haspopup="true"
-                               aria-expanded="false"
-                               data-unfold-event="click"
-                               data-unfold-target="#shoppingCartDropdown"
-                               data-unfold-type="css-animation"
-                               data-unfold-duration="300"
-                               data-unfold-delay="300"
-                               data-unfold-hide-on-scroll="true"
-                               data-unfold-animation-in="slideInUp"
-                               data-unfold-animation-out="fadeOut">
-                                <span class="fa fa-shopping-cart btn-icon__inner"></span>
-                            </a>
-                            <div id="shoppingCartDropdown" class="u-unfold u-unfold--cart text-center border rounded-0 right-0 p-7" aria-labelledby="shoppingCartDropdownInvoker" style="min-width: 250px;">
-                <span class="u-icon u-icon--primary u-icon--md rounded-circle mb-3">
-                  <span class="fa fa-shopping-basket u-icon__inner"></span>
-                </span>
-                                <span class="d-block">Your Cart is Empty</span>
                             </div>
-                        </li>
-                        <!-- End Shopping Cart -->
-                    </ul>
-                </nav>
+                        <!-- End Logo -->
+                        <!-- Responsive Toggle Button -->
+                        <button type="button" class="navbar-toggler btn u-hamburger u-header__hamburger"
+                                aria-label="Toggle navigation"
+                                aria-expanded="false"
+                                aria-controls="navBar"
+                                data-toggle="collapse"
+                                data-target="#navBar">
+                            <span class="d-none d-sm-inline-block">Menu</span>
+                            <span id="hamburgerTrigger" class="u-hamburger__box ml-3">
+                                <span class="u-hamburger__inner"></span>
+                            </span>
+                        </button>
+                        <!-- End Responsive Toggle Button -->
+                        <!-- Navigation -->
+                        <div id="navBar" class="collapse navbar-collapse u-header__navbar-collapse py-0">
+                            <ul class="navbar-nav u-header__navbar-nav">
+                                <!-- Dropdown -->
+                                <li class="nav-item hs-has-sub-menu u-header__nav-item"
+                                    data-event="click"
+                                    data-animation-in="fadeInUp"
+                                    data-animation-out="fadeOut">
+                                    <a id="changeUser" class="nav-link u-header__nav-link" href="javascript:;"
+                                       aria-haspopup="true"
+                                       aria-expanded="false"
+                                       aria-labelledby="changeUserSubMenu">
+                                        회원등급변경
+                                        <span class="fa fa-angle-down u-header__nav-link-icon"></span>
+                                    </a>
+                                    <!-- Dropdown Submenu -->
+                                    <ul id="changeUserSubMenu" class="list-inline hs-sub-menu u-header__sub-menu mb-0" style="min-width: 220px;"
+                                        aria-labelledby="changeUser">
+                                        <li class="dropdown-item u-header__sub-menu-list-item py-0">
+                                            <a class="nav-link u-header__sub-menu-nav-link" href="/change/ROLE_USER/일반">일반</a>
+                                        </li>
+                                        <li class="dropdown-item u-header__sub-menu-list-item py-0">
+                                            <a class="nav-link u-header__sub-menu-nav-link" href="/change/ROLE_STORE/소매점">소매점</a>
+                                        </li>
+                                        <li class="dropdown-item u-header__sub-menu-list-item py-0">
+                                            <a class="nav-link u-header__sub-menu-nav-link" href="/change/ROLE_RETAILER/소매유통인">소매유통인</a>
+                                        </li>
+                                        <li class="dropdown-item u-header__sub-menu-list-item py-0">
+                                            <a class="nav-link u-header__sub-menu-nav-link" href="/change/ROLE_WHOLESALER/도매유통인">도매유통인</a>
+                                        </li>
+                                        <li class="dropdown-item u-header__sub-menu-list-item py-0">
+                                            <a class="nav-link u-header__sub-menu-nav-link" href="/change/ROLE_PARTNER/파트너">파트너</a>
+                                        </li>
+                                        <li class="dropdown-item u-header__sub-menu-list-item py-0">
+                                            <a class="nav-link u-header__sub-menu-nav-link" href="/change/ROLE_AGENT/대리점">대리점</a>
+                                        </li>
+                                        <li class="dropdown-item u-header__sub-menu-list-item py-0">
+                                            <a class="nav-link u-header__sub-menu-nav-link" href="/change/ROLE_ADMIN/관리자">관리자</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <!-- Home -->
+                                <li class="nav-item u-header__nav-item">
+                                    <a class="nav-link u-header__nav-link" href="/index">
+                                        Home
+                                    </a>
+                                </li>
+                                <!-- End Home -->
+                                <!-- Home -->
+                                <li class="nav-item u-header__nav-item">
+                                    <a class="nav-link u-header__nav-link" href="/agentList">
+                                        대리점
+                                    </a>
+                                </li>
+                                <!-- End Home -->
+                                <!-- Works -->
+                                <li class="nav-item u-header__nav-item">
+                                    <a class="nav-link u-header__nav-link" href="/cast">
+                                        난가정보
+                                    </a>
+                                </li>
+                                <!-- End Works -->
+                                <!-- Blog -->
+                                <li class="nav-item u-header__nav-item">
+                                    <a class="nav-link u-header__nav-link" href="/board">
+                                        게시판
+                                    </a>
+                                </li>
+                                <!-- End Blog -->
+                                <!-- Blog -->
+                                <li class="nav-item u-header__nav-item">
+                                    <a class="nav-link u-header__nav-link" href="/class">
+                                        회원등급
+                                    </a>
+                                </li>
+                                <!-- End Blog -->
+                                <!-- 로그인 버튼 -->
+                                <li sec:authorize="isAnonymous()" class="nav-item u-header__nav-item-btn u-header__navbar-v-divider navbar-collapse-xs d-none d-lg-block" >
+                                    <a class="btn btn-sm btn-primary" href="/login" role="button">
+                                        <span class="fa fa-user mr-1"> 로그인/회원가입</span>
+                                    </a>
+                                </li>
+                                <!-- End 로그인 버튼 -->
+                                <!-- user profile -->
+                                <li sec:authorize="isAuthenticated()" class="nav-item hs-has-sub-menu u-header__nav-item-btn u-header__nav-item-user"
+                                    data-event="hover"
+                                    data-animation-in="fadeInUp"
+                                    data-animation-out="fadeOut">
+                                    <a id="userDropdownInvoker" class="d-flex align-items-center u-header__nav-item-user-name" href="javascript:;"
+                                       aria-haspopup="true"
+                                       aria-expanded="false"
+                                       aria-labelledby="userDropdown">
+                                        <!--<img class="u-sm-avatar rounded-circle mr-2" src="" alt="Image Description">-->
+                                        <span sec:authentication="name"></span>
+                                    </a>
+                                    <ul id="userDropdown" class="list-inline hs-sub-menu u-header__sub-menu mb-0" style="min-width: 220px;"
+                                        aria-labelledby="userDropdownInvoker">
+                                        <li class="dropdown-item u-header__sub-menu-list-item py-0">
+                                            <a class="justify-content-start u-header__sub-menu-nav-link" href="#">
+                                                마이페이지
+                                            </a>
+                                        </li>
+                                        <li class="dropdown-item u-header__sub-menu-list-item py-0">
+                                            <a class="justify-content-start u-header__sub-menu-nav-link" href="javascript:;">
+                                                쪽지
+                                            </a>
+                                        </li>
+                                        <li class="dropdown-divider"></li>
+                                        <li class="dropdown-item u-header__sub-menu-list-item py-0">
+                                            <a class="justify-content-start u-header__sub-menu-nav-link" href="/logout">
+                                                Sign out
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <!-- End User Dropdown -->
+                            </ul>
+                        </div>
+                        <!-- End Navigation -->
+                        <ul class="navbar-nav flex-row u-header__secondary-nav">
+                            <!-- Responsive 로그인 Button -->
+                            <li sec:authorize="isAnonymous()" class="nav-item u-header__navbar-icon-wrapper u-header__navbar-icon navbar-toggler">
+                                <a class="btn btn-xs btn-icon btn-text-dark" href="javascript:;" role="button" >
+                                    <span class="fa fa-user btn-icon__inner"></span>
+                                </a>
+                            </li>
+                            <li sec:authorize="isAuthenticated()" class="nav-item u-header__navbar-icon-wrapper u-header__navbar-icon navbar-toggler">
+                                <a id="userDropdownInvoker2" class="btn btn-xs btn-icon btn-text-dark" href="javascript:;" role="button"
+                                   aria-controls="userDropdownDiv"
+                                   aria-haspopup="true"
+                                   aria-expanded="false"
+                                   data-unfold-event="click"
+                                   data-unfold-target="#userDropdownDiv"
+                                   data-unfold-type="css-animation"
+                                   data-unfold-duration="300"
+                                   data-unfold-delay="300"
+                                   data-unfold-hide-on-scroll="true"
+                                   data-unfold-animation-in="slideInUp"
+                                   data-unfold-animation-out="fadeOut">
+                                    <span class="fa fa-user btn-icon__inner"></span>
+                                </a>
+                                <div id="userDropdownDiv" class="u-unfold u-unfold--cart text-center border rounded-0 right-0 p-7" style="min-width: 250px;">
+                                    <span sec:authentication="name"></span>
+                                    <ul id="" class="" style=""
+                                        >
+                                        <li class="">
+                                            <a class="" href="#">
+                                                마이페이지
+                                            </a>
+                                        </li>
+                                        <li class="">
+                                            <a class=" " href="javascript:;">
+                                                쪽지
+                                            </a>
+                                        </li>
+                                        <li class="dropdown-divider"></li>
+                                        <li class="">
+                                            <a class=" " href="/logout">
+                                                Sign out
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <!-- End Responsive 로그인 Button -->
+                            <!-- Shopping Cart -->
+                            <li class="nav-item u-header__navbar-icon-wrapper u-header__navbar-icon">
+                                <a id="shoppingCartDropdownInvoker" class="btn btn-xs btn-icon btn-text-dark" href="javascript:;" role="button"
+                                   aria-controls="shoppingCartDropdown"
+                                   aria-haspopup="true"
+                                   aria-expanded="false"
+                                   data-unfold-event="click"
+                                   data-unfold-target="#shoppingCartDropdown"
+                                   data-unfold-type="css-animation"
+                                   data-unfold-duration="300"
+                                   data-unfold-delay="300"
+                                   data-unfold-hide-on-scroll="true"
+                                   data-unfold-animation-in="slideInUp"
+                                   data-unfold-animation-out="fadeOut">
+                                    <span class="fa fa-shopping-cart btn-icon__inner"></span>
+                                </a>
+                                <div id="shoppingCartDropdown" class="u-unfold u-unfold--cart text-center border rounded-0 right-0 p-7" aria-labelledby="shoppingCartDropdownInvoker" style="min-width: 250px;">
+                                    <span class="u-icon u-icon--primary u-icon--md rounded-circle mb-3">
+                                      <span class="fa fa-shopping-basket u-icon__inner"></span>
+                                    </span>
+                                    <span class="d-block">Your Cart is Empty</span>
+                                </div>
+                            </li>
+                            <!-- End Shopping Cart -->
+                        </ul>
+                    </nav>
+                </div>
                 <!-- End Nav -->
             </div>
         </div>

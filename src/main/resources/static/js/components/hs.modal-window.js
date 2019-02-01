@@ -3,7 +3,7 @@
  *
  * @author Htmlstream
  * @version 1.0
- * @requires appear.js (v1.0.3), custombox.js (v4.0.1)
+ * @requires appear.js (v1.0.3), customary.js (v4.0.1)
  *
  */
 ;(function($){

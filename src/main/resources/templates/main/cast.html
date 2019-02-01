@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="/layout/layout" >
+
+<section layout:fragment="content">
+    <!-- ========== MAIN CONTENT ========== -->
+    <main id="content" role="main">
+        <!-- Hero Section -->
+        <div class="gradient-overlay-half-dark-v3 bg-img-hero" th:style="'background-image: url('+@{/img/test/000.jpg}+');'">
+            <div class="d-lg-flex align-items-lg-center height-45vh--lg">
+                <!--검색 Form -->
+                <div class="container space-1 space-0--lg mt-lg-8">
+                    <form class="w-lg-75 px-3 px-sm-9 mx-lg-auto justify-content-lg-between align-items-lg-center">
+                        <div class="bg-white shadow-sm rounded p-3 row">
+                            <div class="col-md-3 position-relative d-none d-md-block" >
+                                <button type="button" class="btn btn-primary px-8 content-centered">전체</button>
+                            </div>
+                            <div class="col-md-9 row">
+                                <div class="col-4 col-md-3 pr-0 pl-1 d-block d-xl-none d-lg-none d-md-none "><button type="button" class="btn btn-primary mb-2  btn-block">전체</button></div>
+                                <div class="col-4 col-md-3 pr-0 pl-1"><button type="button" class="btn btn-secondary mb-2  btn-block" data-toggle="collapse" data-target="#test1" aria-expanded="false" aria-controls="collapseExample">서울</button></div>
+                                <div class="col-4 col-md-3 pr-0 pl-1"><button type="button" class="btn btn-secondary mb-2  btn-block">대전</button></div>
+                                <div class="col-4 col-md-3 pr-0 pl-1"><button type="button" class="btn btn-secondary mb-2  btn-block">영주</button></div>
+                                <div class="col-4 col-md-3 pr-0 pl-1"><button type="button" class="btn btn-secondary mb-2  btn-block">부산</button></div>
+                                <div class="col-4 col-md-3 pr-0 pl-1"><button type="button" class="btn btn-secondary mb-2  btn-block">대구</button></div>
+                                <div class="col-4 col-md-3 pr-0 pl-1"><button type="button" class="btn btn-secondary mb-2  btn-block">광주</button></div>
+                                <div class="col-4 col-md-3 pr-0 pl-1"><button type="button" class="btn btn-secondary mb-2  btn-block">전주</button></div>
+                                <div class="col-4 col-md-3 pr-0 pl-1"><button type="button" class="btn btn-secondary mb-2  btn-block">충북</button></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!--END 검색 폼-->
+            </div>
+        </div>
+        <!-- End Hero Section -->
+
+        <!-- 난가정보 section -->
+        <div class="container space-1 space-1--lg">
+            <!--난가정보 HR-->
+            <div class="row">
+                <div class="media align-items-center pr-lg-4 col-5">
+                    <img class="max-width-6 mr-1"
+                         th:src="@{/svg/business-icons/iStar_Design_Business_LineIcons_Live-16.svg}"
+                         alt="Image Description">
+                    <div class="media-body">
+                        <p class="h4 mb-0">난가정보</p>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-2">
+
+            <!--지역 난가정보 테이블-->
+            <div class="collapse" id="test1">
+                <table class="table table-sm">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">First</th>
+                        <th scope="col">Last</th>
+                        <th scope="col">Handle</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jacob</td>
+                        <td>Thornton</td>
+                        <td>@fat</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td colspan="2">Larry the Bird</td>
+                        <td>@twitter</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- END 지역 난가정보 -->
+
+
+            <!--전체 난가정보-->
+            <div>
+                <table class="table table-hover table-bordered table-responsive-sm table-sm">
+                    <thead>
+                        <tr class="table-secondary">
+                            <th style="width:20%" class="text-sm-center">지역</th>
+                            <th style="width:15%" >왕</th>
+                            <th style="width:15%" >특</th>
+                            <th style="width:15%" >대</th>
+                            <th style="width:15%" >중</th>
+                            <th style="width:15%" >소</th>
+                            <th>경</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th class="text-sm-center">서울</th>
+                            <td>131<span class="badge badge-warning ml-2">+5</span></td>
+                            <td>489</td>
+                            <td>789</td>
+                            <td>115<span class="badge badge-info">-2</span></td>
+                            <td>103</td>
+                            <td>252</td>
+                        </tr>
+                        <tr>
+                            <th class="text-sm-center">대전</th>
+                            <td>131</td>
+                            <td>124</td>
+                            <td>753</td>
+                            <td>79</td>
+                            <td>103</td>
+                            <td>235</td>
+                        </tr>
+                        <tr>
+                            <th class="text-sm-center">영주<span class="badge badge-warning">+13</span></th>
+                            <td>131</td>
+                            <td>218</td>
+                            <td>120</td>
+                            <td>268</td>
+                            <td>103</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <th class="text-sm-center">부산</th>
+                            <td>131</td>
+                            <td>489</td>
+                            <td>120</td>
+                            <td>468</td>
+                            <td>103</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <th class="text-sm-center">대구</th>
+                            <td>131</td>
+                            <td>124</td>
+                            <td>79</td>
+                            <td>368</td>
+                            <td>103</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <th class="text-sm-center">광주</th>
+                            <td>131</td>
+                            <td>851</td>
+                            <td>458</td>
+                            <td>489</td>
+                            <td>103</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <th class="text-sm-center">전주</th>
+                            <td>786</td>
+                            <td>54</td>
+                            <td>489</td>
+                            <td>586</td>
+                            <td>103</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <th class="text-sm-center">충북</th>
+                            <td>131</td>
+                            <td>124</td>
+                            <td>135</td>
+                            <td>115</td>
+                            <td>103</td>
+                            <td>0</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--END 전체난가정보-->
+        </div>
+        <!--END 난가정보 section-->
+    </main>
+</section>
