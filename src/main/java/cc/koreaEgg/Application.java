@@ -18,13 +18,7 @@ import javax.sql.DataSource;
 
 @SpringBootApplication
 @EnableAutoConfiguration
-class Application extends WebMvcConfigurerAdapter {
-
-  // Used when launching as an executable jar or war
-  public static void main(String[] args) throws Exception {
-    SpringApplication.run(Application.class, args);
-    System.out.println("Spring Boot Started.");
-  }
+public class Application extends WebMvcConfigurerAdapter {
 
   @Autowired
   private DataSource dataSource;
@@ -39,7 +33,24 @@ class Application extends WebMvcConfigurerAdapter {
     return new UserDetailsServiceDAO();
   }
 
-  /*@Bean
+  @Override
+  public void addViewControllers(ViewControllerRegistry registry) {
+    registry.addViewController("/").setViewName("home");
+    registry.addViewController("/error").setViewName("error");
+    registry.addViewController("/profile").setViewName("profile");
+  }
+
+  @Bean
+  public EmbeddedServletContainerCustomizer containerCustomizer() {
+    return container -> container.addErrorPages(new ErrorPage(HttpStatus.NOT_FOUND, "/error"), new ErrorPage(HttpStatus.FORBIDDEN, "/error"));
+  }
+
+  // Used when launching as an executable jar or war
+  public static void main(String[] args) {
+    SpringApplication.run(Application.class, args);
+  }
+
+    /*@Bean
   public InternalResourceViewResolver viewResolver() {
     InternalResourceViewResolver resolver = new InternalResourceViewResolver();
     resolver.setPrefix("/");
@@ -47,15 +58,4 @@ class Application extends WebMvcConfigurerAdapter {
     return resolver;
   }*/
 
-  @Override
-  public void addViewControllers(ViewControllerRegistry registry) {
-    registry.addViewController("/error").setViewName("error");
-    registry.addViewController("/profile").setViewName("profile");
-    registry.addViewController("/index").setViewName("main/index");
-  }
-
-  @Bean
-  public EmbeddedServletContainerCustomizer containerCustomizer() {
-    return container -> container.addErrorPages(new ErrorPage(HttpStatus.NOT_FOUND, "/error"), new ErrorPage(HttpStatus.FORBIDDEN, "/error"));
-  }
 }
