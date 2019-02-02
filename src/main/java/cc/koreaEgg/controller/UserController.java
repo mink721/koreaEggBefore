@@ -58,43 +58,37 @@ public class UserController {
 
   @RequestMapping(value = "/", method = RequestMethod.GET)
   public String indexPage() {
-    System.out.println("Home Page");
-    log.debug("Hello, I'm DEBUG message.");
-    log.info("Hello, I'm INFO message.");
-    log.warn("Hello, I'm WARN message.");
-    log.error("Hello, I'm ERROR message.");
-
-    return "main/index";
+    return "index";
   }
 
   @RequestMapping(value = "/index", method = RequestMethod.GET)
   public String retailPage() {
-    return "main/index";
+    return "index";
   }
 
   @RequestMapping(value = "/cast", method = RequestMethod.GET)
   public String castPage() {
-    return "main/cast";
+    return "cast";
   }
 
   @RequestMapping(value = "/board", method = RequestMethod.GET)
   public String boardPage() {
-    return "main/board";
+    return "board";
   }
 
   @RequestMapping(value = "/product", method = RequestMethod.GET)
   public String productPage() {
-    return "main/product";
+    return "product";
   }
 
   @RequestMapping(value = "/agent", method = RequestMethod.GET)
-  public String agentPage() { return "main/agent"; }
+  public String agentPage() { return "agent"; }
 
   @RequestMapping(value = "/agentList", method = RequestMethod.GET)
-  public String agentListPage() { return "main/agentList"; }
+  public String agentListPage() { return "agentList"; }
 
   @RequestMapping(value = "/class", method = RequestMethod.GET)
-  public String classPage() { return "main/class"; }
+  public String classPage() { return "class"; }
 
   @RequestMapping(value = "/change/{role}/{name}", method = RequestMethod.GET)
   public String changeRole(@PathVariable("role") String changeRole, @PathVariable("name") String roleName, HttpServletRequest request) {
@@ -120,7 +114,7 @@ public class UserController {
     Authentication newAuth = new UsernamePasswordAuthenticationToken(roleName, auth.getCredentials(), grantedAuthorityList);
     SecurityContextHolder.getContext().setAuthentication(newAuth);
 
-      return "main/index";
+      return "index";
   }
 
 }

@@ -1,7 +1,8 @@
 package cc.koreaEgg;
 
 import cc.koreaEgg.dao.UserDetailsServiceDAO;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
+import nz.net.ultraq.thymeleaf.LayoutDialect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -19,6 +20,7 @@ import javax.sql.DataSource;
 
 @SpringBootApplication
 @EnableAutoConfiguration
+@Slf4j
 public class Application extends WebMvcConfigurerAdapter {
 
   @Autowired
@@ -34,29 +36,21 @@ public class Application extends WebMvcConfigurerAdapter {
     return new UserDetailsServiceDAO();
   }
 
-  @Override
-  public void addViewControllers(ViewControllerRegistry registry) {
-    registry.addViewController("/error").setViewName("error");
-    registry.addViewController("/profile").setViewName("profile");
-  }
 
   @Bean
   public EmbeddedServletContainerCustomizer containerCustomizer() {
     return container -> container.addErrorPages(new ErrorPage(HttpStatus.NOT_FOUND, "/error"), new ErrorPage(HttpStatus.FORBIDDEN, "/error"));
   }
 
-  // Used when launching as an executable jar or war
-  public static void main(String[] args) {
-
-    SpringApplication.run(Application.class, args);
+  @Override
+  public void addViewControllers(ViewControllerRegistry registry) {
+    registry.addViewController("/error").setViewName("error");
+    registry.addViewController("/profile").setViewName("profile");
   }
 
-    /*@Bean
-  public InternalResourceViewResolver viewResolver() {
-    InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-    resolver.setPrefix("/");
-    resolver.setSuffix(".html");
-    return resolver;
-  }*/
+  // Used when launching as an executable jar or war
+  public static void main(String[] args) {
+    SpringApplication.run(Application.class, args);
+  }
 
 }
