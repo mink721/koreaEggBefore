@@ -2,18 +2,14 @@ package cc.koreaEgg.controller;
 
 import cc.koreaEgg.dao.UserDetailsServiceDAO;
 import cc.koreaEgg.entity.User;
-
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.intercept.RunAsUserToken;
-import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
@@ -29,6 +24,7 @@ import java.util.*;
 import static java.util.Collections.singletonList;
 
 @Controller
+@Slf4j
 public class UserController {
 
   @Autowired
@@ -63,6 +59,11 @@ public class UserController {
   @RequestMapping(value = "/", method = RequestMethod.GET)
   public String indexPage() {
     System.out.println("Home Page");
+    log.debug("Hello, I'm DEBUG message.");
+    log.info("Hello, I'm INFO message.");
+    log.warn("Hello, I'm WARN message.");
+    log.error("Hello, I'm ERROR message.");
+
     return "main/index";
   }
 

@@ -1,6 +1,7 @@
 package cc.koreaEgg;
 
 import cc.koreaEgg.dao.UserDetailsServiceDAO;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -46,6 +47,7 @@ public class Application extends WebMvcConfigurerAdapter {
 
   // Used when launching as an executable jar or war
   public static void main(String[] args) {
+
     SpringApplication.run(Application.class, args);
   }
 
