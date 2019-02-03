@@ -11,6 +11,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
@@ -22,6 +23,7 @@ import static java.util.Collections.singletonList;
 /**
  * CustomUserService
  */
+@Component
 public class UserDetailsServiceDAO implements UserDetailsService {
 
   @Autowired

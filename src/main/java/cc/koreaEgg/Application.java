@@ -3,28 +3,30 @@ package cc.koreaEgg;
 import cc.koreaEgg.dao.UserDetailsServiceDAO;
 import lombok.extern.slf4j.Slf4j;
 import nz.net.ultraq.thymeleaf.LayoutDialect;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
-import org.springframework.boot.context.embedded.ErrorPage;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.sql.DataSource;
 
 @SpringBootApplication
-@EnableAutoConfiguration
 @Slf4j
-public class Application extends WebMvcConfigurerAdapter {
+@MapperScan(basePackages = "cc.koreaEgg")
+public class Application implements WebMvcConfigurer {
 
   @Autowired
   private DataSource dataSource;
+
+  @Value("${property.hello}")
+  private String propertyHello;
 
   @Bean
   public JdbcTemplate jdbcTemplate() {
@@ -36,15 +38,10 @@ public class Application extends WebMvcConfigurerAdapter {
     return new UserDetailsServiceDAO();
   }
 
-
-  @Bean
-  public EmbeddedServletContainerCustomizer containerCustomizer() {
-    return container -> container.addErrorPages(new ErrorPage(HttpStatus.NOT_FOUND, "/error"), new ErrorPage(HttpStatus.FORBIDDEN, "/error"));
-  }
-
   @Override
   public void addViewControllers(ViewControllerRegistry registry) {
     registry.addViewController("/").setViewName("home");
+    registry.addViewController("/index").setViewName("home");
     registry.addViewController("/error").setViewName("error");
     registry.addViewController("/cast").setViewName("cast");
     registry.addViewController("/board").setViewName("board");
@@ -52,6 +49,19 @@ public class Application extends WebMvcConfigurerAdapter {
     registry.addViewController("/agent").setViewName("agent");
     registry.addViewController("/agentList").setViewName("agentList");
     registry.addViewController("/class").setViewName("class");
+  }
+
+  @Bean
+  public CommandLineRunner runner() {
+
+    return (a) -> {
+      log.info(propertyHello);
+    };
+  }
+
+  @Bean
+  public LayoutDialect layoutDialect() {
+    return new LayoutDialect();
   }
 
   // Used when launching as an executable jar or war

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorator="layout/default" >
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  layout:decorate="~{layout/default}" >
 <section layout:fragment="content">
+    <p th:text="test"></p>
     <main id="content" role="main">
         <!-- Hero Section -->
         <div class="gradient-overlay-half-dark-v3 bg-img-hero"  th:style="'background-image: url('+@{/img/test/000.jpg}+');'">
