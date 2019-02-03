@@ -44,8 +44,14 @@ public class Application extends WebMvcConfigurerAdapter {
 
   @Override
   public void addViewControllers(ViewControllerRegistry registry) {
+    registry.addViewController("/").setViewName("home");
     registry.addViewController("/error").setViewName("error");
-    registry.addViewController("/profile").setViewName("profile");
+    registry.addViewController("/cast").setViewName("cast");
+    registry.addViewController("/board").setViewName("board");
+    registry.addViewController("/product").setViewName("product");
+    registry.addViewController("/agent").setViewName("agent");
+    registry.addViewController("/agentList").setViewName("agentList");
+    registry.addViewController("/class").setViewName("class");
   }
 
   // Used when launching as an executable jar or war

@@ -5,23 +5,17 @@ import cc.koreaEgg.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.*;
-
-import static java.util.Collections.singletonList;
+import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -47,74 +41,27 @@ public class UserController {
   }
 
   @PreAuthorize("isAnonymous()")
-  @RequestMapping(value = "/login", method = RequestMethod.GET)
-  public String loginPage() {
-    return "login";
+  @RequestMapping(value = "/createUser", method = RequestMethod.GET)
+  public String createUserView(Model model){
+    model.addAttribute("user", new User());
+    model.addAttribute("allProfiles",getProfiles());
+    return "createUser";
   }
 
-  /*
-   *@PostAuthorize("isAuthenticated() and returnObject.user_id == principal.username") https://syaku.tistory.com/292
-   * */
+  @PreAuthorize("isAnonymous()")
+  @RequestMapping(value = "/registUser", method = RequestMethod.POST)
+  public String createUser(@Valid User user, BindingResult result, Model model){
 
-  @RequestMapping(value = "/", method = RequestMethod.GET)
-  public String indexPage() {
-    return "index";
+    return "registUserSuccess";
   }
 
-  @RequestMapping(value = "/index", method = RequestMethod.GET)
-  public String retailPage() {
-    return "index";
+  private List<String> getProfiles() {
+    List<String> list = new ArrayList<>();
+    list.add("Developer");
+    list.add("Manager");
+    list.add("Director");
+    return list;
   }
 
-  @RequestMapping(value = "/cast", method = RequestMethod.GET)
-  public String castPage() {
-    return "cast";
-  }
-
-  @RequestMapping(value = "/board", method = RequestMethod.GET)
-  public String boardPage() {
-    return "board";
-  }
-
-  @RequestMapping(value = "/product", method = RequestMethod.GET)
-  public String productPage() {
-    return "product";
-  }
-
-  @RequestMapping(value = "/agent", method = RequestMethod.GET)
-  public String agentPage() { return "agent"; }
-
-  @RequestMapping(value = "/agentList", method = RequestMethod.GET)
-  public String agentListPage() { return "agentList"; }
-
-  @RequestMapping(value = "/class", method = RequestMethod.GET)
-  public String classPage() { return "class"; }
-
-  @RequestMapping(value = "/change/{role}/{name}", method = RequestMethod.GET)
-  public String changeRole(@PathVariable("role") String changeRole, @PathVariable("name") String roleName, HttpServletRequest request) {
-
-    Properties businessFunctions = new Properties();
-    String resourceName = "role-to-bf.properties"; // could also be a constant
-    ClassLoader loader = Thread.currentThread().getContextClassLoader();
-    try(InputStream resourceStream = loader.getResourceAsStream(resourceName)) {
-      businessFunctions.load(resourceStream);
-    } catch (IOException ex) {
-      // handle error
-    }
-
-      Set<String> sourceSet =  StringUtils.commaDelimitedListToSet(businessFunctions.getProperty(changeRole));
-      List<GrantedAuthority> grantedAuthorityList = new ArrayList<GrantedAuthority>();
-      for(String userRole  : sourceSet){
-          grantedAuthorityList.add(new SimpleGrantedAuthority(userRole));
-      }
-
-    String role = businessFunctions.getProperty(changeRole);
-    Collection<? extends GrantedAuthority> roleList = singletonList(new SimpleGrantedAuthority(role));
-    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    Authentication newAuth = new UsernamePasswordAuthenticationToken(roleName, auth.getCredentials(), grantedAuthorityList);
-    SecurityContextHolder.getContext().setAuthentication(newAuth);
-
-      return "index";
-  }
 
 }
