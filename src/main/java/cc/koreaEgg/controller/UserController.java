@@ -2,6 +2,7 @@ package cc.koreaEgg.controller;
 
 import cc.koreaEgg.dao.UserDetailsServiceDAO;
 import cc.koreaEgg.entity.User;
+import cc.koreaEgg.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -21,6 +22,9 @@ public class UserController {
 
   @Autowired
   private UserDetailsServiceDAO userDetailsServiceDAO;
+
+  @Autowired
+  private UserService userService;
 
   @PreAuthorize("isAnonymous()")
   @RequestMapping(value = "/registration", method = RequestMethod.POST)
@@ -50,6 +54,14 @@ public class UserController {
   @RequestMapping(value = "/registUser", method = RequestMethod.POST)
   public String createUser(@Valid User user, BindingResult result, Model model){
 
+    if(result.hasErrors()){
+      log.info("Validation errors while submitting form.");
+      model.addAttribute("user", user);
+      return "createUser";
+    }
+    userService.addUser(user);
+    model.addAttribute("allUsers",userService.getAllUser());
+    log.info("Form submitted successfully");
     return "registUserSuccess";
   }
 

@@ -23,8 +23,10 @@
     </select>
 
     <insert id="insertCity">
-      INSERT INTO CITY (NAME, COUNTRY, POPULATION)
-      VALUES (#{name}, #{country}, #{population})
+      INSERT INTO CITY
+    </insert>
+
+    <insert id="insertTest">
     </insert>
 
 </mapper>

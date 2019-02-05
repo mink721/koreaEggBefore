@@ -61,7 +61,7 @@ public class UserDetailsServiceDAO implements UserDetailsService {
         // handle error
       }
 
-    Set<String> sourceSet =  StringUtils.commaDelimitedListToSet(businessFunctions.getProperty(user.getRole()));
+    Set<String> sourceSet =  StringUtils.commaDelimitedListToSet(businessFunctions.getProperty(user.getRole().name()));
 
     List<GrantedAuthority> grantedAuthorityList = new ArrayList<GrantedAuthority>();
     for(String userRole  : sourceSet){
