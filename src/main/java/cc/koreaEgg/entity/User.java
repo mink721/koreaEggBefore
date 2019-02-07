@@ -9,17 +9,14 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Alias("user")
 public class User {
 
   private Long id;
   private String userId;
-  @NotNull
-  private String userName;
   private String password;
   private Role role;
+  private String rolet;
 
   private Boolean status;
   private String tel;
@@ -31,8 +28,7 @@ public class User {
   private String shopTel;
   private String roadAddress;
   private String memo;
-
-
+  @NotNull
   private String username;
 
 }

@@ -16628,6 +16628,9 @@ button:focus {
   .height-100vh--md {
     height: 100vh;
   }
+  .height-85vh--md {
+    height: 85vh;
+  }
 }
 
 @media (min-width: 992px) {

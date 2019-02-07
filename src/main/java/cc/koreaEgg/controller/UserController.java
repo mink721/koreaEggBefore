@@ -26,51 +26,26 @@ public class UserController {
   @Autowired
   private UserService userService;
 
-  @PreAuthorize("isAnonymous()")
-  @RequestMapping(value = "/registration", method = RequestMethod.POST)
-  public String registration(User newUser) {
-    try {
-      if (userDetailsServiceDAO.loadUserEntityByUsername(newUser.getUsername()) != null) {
-        return "redirect:" + "/login?registration&error";
-      } else {
-        userDetailsServiceDAO.saveUser(newUser);
-        return "redirect:" + "/login?registration&success";
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
-      return "redirect:" + "/login?registration&errorServer";
-    }
-  }
-
-  @PreAuthorize("isAnonymous()")
-  @RequestMapping(value = "/createUser", method = RequestMethod.GET)
+  //@PreAuthorize("isAnonymous()")
+  @RequestMapping(value = "/registUser", method = RequestMethod.GET)
   public String createUserView(Model model){
     model.addAttribute("user", new User());
-    model.addAttribute("allProfiles",getProfiles());
-    return "createUser";
+    return "regist";
   }
 
-  @PreAuthorize("isAnonymous()")
+  //@PreAuthorize("isAnonymous()")
   @RequestMapping(value = "/registUser", method = RequestMethod.POST)
   public String createUser(@Valid User user, BindingResult result, Model model){
 
     if(result.hasErrors()){
       log.info("Validation errors while submitting form.");
       model.addAttribute("user", user);
-      return "createUser";
+      return "regist";
     }
     userService.addUser(user);
     model.addAttribute("allUsers",userService.getAllUser());
     log.info("Form submitted successfully");
-    return "registUserSuccess";
-  }
-
-  private List<String> getProfiles() {
-    List<String> list = new ArrayList<>();
-    list.add("Developer");
-    list.add("Manager");
-    list.add("Director");
-    return list;
+    return  "redirect:" + "/registUser?success";
   }
 
 

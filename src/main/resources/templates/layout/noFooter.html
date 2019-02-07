@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+    <head>
+        <!-- Title -->
+        <title>KoreaEgg</title>
+
+        <!-- Required Meta Tags Always Come First -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Favicon -->
+        <link rel="shortcut icon" th:href="@{/favicon.ico}">
+
+        <!-- Google Fonts -->
+        <link href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+
+        <!-- CSS Implementing Plugins -->
+        <link rel="stylesheet" type="text/css" th:href="@{/vendor/font-awesome/css/all.min.css}" />
+        <link rel="stylesheet" type="text/css" th:href="@{/vendor/animate.css/animate.min.css}"/>
+
+        <!-- CSS Space Template -->
+        <link rel="stylesheet" type="text/css" th:href="@{/css/theme.css}" />
+        <link rel="stylesheet" type="text/css" th:href="@{/css/kegg.css}" />
+
+        <!-- JS Global Compulsory -->
+        <script type="text/javascript" th:src="@{/vendor/jquery/dist/jquery.min.js}"></script>
+        <script type="text/javascript" th:src="@{/vendor/jquery-migrate/dist/jquery-migrate.min.js}"></script>
+        <script type="text/javascript" th:src="@{/vendor/popper.js/dist/umd/popper.min.js}"></script>
+        <script type="text/javascript" th:src="@{/vendor/bootstrap/bootstrap.min.js}"></script>
+
+        <!-- JS Implementing Plugins -->
+        <script type="text/javascript" th:src="@{/vendor/jquery-validation/dist/jquery.validate.min.js}"></script>
+
+        <!-- JS Space -->
+        <script type="text/javascript" th:src="@{/js/hs.core.js}"></script>
+        <script type="text/javascript" th:src="@{/js/components/hs.validation.js}"></script>
+        <script type="text/javascript" th:src="@{/js/helpers/hs.focus-state.js}"></script>
+
+    </head>
+
+    <section layout:fragment="content"></section>
+
+    <!-- JS Plugins Init. -->
+    <script>
+        $(document).on('ready', function () {
+            // initialization of forms
+            $.HSCore.helpers.HSFocusState.init();
+
+            // initialization of form validation
+            $.HSCore.components.HSValidation.init('.js-validate');
+        });
+    </script>
+</html>

@@ -10,6 +10,9 @@ public class Product {
     private Long id;
     private String name;
     private Price price;
+    private String origin;
+    private String shopName;
+    private String shopId;
 
 
 }

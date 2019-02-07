@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  layout:decorate="~{layout/default}" >
+    <section layout:fragment="content">
+        <!-- Hire Us Form -->
+        <div th:unless="${param.success}" class="container space-2 space-3--lg">
+            <form action="/registUser"  th:action="@{/registUser}" method="post" class="js-validate w-lg-75 px-3 px-sm-9 mx-lg-auto" th:object="${user}">
+                <!-- Title -->
+                <div class="w-md-80 w-lg-60 text-center mx-md-auto mb-9">
+                    <span class="u-label u-label--sm u-label--purple mb-3">join us</span>
+                    <h1 class="h3">회원가입</h1>
+                    <p>회원가입을 하시면 좋은 정보를 얻으실수 있습니다.</p>
+                </div>
+                <!-- End Title -->
+                <div class="form-row">
+                    <div class="form-group col-md-8 ">
+                        <label class="h6 small d-block text-uppercase" for="" th:if="${#fields.hasErrors('username')}" th:text="#{error.user.username}" >아이디</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="" placeholder=""  th:field="*{userId}" />
+                            <div class="input-group-append">
+                                <button class="btn" type="button">아이디체크</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label class="h6 small d-block text-uppercase" for="">비밀번호</label>
+                        <input type="password" class="form-control" id="" placeholder="" />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="h6 small d-block text-uppercase" for="">비밀번호확인</label>
+                        <input type="password" class="form-control" id="" placeholder="" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label class="h6 small d-block text-uppercase" for="">성명</label>
+                        <input type="text" class="form-control" id="" placeholder="" />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="h6 small d-block text-uppercase" for="">핸드폰</label>
+                        <input type="text" class="form-control" id="" placeholder="" />
+                    </div>
+                </div>
+                <hr class="my-3">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label class="h6 small d-block text-uppercase" for="">상호</label>
+                        <input type="text" class="form-control" id="" placeholder="" />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="h6 small d-block text-uppercase" for="">생년월일</label>
+                        <input type="text" class="form-control" id="" placeholder="" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="h6 small d-block text-uppercase" for="inputAddress">Address</label>
+                    <input type="text" class="form-control" id="inputAddress" placeholder="" />
+                </div>
+                <div class="form-group">
+                    <label class="h6 small d-block text-uppercase" for="inputAddress2">Address 2</label>
+                    <input type="text" class="form-control" id="inputAddress2" placeholder="" />
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label class="h6 small d-block text-uppercase" for="">전화번호</label>
+                        <input type="text" class="form-control" id="" placeholder="" />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="h6 small d-block text-uppercase" for="">팩스</label>
+                        <input type="text" class="form-control" id="" placeholder="" />
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Sign in</button>
+            </form>
+        </div>
+        <!-- Successful Notification Section -->
+        <div th:if="${param.success}" class="d-md-flex align-items-md-center height-85vh--md" >
+            <div class="container text-center space-2 space-3--lg">
+                <div class="w-md-80 w-lg-60 text-center mx-md-auto">
+                    <div class="mb-5">
+            <span class="u-icon u-icon--success u-icon--lg rounded-circle mb-4">
+              <span class="fa fa-check u-icon__inner"></span>
+            </span>
+                        <h1 class="h2 mb-0">Congratulations.</h1>
+                        <h2 class="h2">Your order is accepted.</h2>
+                        <p>Thank you for your order! Your order is being processed and will be completed within 3-6 hours. You will receive an email confirmation when your order is completed.</p>
+                        <p>회원가입되었습니다.<a href="/class">로그인하기</a></p>
+                    </div>
+                    <a class="btn btn-primary" href="classic.html">홈페이지로</a>
+                </div>
+            </div>
+        </div>
+        <!-- End Successful Notification Section -->
+    </section>
+</html>
