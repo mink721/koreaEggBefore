@@ -37,44 +37,38 @@
                                         <div class="d-none d-md-block col-sm-2">
                                             <label class="h6 small d-block mb-3 mb-lg-0">지역</label>
                                         </div>
-                                        <div class="col-12 col-sm-10 input-group form">
-                                            <div class="input-group-prepend form__prepend">
-                                                <button type="button" class="btn btn-primary">
-                                                    <i class="fas fa-paper-plane"></i>
-                                                </button>
+                                        <div class="col-1">
+                                            <a class="u-icon u-icon--facebook" href="javascript:currentPosition()">
+                                                <span class="fa fa-location-arrow u-icon__inner"></span>
+                                            </a>
+                                        </div>
+                                        <div class="col-10 col-sm-9 input-group form">
+                                            <div id="addrWrap" class="position-absolute" style="display:none; border:1px solid #d4d7dd; height:400px;">
+                                                <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">
                                             </div>
-                                            <input type="text" class="form-control form__input" placeholder="Default example with button" aria-label="Default example with button" aria-describedby="inputGroup-sizing-default">
+                                            <input id="addr" type="text" class="form-control form__input form-control-sm"
+                                                   placeholder="건물명,도로명,지번으로 검색하세요"
+                                                   aria-label="Default example with button"
+                                                   aria-describedby="inputGroup-sizing-default"
+                                            >
                                         </div>
+                                        <!--최저수량-->
+                                        <!--<hr class="my-2">
+                                        <div class="row align-items-center">
+                                            <div class="d-none d-md-block col-sm-2">
+                                                <label class="h6 small d-block text-uppercase mb-3 mb-lg-0" for="customRange3">최저수량</label>
+                                            </div>
+                                            <div class="col-3 col-sm-2">
+                                                <input type="text" class="form-control form__input">
+                                            </div>
+                                            <div class="col-9 col-sm-8">
+                                                <input type="range" class="custom-range" min="0" max="5" step="0.5" id="customRange3" />
+                                            </div>
+                                        </div>-->
                                     </div>
-                                    <hr class="my-2">
-                                    <!--지역2-->
-                                    <div class="row align-items-center">
-                                        <div class="d-none d-md-block col-sm-2">
-                                            <label class="h6 small d-block mb-3 mb-lg-0">지역2</label>
-                                        </div>
-                                        <div class="col-12 col-sm-10">
-                                            <select class="custom-select">
-                                                <option selected="">전국</option>
-                                                <option>서울</option>
-                                                <option>대전</option>
-                                                <option>대구</option>
-                                                <option>부산</option>
-                                                <option>경기</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <hr class="my-2">
-                                    <!--최저수량-->
-                                    <div class="row align-items-center">
-                                        <div class="d-none d-md-block col-sm-2">
-                                            <label class="h6 small d-block text-uppercase mb-3 mb-lg-0" for="customRange3">최저수량</label>
-                                        </div>
-                                        <div class="col-3 col-sm-2">
-                                            <input type="text" class="form-control form__input">
-                                        </div>
-                                        <div class="col-9 col-sm-8">
-                                            <input type="range" class="custom-range" min="0" max="5" step="0.5" id="customRange3" />
-                                        </div>
+                                    <div class="text-center mt-2">
+                                        <button type="button" class="btn btn-primary btn-sm px-8" onclick="serchAddress()">검색</button>
+                                        <!--<button type="submit" class="btn btn-primary mb-4">Let's Start Working Together</button>-->
                                     </div>
                                 </form>
                             </div>
@@ -338,8 +332,140 @@
     </main>
 
     <script th:inline="javascript" type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=af40a347c5a17c5118392cee56f35da6&libraries=services"></script>
+    <script th:inline="javascript" type="text/javascript" src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
     <script th:inline="javascript">
         /*<![CDATA[*/
+
+        var map_fx="127.05535029999999";
+        var map_fy="37.5863393";
+        var pos;
+
+        function currentPosition() {
+            if(navigator.geolocation){
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    pos = {
+                        lat:position.coords.latitude,
+                        lng:position.coords.longitude
+                    };
+                    tranceCoordsToAddr(pos);
+                });
+            }else{
+                var locPosition = new daum.maps.LatLng(map_fy, map_fx),
+                    message="일시적으로 내 위치를 확인 할 수 없습니다";
+                alert(message);
+            }
+        };
+
+        function tranceCoordsToAddr(pos){
+            // 주소로 좌표를 검색합니다
+            var geocoder = new daum.maps.services.Geocoder();
+
+            var callback = function(result, status) {
+                if (status === daum.maps.services.Status.OK) {
+                    //console.log('그런 너를 마주칠까 ' + result[0].address.address_name + '을 못가');
+                    var detailAddr = !!result[0].road_address ? result[0].road_address.address_name  : '';
+                    detailAddr += result[0].address.address_name ;
+                    //var content = detailAddr;
+                    var content = result[0].address.address_name;
+                    document.getElementById("addr").value = content;
+                }
+            };
+            geocoder.coord2Address(pos.lng, pos.lat, callback);
+        };
+
+        var lineLine = new daum.maps.Polyline();
+
+        function serchAddress(addr) {
+
+            if(addr == null){
+                addr = document.getElementById("addr").value;
+            }
+            // 주소로 좌표를 검색합니다
+            var geocoder = new daum.maps.services.Geocoder();
+            geocoder.addressSearch(addr, function(result, status) {
+                // 정상적으로 검색이 완료됐으면
+                if (status === daum.maps.services.Status.OK) {
+                    var start = new daum.maps.LatLng(result[0].y, result[0].x);
+                    var end = new daum.maps.LatLng(37.5863393, 127.05535029999999);
+                    alert(start + "거리 : " +distanceTo(start,end));
+                }
+            });
+        }
+
+        function distanceTo(p1,p2){
+
+            lineLine.setPath([ p1, p2 ]); // //라인을 그리려면 두 점이 있어야하니깐 두 점을 지정했습니다 선을 그릴 라인을 세팅합니다
+            var distance = Math.round(lineLine.getLength())/1000;
+            return distance;
+        }
+
+
+        // 우편번호 찾기 찾기 화면을 넣을 element
+        //var element_wrap = document.getElementById('wrap');
+        var element_wrap = document.getElementById('addrWrap');
+
+        function foldDaumPostcode() {
+            // iframe을 넣은 element를 안보이게 한다.
+            element_wrap.style.display = 'none';
+            $("#addr").css("zIndex","");
+        }
+
+        function sample3_execDaumPostcode() {
+            // 현재 scroll 위치를 저장해놓는다.
+            var currentScroll = Math.max(document.body.scrollTop, document.documentElement.scrollTop);
+            var width = document.getElementById('addr').clientWidth;
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    // 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                    // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                    // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                    var addr = ''; // 주소 변수
+                    var extraAddr = ''; // 참고항목 변수
+
+                    //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                    if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                        addr = data.roadAddress;
+                    } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                        addr = data.jibunAddress;
+                    }
+
+                    // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                    document.getElementById("addr").value = addr;
+
+                    // iframe을 넣은 element를 안보이게 한다.
+                    // (autoClose:false 기능을 이용한다면, 아래 코드를 제거해야 화면에서 사라지지 않는다.)
+                    element_wrap.style.display = 'none';
+
+                    // 우편번호 찾기 화면이 보이기 이전으로 scroll 위치를 되돌린다.
+                    document.body.scrollTop = currentScroll;
+                    $("#addr").css("zIndex","");
+                },
+                hideMapBtn : true,
+                hideEngBtn : true,
+                zonecodeOnly : true,
+                width : width,
+                height : '100%'
+            }).embed(element_wrap);
+
+            // iframe을 넣은 element를 보이게 한다.
+            element_wrap.style.display = 'block';
+        }
+
+        $(document).on('ready', function () {
+
+            $("#addr").focus(function (obj) {
+                $("#addr").css("zIndex","-1");
+                sample3_execDaumPostcode();
+                //$( "#target" ).focus();
+                obj.target.blur();
+            });
+
+        });
+
+
+
+
         var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
         var options = { //지도를 생성할 때 필요한 기본 옵션
             center: new daum.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.

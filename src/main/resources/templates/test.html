@@ -22,13 +22,14 @@
                                         </div>
 
                                         <div class="col-12 col-sm-10 input-group form">
-                                            <div id="addrWrap" class="position-absolute" style="display:none;border:1px solid; height:400px;"></div>
-                                            <input id="addr" type="text" class="form-control form__input"
+                                            <div id="addrWrap" class="position-absolute" style="display:none; border:1px solid #d4d7dd; height:400px;">
+                                                <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">
+                                            </div>
+                                            <input id="addr" type="text" class="form-control form__input form-control-sm"
                                                    placeholder="건물명,도로명,지번으로 검색하세요"
                                                    aria-label="Default example with button"
                                                    aria-describedby="inputGroup-sizing-default"
                                                     >
-
                                         </div>
 
                                         <!--<div id="wrap" style="display:none;border:1px solid;width:500px;height:300px;margin:5px 0;position:relative">
@@ -170,11 +171,13 @@
         function foldDaumPostcode() {
             // iframe을 넣은 element를 안보이게 한다.
             element_wrap.style.display = 'none';
+            $("#addr").css("zIndex","");
         }
 
         function sample3_execDaumPostcode() {
             // 현재 scroll 위치를 저장해놓는다.
             var currentScroll = Math.max(document.body.scrollTop, document.documentElement.scrollTop);
+            var width = document.getElementById('addr').clientWidth;
             new daum.Postcode({
                 oncomplete: function(data) {
                     // 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
@@ -202,20 +205,10 @@
                     document.body.scrollTop = currentScroll;
                     $("#addr").css("zIndex","");
                 },
-                // 우편번호 찾기 화면 크기가 조정되었을때 실행할 코드를 작성하는 부분. iframe을 넣은 element의 높이값을 조정한다.
-                onresize : function(size) {
-
-                    var lng = $("#addr").val().length;
-                    element_wrap.style.width = lng;
-                    /*if(screen.width*0.9 < 300){
-                        element_wrap.style.width = screen.width*0.9;
-                    }*/
-                    //element_wrap.style.height = size.height+'px';
-                },
                 hideMapBtn : true,
                 hideEngBtn : true,
                 zonecodeOnly : true,
-                width : '100%',
+                width : width,
                 height : '100%'
             }).embed(element_wrap);
 
@@ -223,19 +216,14 @@
             element_wrap.style.display = 'block';
         }
 
-
-
-        // 브라y
         $(document).on('ready', function () {
-            // initialization of popups
-            $.HSCore.components.HSModalWindow.init('[data-modal-target]');
 
             $("#addr").focus(function (obj) {
                 $("#addr").css("zIndex","-1");
                 sample3_execDaumPostcode();
                 //$( "#target" ).focus();
                 obj.target.blur();
-            })
+            });
 
         });
         /*]]>*/
