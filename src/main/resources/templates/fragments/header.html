@@ -86,7 +86,20 @@
                                 <!-- End Home -->
                                 <!-- Works -->
                                 <li class="nav-item u-header__nav-item">
-                                    <a class="nav-link u-header__nav-link" href="/cast">
+                                    <a sec:authorize="!hasAuthority('CAST_READ')" class="nav-link u-header__nav-link text-warning" href="javascript:alert('권한이없습니다')">
+                                        협력사
+                                    </a>
+                                    <a sec:authorize="hasAuthority('CAST_READ')" class="nav-link u-header__nav-link" href="/agentList">
+                                        협력사
+                                    </a>
+                                </li>
+                                <!-- End Works -->
+                                <!-- Works -->
+                                <li class="nav-item u-header__nav-item">
+                                    <a sec:authorize="!hasAuthority('CAST_READ')" class="nav-link u-header__nav-link text-warning" href="javascript:alert('권한이없습니다')">
+                                        난가정보
+                                    </a>
+                                    <a sec:authorize="hasAuthority('CAST_READ')" class="nav-link u-header__nav-link" href="/cast">
                                         난가정보
                                     </a>
                                 </li>

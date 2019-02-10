@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 
 import javax.sql.DataSource;
 
@@ -49,6 +50,7 @@ public class Application implements WebMvcConfigurer {
     registry.addViewController("/agent").setViewName("agent");
     registry.addViewController("/agentList").setViewName("agentList");
     registry.addViewController("/class").setViewName("class");
+    registry.addViewController("/test").setViewName("test");
   }
 
   @Bean
@@ -62,6 +64,13 @@ public class Application implements WebMvcConfigurer {
   @Bean
   public LayoutDialect layoutDialect() {
     return new LayoutDialect();
+  }
+
+  // TODO * Configuring this bean should not be needed once Spring Boot's Thymeleaf starter includes configuration
+  // TODO   for thymeleaf-extras-springsecurity5 (instead of thymeleaf-extras-springsecurity4)
+  @Bean
+  public SpringSecurityDialect securityDialect() {
+    return new SpringSecurityDialect();
   }
 
   // Used when launching as an executable jar or war

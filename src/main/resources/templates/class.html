@@ -1,19 +1,22 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/default"  >
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorator="layout/default"  >
 
 <section layout:fragment="content">
 
     <!-- ========== MAIN CONTENT ========== -->
     <main id="content" role="main">
         <!-- Hero Section -->
-        <div class="gradient-overlay-half-dark-v3 bg-img-hero" th:style="'background-image: url('+@{/img/test/000.jpg}+');'">
+        <div class="bg-img-hero" th:style="'background-image: url('+@{/img/test/000.jpg}+');'">
             <!--<div class="d-lg-flex align-items-lg-center height-45vh&#45;&#45;lg">-->
-            <div class="w-md-80 w-lg-60 text-center  height-45vh--lg mx-auto">
+            <div class="d-lg-flex align-items-lg-center height-45vh--lg">
                 <!--검색 Form -->
                 <!-- Title -->
-                <div class="mb-9">
-                    <h1 class="display-4 text-white">Find a plan</h1>
-                    <p class="lead text-white">All our plans include a 14-day free trial. Money-back guarantee, cancel any time.</p>
+                <div class="container space-1 space-0--lg mt-lg-8">
+                    <div class="bg-white shadow-sm rounded p-3">
+                        <h1 class="display-4 ">회원등급</h1>
+                        <p class="lead ">회원등급에 따라 서비스가 달라집니다. 자세한문의는 게시판 혹은 전화문의주세요</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -21,124 +24,170 @@
 
         <!-- 난가정보 section -->
         <div class="container">
-            <div class="shadow-lg rounded mt-offset-9 mb-7">
-                <!-- Individual -->
-                <div class="row align-items-lg-center mx-gutters-2">
-                    <div class="col-md-6 col-lg-4 offset-md-3 col-lg-4 offset-lg-0 mb-3 mb-lg-0">
+            <div class="mt-offset-9 mb-8">
+
+                <!-- Pricing -->
+                <div class="row justify-content-lg-center">
+
+                    <div class="col-md-6 col-lg-4 mb-3">
                         <!-- Pricing -->
-                        <div class="bg-white text-center border rounded pt-7 p-5">
-                            <header class="mb-4">
-                                <h4 class="h6 text-uppercase text-secondary mb-3">Free trial</h4>
-                                <div class="mb-2">
-                                    <span class="display-4 text-purple">$0</span>
-                                    <span class="text-secondary">/month</span>
-                                </div>
+                        <div class="card">
+                            <!-- Header -->
+                            <header class="card-header">
+                                <h4 class="h6  mb-3">일반회원</h4>
+                                <span class="d-block">
+                                  <span class="h2 text-dark">
+                                    Free
+                                  </span>
+                                </span>
                             </header>
+                            <!-- End Header -->
 
-                            <ul class="list-unstyled mb-4">
-                                <li class="d-flex align-items-center py-2">
-                                    <span class="fa fa-check font-size-13 mr-3"></span>
-                                    Community support
-                                </li>
-                                <li class="d-flex align-items-center py-2">
-                                    <span class="fa fa-check font-size-13 mr-3"></span>
-                                    400+ pages
-                                </li>
-                                <li class="d-flex align-items-center py-2">
-                                    <span class="fa fa-check font-size-13 mr-3"></span>
-                                    100+ header variations
-                                </li>
-                                <li class="d-flex align-items-center py-2">
-                                    <span class="fa fa-check font-size-13 mr-3"></span>
-                                    20+ home page options
-                                </li>
-                            </ul>
-
-                            <div class="mb-4">
-                                <button type="button" class="btn btn-block btn-sm btn-purple">Start Free Trial</button>
+                            <!-- Content -->
+                            <div class="card-body">
+                                <ul class="list-unstyled mb-4">
+                                    <li class="font-size-14 py-2">상품 검색</li>
+                                    <li class="font-size-14 py-2">대리점 검색</li>
+                                </ul>
+                                <a sec:authorize="isAnonymous()" class="btn btn-block btn-sm btn-secondary text-white" href="/login">로그인/회원가입</a>
+                                <a sec:authorize="isAuthenticated()" class="btn btn-block btn-sm btn-secondary text-white" href="#">로그인/회원가입</a>
                             </div>
-                            <span class="d-block text-secondary">Free forever</span>
+                            <!-- End Content -->
                         </div>
                         <!-- End Pricing -->
                     </div>
 
-                    <div class="col-md-6 col-lg-4 mb-3 mb-md-0">
+                    <div class="col-md-6 col-lg-4 mb-3">
                         <!-- Pricing -->
-                        <div class="bg-white text-center border rounded pt-7 p-5">
-                            <header class="mb-4">
-                                <h4 class="h6 text-uppercase text-secondary mb-3">Free trial</h4>
-                                <div class="mb-2">
-                                    <span class="display-4 text-purple">$0</span>
-                                    <span class="text-secondary">/month</span>
-                                </div>
+                        <div class="card">
+                            <!-- Header -->
+                            <header class="card-header">
+                                <h4 class="h6 text-primary mb-3">소매점</h4>
+                                <span class="d-block">
+                                  <span class="h2 text-dark">
+                                    50,000
+                                  </span>
+                                  <span class="text-secondary font-size-14">/year</span>
+                                </span>
                             </header>
+                            <!-- End Header -->
 
-                            <ul class="list-unstyled mb-4">
-                                <li class="d-flex align-items-center py-2">
-                                    <span class="fa fa-check font-size-13 mr-3"></span>
-                                    Community support
-                                </li>
-                                <li class="d-flex align-items-center py-2">
-                                    <span class="fa fa-check font-size-13 mr-3"></span>
-                                    400+ pages
-                                </li>
-                                <li class="d-flex align-items-center py-2">
-                                    <span class="fa fa-check font-size-13 mr-3"></span>
-                                    100+ header variations
-                                </li>
-                                <li class="d-flex align-items-center py-2">
-                                    <span class="fa fa-check font-size-13 mr-3"></span>
-                                    20+ home page options
-                                </li>
-                            </ul>
-
-                            <div class="mb-4">
-                                <button type="button" class="btn btn-block btn-sm btn-purple">Start Free Trial</button>
+                            <!-- Content -->
+                            <div class="card-body">
+                                <ul class="list-unstyled mb-4">
+                                    <li class="font-size-14 py-2 text-primary">소폭 할인된 가격</li>
+                                    <li class="font-size-14 py-2">상품 검색</li>
+                                    <li class="font-size-14 py-2">대리점 검색</li>
+                                </ul>
+                                <button type="button" class="btn btn-block btn-sm btn-primary">Upgrade</button>
                             </div>
-                            <span class="d-block text-secondary">Free forever</span>
+                            <!-- End Content -->
                         </div>
                         <!-- End Pricing -->
                     </div>
 
-                    <div class="col-md-6 col-lg-4">
+                    <div class="col-md-6 col-lg-4 mb-3">
                         <!-- Pricing -->
-                        <div class="bg-white text-center border rounded pt-7 p-5">
-                            <header class="mb-4">
-                                <h4 class="h6 text-uppercase text-secondary mb-3">Enterprise teams</h4>
-                                <div class="mb-2">
-                                    <span class="display-4 text-danger">$79</span>
-                                    <span class="text-secondary">/month</span>
-                                </div>
+                        <div class="card">
+                            <!-- Header -->
+                            <header class="card-header">
+                                <h4 class="h6 text-danger mb-3">유통인 <span class="badge badge-danger">Best</span></h4>
+                                <span class="d-block">
+                                  <span class="h2 text-dark">
+                                    100,000
+                                  </span>
+                                  <span class="text-secondary font-size-14">/year</span>
+                                </span>
                             </header>
+                            <!-- End Header -->
 
-                            <ul class="list-unstyled mb-4">
-                                <li class="d-flex align-items-center py-2">
-                                    <span class="fa fa-check font-size-13 mr-3"></span>
-                                    Community support
-                                </li>
-                                <li class="d-flex align-items-center py-2">
-                                    <span class="fa fa-check font-size-13 mr-3"></span>
-                                    400+ pages
-                                </li>
-                                <li class="d-flex align-items-center py-2">
-                                    <span class="fa fa-check font-size-13 mr-3"></span>
-                                    100+ header variations
-                                </li>
-                                <li class="d-flex align-items-center py-2">
-                                    <span class="fa fa-check font-size-13 mr-3"></span>
-                                    20+ home page options
-                                </li>
-                            </ul>
-
-                            <div class="mb-4">
-                                <button type="button" class="btn btn-block btn-sm btn-danger">Start Free Trial</button>
+                            <!-- Content -->
+                            <div class="card-body">
+                                <ul class="list-unstyled mb-4">
+                                    <li class="font-size-14 py-2 text-danger">난가정보 조회</li>
+                                    <li class="font-size-14 py-2 text-danger">난가예보</li>
+                                    <li class="font-size-14 py-2 text-danger">협력사 검색</li>
+                                    <li class="font-size-14 py-2 text-danger">대폭 할인된 가격</li>
+                                    <li class="font-size-14 py-2">상품 검색</li>
+                                    <li class="font-size-14 py-2">대리점 검색</li>
+                                </ul>
+                                <button type="button" class="btn btn-block btn-sm btn-danger">Upgrade</button>
                             </div>
-                            <span class="d-block text-secondary">Free for 14 days</span>
+                            <!-- End Content -->
+                        </div>
+                        <!-- End Pricing -->
+                    </div>
+
+                    <div class="col-md-6 col-lg-4 mb-3">
+                        <!-- Pricing -->
+                        <div class="card">
+                            <!-- Header -->
+                            <header class="card-header">
+                                <h4 class="h6 text-purple mb-3">파트너</h4>
+                                <span class="d-block">
+                                  <span class="h2 text-dark">
+                                    150,000
+                                  </span>
+                                  <span class="text-secondary font-size-14">/year</span>
+                                </span>
+                            </header>
+                            <!-- End Header -->
+
+                            <!-- Content -->
+                            <div class="card-body">
+                                <ul class="list-unstyled mb-4">
+                                    <li class="font-size-14 py-2 text-purple">상품 등록</li>
+                                    <li class="font-size-14 py-2 text-purple">협력사 등록</li>
+                                    <li class="font-size-14 py-2 ">난가정보 조회</li>
+                                    <li class="font-size-14 py-2 ">난가예보</li>
+                                    <li class="font-size-14 py-2 ">협력사 검색</li>
+                                    <li class="font-size-14 py-2 ">대폭 할인된 가격</li>
+                                    <li class="font-size-14 py-2">상품 검색</li>
+                                    <li class="font-size-14 py-2">대리점 검색</li>
+                                </ul>
+                                <button type="button" class="btn btn-block btn-sm btn-purple">Upgrade</button>
+                            </div>
+                            <!-- End Content -->
+                        </div>
+                        <!-- End Pricing -->
+                    </div>
+
+                    <div class="col-md-6 col-lg-4 mb-3">
+                        <!-- Pricing -->
+                        <div class="card">
+                            <!-- Header -->
+                            <header class="card-header">
+                                <h4 class="h6 text-info mb-3">소매점</h4>
+                                <span class="d-block">
+                                  <span class="h2 text-dark">
+                                    문의
+                                  </span>
+                                  <span class="text-secondary font-size-14">/year</span>
+                                </span>
+                            </header>
+                            <!-- End Header -->
+
+                            <!-- Content -->
+                            <div class="card-body">
+                                <ul class="list-unstyled mb-4">
+                                    <li class="font-size-14 py-2 text-info">Korea Egg 계란 납품</li>
+                                    <li class="font-size-14 py-2 ">상품 등록</li>
+                                    <li class="font-size-14 py-2 ">협력사 등록</li>
+                                    <li class="font-size-14 py-2 ">난가정보 조회</li>
+                                    <li class="font-size-14 py-2 ">난가예보</li>
+                                    <li class="font-size-14 py-2 ">협력사 검색</li>
+                                    <li class="font-size-14 py-2 ">대폭 할인된 가격</li>
+                                    <li class="font-size-14 py-2">상품 검색</li>
+                                    <li class="font-size-14 py-2">대리점 검색</li>
+                                </ul>
+                                <button type="button" class="btn btn-block btn-sm btn-info">Upgrade</button>
+                            </div>
+                            <!-- End Content -->
                         </div>
                         <!-- End Pricing -->
                     </div>
                 </div>
-                <!-- End Individual -->
+                <!-- End Pricing -->
             </div>
         </div>
         <!-- End Pricing Section -->

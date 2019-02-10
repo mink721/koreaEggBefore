@@ -48,11 +48,10 @@ public class HomeController {
           grantedAuthorityList.add(new SimpleGrantedAuthority(userRole));
       }
 
-    String role = businessFunctions.getProperty(changeRole);
-    Collection<? extends GrantedAuthority> roleList = singletonList(new SimpleGrantedAuthority(role));
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     Authentication newAuth = new UsernamePasswordAuthenticationToken(roleName, auth.getCredentials(), grantedAuthorityList);
     SecurityContextHolder.getContext().setAuthentication(newAuth);
+    log.trace("change role",grantedAuthorityList.toString());
 
       return "home";
   }
