@@ -11,9 +11,8 @@ public class Mapper {
 
     public User mapUser(ResultSet rs, int rowNum) throws SQLException {
         User user = new User();
-        user.setUsername(rs.getString("username"));
-        user.setPassword(rs.getString("password"));
-        user.setRolet(rs.getString("role"));
+        user.setUserName(rs.getString("username"));
+        user.setPwd(rs.getString("password"));
         return user;
     }
 

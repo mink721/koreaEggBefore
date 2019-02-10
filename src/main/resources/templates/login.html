@@ -4,7 +4,9 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/signin.css}" />
 </head>
         <!-- ========== MAIN CONTENT ========== -->
-        <form class="js-validate form-signin p-5" layout:fragment="content">
+        <form class="js-validate form-signin p-5" layout:fragment="content"
+              th:formaction="@{/login}" method="post">
+            <input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
             <!-- Logo -->
             <div class="text-center">
                 <a href="../home/index.html" aria-label="Space">
@@ -28,7 +30,7 @@
             <span class="fa fa-user form__text-inner"></span>
           </span>
                     </div>
-                    <input type="text" class="form-control form__input" name="id" required
+                    <input type="text" class="form-control form__input"  name="username" required
                            placeholder="ID"
                            aria-label="ID"
                            data-msg="Please enter a valid ID."

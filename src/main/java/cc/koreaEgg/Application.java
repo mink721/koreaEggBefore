@@ -1,6 +1,5 @@
 package cc.koreaEgg;
 
-import cc.koreaEgg.dao.UserDetailsServiceDAO;
 import lombok.extern.slf4j.Slf4j;
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 import org.mybatis.spring.annotation.MapperScan;
@@ -28,16 +27,6 @@ public class Application implements WebMvcConfigurer {
 
   @Value("${property.hello}")
   private String propertyHello;
-
-  @Bean
-  public JdbcTemplate jdbcTemplate() {
-    return new JdbcTemplate(dataSource);
-  }
-
-  @Bean
-  public UserDetailsService userDetailsService() {
-    return new UserDetailsServiceDAO();
-  }
 
   @Override
   public void addViewControllers(ViewControllerRegistry registry) {

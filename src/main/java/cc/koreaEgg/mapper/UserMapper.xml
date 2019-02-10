@@ -10,15 +10,20 @@
           FROM USER
          WHERE ID = #{id}
     </select>
+    <select id="selectUserByName" resultType="user">
+        SELECT ID , user_name, pwd, role
+        FROM user
+        WHERE user_name = #{userName}
+    </select>
 
     <select id="selectAllUser" resultType="user">
         SELECT ID
           FROM USER
     </select>
 
-    <insert id="insertUser">
-      INSERT INTO USER (NAME, COUNTRY, POPULATION)
-      VALUES (#{name}, #{country}, #{population})
+    <insert id="createUser">
+      INSERT INTO user (user_name, pwd, role)
+      VALUES (#{userName}, #{pwd}, 'USER')
     </insert>
 
 </mapper>

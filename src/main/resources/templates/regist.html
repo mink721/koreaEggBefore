@@ -3,91 +3,123 @@
     <section layout:fragment="content">
         <!-- Hire Us Form -->
         <div th:unless="${param.success}" class="container space-2 space-3--lg">
-            <form action="#" th:action="@{/registUser}" method="post"
+            <form th:formaction="@{/registUser}" method="post"
                   class="js-validate w-lg-75 px-3 px-sm-9 mx-lg-auto form-signin"
                   th:object="${user}">
+                <input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                 <!-- Title -->
-                <div class="w-md-80 w-lg-60 text-center mx-md-auto mb-9">
+                <div class="w-md-80 w-lg-60 text-center mx-md-auto mb-5">
                     <span class="u-label u-label--sm u-label--purple mb-3">join us</span>
                     <h1 class="h3">회원가입</h1>
-                    <p>회원가입을 하시면 좋은 정보를 얻으실수 있습니다.</p>
+                    <p></p>
                 </div>
                 <!-- End Title -->
                 <div class="form-row">
-                    <div class="form-group col-md-8 ">
-                        <label class="h6 small d-block text-uppercase" for="">아이디<span class="text-danger">*</span></label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="" placeholder="" required
+                    <div class="form-group col-md-5 js-form-message">
+                        <label class="h6 small d-block text-uppercase">아이디<span class="text-danger">*</span></label>
+                        <div class="js-focus-state input-group form">
+                            <input type="text" class="form-control form__input" required
                                    th:field="*{userId}"
+                                   placeholder="ID"
+                                   aria-label="userId"
                                    data-msg="필수입력"
                                    data-error-class="u-has-error"
                                    data-success-class="u-has-success"
                             />
-                            <!--th:if="${#fields.hasErrors('username')}" th:text="#{error.user.username}"-->
                             <div class="input-group-append">
                                 <button class="btn" type="button">아이디체크</button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="form-row js-form-message mb-3">
-                    <div class="js-focus-state form-group col-md-6 form m-0">
-                        <label class="h6 small d-block text-uppercase" for="">비밀번호<span class="text-danger">*</span></label>
-                        <input type="password" class="form-control form__input" name="password" required
-                               placeholder="Password"
-                               aria-label="Password"
-                               data-msg="필수입력"
-                               data-error-class="u-has-error"
-                               data-success-class="u-has-success"/>
+                <div class="form-row mb-3">
+                    <div class="form-group col-md-6 form m-0 js-form-message">
+                        <label class="h6 small d-block text-uppercase">비밀번호<span class="text-danger">*</span></label>
+                        <div class="js-focus-state input-group form">
+                            <input type="password" class="form-control form__input" required
+                                   th:field="*{pwd}"
+                                   placeholder="Password"
+                                   aria-label="password"
+                                   data-msg="필수입력"
+                                   data-error-class="u-has-error"
+                                   data-success-class="u-has-success"/>
+                        </div>
                     </div>
-                    <div class="form-group col-md-6 m-0">
-                        <label class="h6 small d-block text-uppercase" for="">비밀번호확인<span class="text-danger">*</span></label>
-                        <input type="password" class="form-control" id="" placeholder="" />
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label class="h6 small d-block text-uppercase" for="">성명<span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="" placeholder=""
-                               th:field="*{username}"/>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label class="h6 small d-block text-uppercase" for="">핸드폰<span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="" placeholder=""
-                               th:field="*{tel}"/>
+                    <div class="form-group col-md-6 m-0 js-form-message">
+                        <label class="h6 small d-block text-uppercase">비밀번호확인<span class="text-danger">*</span></label>
+                        <div class="js-focus-state input-group form">
+                            <input type="password" class="form-control form__input" placeholder="confirmPassword"
+                                   data-msg="비밀번호가 일치하지않습니다"
+                                   data-rule-equalto="#pwd"
+                                   aria-label="confirmPassword"
+                                   data-error-class="u-has-error"
+                                   data-success-class="u-has-success"/>
+                        </div>
                     </div>
                 </div>
+                <div class="form-row mb-5">
+                    <div class="form-group col-md-6 js-form-message">
+                        <label class="h6 small d-block text-uppercase">성명<span class="text-danger">*</span></label>
+                        <div class="js-focus-state input-group form">
+                            <input type="text" class="form-control form__input" required
+                                   th:field="*{userName}"
+                                   placeholder="홍길동"
+                                   aria-label="username"
+                                   data-msg="필수입력"
+                                   data-error-class="u-has-error"
+                                   data-success-class="u-has-success"/>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6 js-form-message">
+                        <label class="h6 small d-block text-uppercase">핸드폰<span class="text-danger">*</span></label>
+                        <div class="js-focus-state input-group form">
+                            <input type="tel" class="form-control form__input" required
+                                   th:field="*{tel}"
+                                   placeholder="010-0000-0000"
+                                   aria-label="tel"
+                                   data-msg="필수입력"
+                                   data-error-class="u-has-error"
+                                   data-success-class="u-has-success"/>
+                        </div>
+                    </div>
+                </div>
+                상점INFO
                 <hr class="my-3">
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label class="h6 small d-block text-uppercase" for="">상호</label>
-                        <input type="text" class="form-control" id="" placeholder=""
+                        <input type="text" class="form-control" id="" placeholder="코리아에그"
                                th:field="*{shopName}"/>
                     </div>
                     <div class="form-group col-md-6">
-                        <label class="h6 small d-block text-uppercase" for="">생년월일</label>
-                        <input type="text" class="form-control" id="" placeholder="" />
+                        <label class="h6 small d-block text-uppercase" for="shopTel">상점전화번호</label>
+                        <input type="tel" class="form-control" id="shopTel" placeholder="02-123-1234" th:field="*{shopTel}" />
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="h6 small d-block text-uppercase" for="inputAddress">Address</label>
-                    <input type="text" class="form-control" id="inputAddress" placeholder="" />
-                </div>
-                <div class="form-group">
-                    <label class="h6 small d-block text-uppercase" for="inputAddress2">Address 2</label>
-                    <input type="text" class="form-control" id="inputAddress2" placeholder="" />
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label class="h6 small d-block text-uppercase" for="">전화번호</label>
-                        <input type="text" class="form-control" id="" placeholder="" />
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label class="h6 small d-block text-uppercase" for="">팩스</label>
-                        <input type="text" class="form-control" id="" placeholder="" />
+                    <div class="form-group col-md-5 ">
+                        <label class="h6 small d-block text-uppercase" for="postNum">우편번호</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="postNum" th:field="*{postNum}" />
+                            <div class="input-group-append">
+                                <button class="btn" type="button">주소검색</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Sign in</button>
+                <div class="form-group">
+                    <label class="h6 small d-block text-uppercase" for="inputAddress">구주소</label>
+                    <input type="text" class="form-control" id="inputAddress" th:field="*{address}" />
+                </div>
+                <div class="form-group">
+                    <label class="h6 small d-block text-uppercase" for="roadAddress">도로명</label>
+                    <input type="text" class="form-control" id="roadAddress" th:field="*{roadAddress}" />
+                </div>
+                <div class="form-group">
+                    <label class="h6 small d-block text-uppercase" for="inputAddress2">상세주소</label>
+                    <input type="text" class="form-control" id="inputAddress2" th:field="*{detailAddress}" />
+                </div>
+                <input type="submit" class="btn btn-primary" value="Sign in"/>
             </form>
         </div>
         <!-- Successful Notification Section -->
@@ -108,5 +140,14 @@
             </div>
         </div>
         <!-- End Successful Notification Section -->
+
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            $(document).on('ready', function () {
+                // initialization of form validation
+                $.HSCore.components.HSValidation.init('.js-validate');
+            });
+            /*]]>*/
+        </script>
     </section>
 </html>

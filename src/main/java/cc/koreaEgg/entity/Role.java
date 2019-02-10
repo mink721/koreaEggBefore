@@ -2,7 +2,7 @@ package cc.koreaEgg.entity;
 
 public enum Role {
 
-    CONSUMER,
+    USER,
     STORE,
     RETAILER,
     WHOLESALER,
@@ -11,5 +11,6 @@ public enum Role {
     ADMIN;
 
     @Override
-    public String toString() { return "ROLE_" + this.toString();  }
+    public String toString() { return "ROLE_" + this.name();  }
+
 }

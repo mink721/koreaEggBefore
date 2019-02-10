@@ -1,34 +1,42 @@
 package cc.koreaEgg.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.apache.ibatis.type.Alias;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
-@Data
+@Getter
+@Setter
+@ToString
 @Alias("user")
 public class User {
 
   private Long id;
   private String userId;
-  private String password;
-  private Role role;
-  private String rolet;
-
-  private Boolean status;
+  private String pwd;
+  private String userName;
   private String tel;
-  private String address;
-  private Date updateDate;
-  private Date createDate;
 
   private String shopName;
-  private String shopTel;
+  private String postNum;
+  private String address;
   private String roadAddress;
+  private String detailAddress;
+  private String shopTel;
+
+  private int logitude;
+  private int latitude;
+
+  private Date regDate;
+  private Date updateDate;
   private String memo;
-  @NotNull
-  private String username;
+
+  private Boolean status;
+  private Role role;
+
+  public void setRole( String role ) {
+    this.role = Role.valueOf(role);
+  }
 
 }
