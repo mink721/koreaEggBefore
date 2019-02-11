@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cc.koreaEgg.mapper.ServiceMapper">
+
+    <select id="selectAllPriceInfo" resultType="priceInfo">
+    /* TODO AN 각 지역별로 최신난가정보 조회*/
+
+    </select>
+
+    <select id="selectPriceInfoByCty" resultType="priceInfo">
+    /* TODO AN 지역별로 난가정보 조회 페이징처리는 어떻게 하는거임?*/
+
+    </select>
+
+    <insert id="createPriceInfo">
+    /* TODO AN 난가정보 등록 updateDate는 DB에서 알아서 시분초까지 들어가길!  */
+
+    </insert>
+
+    <insert id="deletePriceInfo">
+    /* TODO AN 건당 ID로? 삭제 */
+
+    </insert>
+
+</mapper>

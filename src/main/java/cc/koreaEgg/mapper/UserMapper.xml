@@ -5,25 +5,74 @@
 
 <mapper namespace="cc.koreaEgg.mapper.UserMapper">
 
-    <select id="selectUserById" resultType="user">
-        SELECT ID
-          FROM USER
-         WHERE ID = #{id}
-    </select>
+    <!-- USER TABLE -->
     <select id="selectUserByName" resultType="user">
+    /* userID 가 없어서 name으로 임시 */
         SELECT ID , user_name, pwd, role
         FROM user
         WHERE user_name = #{userName}
     </select>
 
-    <select id="selectAllUser" resultType="user">
-        SELECT ID
-          FROM USER
+    <select id="selectAllUser">
+      /* TODO AN 관리자용*/
     </select>
 
     <insert id="createUser">
+    /* TODO AN 유저등록 UserServiceTest 테스트 만들어놈*/
       INSERT INTO user (user_name, pwd, role)
-      VALUES (#{userName}, #{pwd}, 'USER')
+      VALUES (#{userName}, #{pwd}, #{role})
     </insert>
+
+    <select id="selectUserById">
+    /*TODO AN  아이디 중복 확인 다이나믹으로 만들수있나? 핸폰번호로만 찾을수도 있고 아이디로도 찾을수도 있게*/
+    </select>
+
+    <update id="updateUserPwd">
+      /*TODO AN 비밀번호 찾기용*/
+    </update>
+
+    <update id="updateUser">
+        /* TODO AN 관리자 혹은 개인이 수정*/
+    </update>
+
+    <update id="deleteUser">
+        /* TODO AN 유저탈퇴 개인정보만 지우고 status값만 off로 변경?*/
+    </update>
+
+    <!-- USER ROLE HISTORY TABLE -->
+    <insert id="createUserRole">
+        /*TODO AN 유저 등급 변경 userId deposit afterRole 만 입력될수있게? expireDate도 계산해야하나? USER테이블의 ROLE도 변경해야함 */
+    </insert>
+    
+    <select id="selectUserRole">
+        /*TODO AN 최근 히스토리 하나 가져오기*/
+    </select>
+
+    <select id="selectAllUserRole">
+        /*TODO AN 전체 히스토리 가져오기*/
+    </select>
+
+    <select id="selectAllUserRoleById">
+        /*TODO AN 계정의 전체 히스토리 가져오기*/
+    </select>
+
+    <select id="selectUserRoleNotDeposit">
+    /* TODO 입금확인 안된 목록 가져오기*/
+    </select>
+
+    <update id="upgradeUserRole">
+    /* TODO 입금확인후 deposit afterRole expireDate 1년뒤로 변경 */
+    </update>
+    
+    <select id="selectUserRoleExp">
+        /* TODO AN 한달이내에 만료되는 계정확인 관리자 확인용*/
+    </select>
+
+    <select id="selectUserRoleExpMonth">
+        /* TODO AN 한달뒤에 만료되는 계정확인 매일 10시쯤 스케쥴 돌려서 문자보낼예정?*/
+    </select>
+    
+    
+    
 
 </mapper>

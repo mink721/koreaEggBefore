@@ -21,15 +21,18 @@ public class User {
   private String shopName;
   private String postNum;
   private String address;
-  private String roadAddress;
   private String detailAddress;
   private String shopTel;
+  /* TODO AN shop 이미지는 어떻게 저장함?*/
 
-  private int logitude;
-  private int latitude;
+  private double logitude;
+  private double latitude;
 
   private Date regDate;
   private Date updateDate;
+  private Date expireDate; /* TODO AN history에서 가져와야함 로그인할때마다 만료일 확인할거임*/
+
+
   private String memo;
 
   private Boolean status;

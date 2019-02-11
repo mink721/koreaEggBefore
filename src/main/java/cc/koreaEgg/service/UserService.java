@@ -4,6 +4,7 @@ import cc.koreaEgg.entity.User;
 import cc.koreaEgg.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,18 +25,12 @@ import java.util.*;
 public class UserService implements UserDetailsService {
 
     private Properties businessFunctions;
+
     @Autowired
     UserMapper userMapper;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-    public User getUserById(int id) {
-        return userMapper.selectUserById(id);
-    }
-
-    public List<User> getAllUser() {
-        return userMapper.selectAllUser();
-    }
 
     public void addUser(User user) {
 

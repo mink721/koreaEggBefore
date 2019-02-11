@@ -37,7 +37,7 @@
         <div class="container space-1 space-1--lg">
             <!--난가정보 HR-->
             <div class="row">
-                <div class="media align-items-center pr-lg-4 col-5">
+                <div class="media align-items-center pr-lg-4 col-12">
                     <img class="max-width-6 mr-1"
                          th:src="@{/svg/business-icons/iStar_Design_Business_LineIcons_Live-16.svg}"
                          alt="Image Description">
@@ -85,7 +85,7 @@
 
             <!--전체 난가정보-->
             <div>
-                <table class="table table-hover table-bordered table-responsive-sm table-sm">
+                <table class="table table-bordered table-responsive-sm table-sm">
                     <thead>
                         <tr class="table-secondary">
                             <th style="width:20%" class="text-sm-center">지역</th>
@@ -99,25 +99,28 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <th class="text-sm-center">서울</th>
-                            <td>131<span class="badge badge-warning ml-2">+5</span></td>
+                            <th class="text-sm-center" rowspan="2"><span>서울</span><br/><span class="small">02.02</span></th>
+                            <td><span class="position-relative mr-2">131<span class="badge-xs badge-secondary badge-pos rounded-circle mr--8px">+5</span></span></td>
                             <td>489</td>
                             <td>789</td>
-                            <td>115<span class="badge badge-info">-2</span></td>
+                            <td><span class="position-relative mr-2">131<span class="badge-xs badge-secondary badge-pos rounded-circle mr--8px">-2</span></span></td>
                             <td>103</td>
-                            <td>252</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td colspan="6" class="py-0"><span class="span small">전체 +7원 인상</span></td>
                         </tr>
                         <tr>
                             <th class="text-sm-center">대전</th>
                             <td>131</td>
                             <td>124</td>
-                            <td>753</td>
+                            <td><span class="position-relative mr-2">131</span></td>
                             <td>79</td>
                             <td>103</td>
-                            <td>235</td>
+                            <td>0</td>
                         </tr>
                         <tr>
-                            <th class="text-sm-center">영주<span class="badge badge-warning">+13</span></th>
+                            <th class="text-sm-center">영주</th>
                             <td>131</td>
                             <td>218</td>
                             <td>120</td>

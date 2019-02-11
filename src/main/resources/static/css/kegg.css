@@ -6,3 +6,9 @@
     padding: 10px 0;
     border-bottom: 1px solid #eeeeee;
 }
+.mr--6px{
+    right: -6px !important;
+}
+.mr--8px{
+    right: -8px !important;
+}

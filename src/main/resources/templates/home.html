@@ -9,7 +9,7 @@
             <div class="d-lg-flex align-items-lg-center height-45vh--lg">
                 <!-- 검색 Form -->
                 <div class="container space-1 space-0--lg mt-lg-8">
-                    <form class="js-validate w-lg-75 px-3 px-sm-9 mx-lg-auto justify-content-lg-between align-items-lg-center row">
+                    <form class="js-validate w-lg-75 px-0 px-sm-9 mx-lg-auto justify-content-lg-between align-items-lg-center row">
                         <!--TODO 폼 너비 어떻게 조절? -->
                         <div class="col-lg-12">
                             <div class="bg-white shadow-sm rounded p-3">
@@ -37,14 +37,19 @@
                                         <div class="d-none d-md-block col-sm-2">
                                             <label class="h6 small d-block mb-3 mb-lg-0">지역</label>
                                         </div>
-                                        <div class="col-1">
-                                            <a class="u-icon u-icon--facebook" href="javascript:currentPosition()">
+                                        <!--<div class="d-none d-md-block col-sm-1">
+                                            <a class="u-icon u-icon&#45;&#45;facebook" href="javascript:currentPosition()">
                                                 <span class="fa fa-location-arrow u-icon__inner"></span>
                                             </a>
-                                        </div>
-                                        <div class="col-10 col-sm-9 input-group form">
-                                            <div id="addrWrap" class="position-absolute" style="display:none; border:1px solid #d4d7dd; height:400px;">
+                                        </div>-->
+                                        <div class="col-12 col-sm-10 input-group form">
+                                            <div id="addrWrap" class="position-absolute" style="display:none; border:1px solid #d4d7dd; height:400px;margin-left:43px;">
                                                 <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">
+                                            </div>
+                                            <div class="input-group-prepend">
+                                                <a class="u-icon u-icon--facebook" href="javascript:currentPosition()">
+                                                    <span class="fa fa-location-arrow u-icon__inner"></span>
+                                                </a>
                                             </div>
                                             <input id="addr" type="text" class="form-control form__input form-control-sm"
                                                    placeholder="건물명,도로명,지번으로 검색하세요"
@@ -100,7 +105,7 @@
             <hr class="my-2">
             <!-- 상품 alert -->
             <div class="alert alert-warning" role="alert">
-                지금 <a href="#" class="alert-link">회원 로그인</a>을 하시면 더욱 저렴한 가격으로 구매 가능합니다.
+                지금 <a href="/login" class="alert-link">회원 로그인</a>을 하시면 더욱 저렴한 가격으로 구매 가능합니다.
             </div>
 
             <!--상품 리스트 -->

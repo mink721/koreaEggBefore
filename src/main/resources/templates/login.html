@@ -8,17 +8,16 @@
               th:formaction="@{/login}" method="post">
             <input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
             <!-- Logo -->
-            <div class="text-center">
+            <!--<div class="text-center">
                 <a href="../home/index.html" aria-label="Space">
                     <img class="mb-3" th:src="@{/svg/logos/logo-short.svg}" alt="Logo" width="60" height="60">
                 </a>
-            </div>
+            </div>-->
             <!-- End Logo -->
 
             <!-- Title -->
             <div class="text-center mb-4">
-                <h1 class="h3 mb-0">Please sign in</h1>
-                <p>Signin to manage your account.</p>
+                <h1 class="h3 mb-0">Korea Egg</h1>
             </div>
             <!-- End Title -->
 
@@ -31,7 +30,7 @@
           </span>
                     </div>
                     <input type="text" class="form-control form__input"  name="username" required
-                           placeholder="ID"
+                           placeholder="아이디"
                            aria-label="ID"
                            data-msg="Please enter a valid ID."
                            data-error-class="u-has-error"
@@ -49,7 +48,7 @@
           </span>
                     </div>
                     <input type="password" class="form-control form__input" name="password" required
-                           placeholder="Password"
+                           placeholder="비밀번호"
                            aria-label="Password"
                            data-msg="Your password is invalid. Please try again."
                            data-error-class="u-has-error"
@@ -57,9 +56,15 @@
                 </div>
             </div>
             <!-- End Input -->
+            <div class="form-group" th:if="${param.error}">
+                <div class="alert alert-danger" role="alert">
+                    사용자 ID 혹은 비밀번호가 일치하지 않습니다.
+                </div>
+            </div>
 
+            <!-- TODO 아이디저장 비밀번호찾기-->
             <div class="row mb-3">
-                <div class="col-6">
+                <div class="col-12">
                     <!-- Checkbox -->
                     <div class="custom-control custom-checkbox d-flex align-items-center text-muted">
                         <input type="checkbox" class="custom-control-input" id="rememberMeCheckbox">
@@ -69,18 +74,15 @@
                     </div>
                     <!-- End Checkbox -->
                 </div>
-
-                <div class="col-6 text-right">
-                    <a class="float-right" href="recover-account.html">비밀번호 찾기?</a>
-                </div>
             </div>
-
-            <div class="mb-3">
+            <div class="mb-5">
                 <button type="submit" class="btn btn-block btn-primary">로그인</button>
             </div>
-
+            <div class="mb-5 text-center">
+                <a class="" href="recover-account.html">비밀번호가 생각나지 않으세요?</a>
+            </div>
             <div class="text-center mb-3">
-                <p class="text-muted">계정이 없으신가요? <a href="/registUser">회원가입</a></p>
+                <a class="btn btn-block btn-outline-primary" href="/registUser" role="button">회원가입</a>
             </div>
 
             <!-- Divider -->
