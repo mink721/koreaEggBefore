@@ -13,19 +13,22 @@ import java.util.Date;
 public class User {
 
   private Long id;
+  private Role role;
   private String userId;
-  private String pwd;
+  private Integer status;
   private String userName;
-  private String tel;
+  private String pwd;
+  private String mobile;
 
   private String shopName;
   private String postNum;
   private String address;
-  private String detailAddress;
+  private String addressDetail;
   private String shopTel;
   /* TODO AN shop 이미지는 어떻게 저장함?*/
+  private String profileImage;
 
-  private double logitude;
+  private double longitude;
   private double latitude;
 
   private Date regDate;
@@ -35,8 +38,6 @@ public class User {
 
   private String memo;
 
-  private Boolean status;
-  private Role role;
 
   public void setRole( String role ) {
     this.role = Role.valueOf(role);

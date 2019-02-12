@@ -6,37 +6,75 @@
 <mapper namespace="cc.koreaEgg.mapper.UserMapper">
 
     <!-- USER TABLE -->
-    <select id="selectUserByName" resultType="user">
-    /* userID 가 없어서 name으로 임시 */
-        SELECT ID , user_name, pwd, role
-        FROM user
-        WHERE user_name = #{userName}
+    <select id="selectUserByName" resultType="User">
+        SELECT *
+        FROM USER
+        WHERE user_name LIKE CONCAT('%',#{userName},'%')
     </select>
 
-    <select id="selectAllUser">
-      /* TODO AN 관리자용*/
+    <!--TODO AN 관리자용-->
+    <select id="selectAllUser" parameterType="map" resultType="User">
+        SELECT *
+        FROM USER
+        WHERE 1=1
+        <if test="status neq null">
+            AND status = #{status}
+        </if>
+        <if test="userName neq null">
+            AND user_name LIKE CONCAT('%',#{userName},'%')
+        </if>
+        <if test="shopName neq null">
+            AND shop_name LIKE CONCAT('%',#{shopName},'%')
+        </if>
+        ORDER BY id desc
+        <if test="limit neq null">LIMIT <if test="offset neq null">#{offset},</if> #{limit}</if>
     </select>
 
-    <insert id="createUser">
-    /* TODO AN 유저등록 UserServiceTest 테스트 만들어놈*/
-      INSERT INTO user (user_name, pwd, role)
-      VALUES (#{userName}, #{pwd}, #{role})
+    <!--TODO AN 유저등록 UserServiceTest 테스트 만들어놈-->
+    <insert id="createUser" parameterType="User">
+      INSERT INTO USER (role, user_id, status, user_name, pwd, mobile, shop_name, post_num, address, address_detail, shop_tel, profile_image, longitude, latitude, reg_date)
+      VALUES (#{role},#{userId},#{status},#{userName},#{pwd},#{mobile},#{shopName},#{postNum},#{address},#{addressDetail},#{shopTel},#{profileImage},#{longitude},#{latitude},NOW())
     </insert>
 
-    <select id="selectUserById">
-    /*TODO AN  아이디 중복 확인 다이나믹으로 만들수있나? 핸폰번호로만 찾을수도 있고 아이디로도 찾을수도 있게*/
+    <select id="selectUserById" parameterType="long">
+      SELECT * FROM USER WHERE id = #{id}
     </select>
 
+    <select id="selectUserByUserId" parameterType="map">
+        SELECT * FROM USER WHERE user_id = #{userId} LIMIT 1
+    </select>
+
+      <!--TODO AN 비밀번호 찾기용-->
     <update id="updateUserPwd">
-      /*TODO AN 비밀번호 찾기용*/
+        UPDATE USER
+        SET pwd = #{pwd}
+        WHERE id = #{id}
     </update>
 
-    <update id="updateUser">
-        /* TODO AN 관리자 혹은 개인이 수정*/
+    <update id="updateUser" parameterType="User">
+        UPDATE USER
+        SET role = #{role}
+        , status = #{status}
+        , user_name = #{userName}
+        , pwd = #{pwd}
+        , mobile = #{mobile}
+        , shop_name = #{shopName}
+        , post_num = #{postNum}
+        , address = #{address}
+        , address_detail = #{addressDetail}
+        , shop_tel = #{shopTel}
+        , profile_image = #{profileImage}
+        , longitude = #{longitude}
+        , latitude = #{latitude}
+        , update_date = NOW()
+        WHERE id = #{id}
     </update>
 
-    <update id="deleteUser">
-        /* TODO AN 유저탈퇴 개인정보만 지우고 status값만 off로 변경?*/
+    <!--TODO AN 유저탈퇴 개인정보만 지우고 status값만 off로 변경?-->
+    <update id="deleteUser" parameterType="long">
+        UPDATE USER
+        SET status = 9
+        WHERE id = #{id}
     </update>
 
     <!-- USER ROLE HISTORY TABLE -->
