@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/default"  >
+
+<section layout:fragment="content">
+    <!-- ========== MAIN CONTENT ========== -->
+    <main id="content" role="main">
+        <!-- Hero Section -->
+        <div class="gradient-overlay-half-dark-v3 bg-img-hero" th:style="'background-image: url('+@{/img/test/000.jpg}+');'">
+            <div class="d-lg-flex align-items-lg-center height-45vh--lg">
+                <!--검색 Form -->
+                <div class="container space-1 space-0--lg mt-lg-8">
+                    <form class="w-lg-75 px-3 px-sm-9 mx-lg-auto justify-content-lg-between align-items-lg-center">
+                        <div class="bg-white shadow-sm rounded p-3 row">
+                            <div class="col-12 col-md-2 offset-md-1 pr-0 pl-1"><button type="button" class="btn btn-primary mb-2  btn-block">전체</button></div>
+                            <div class="col-6 col-md-2 pr-0 pl-1"><button type="button" class="btn btn-secondary mb-2  btn-block" data-toggle="collapse" data-target="#test1" aria-expanded="false" aria-controls="collapseExample">공지사항</button></div>
+                            <div class="col-6 col-md-2 pr-0 pl-1"><button type="button" class="btn btn-secondary mb-2  btn-block">QNA</button></div>
+                            <div class="col-6 col-md-2 pr-0 pl-1"><button type="button" class="btn btn-secondary mb-2  btn-block">계란소식</button></div>
+                            <div class="col-6 col-md-2 pr-0 pl-1"><button type="button" class="btn btn-secondary mb-2  btn-block">자유게시판</button></div>
+                        </div>
+                    </form>
+                </div>
+                <!--END 검색 폼-->
+            </div>
+        </div>
+        <!-- End Hero Section -->
+
+        <!-- 난가정보 section -->
+        <div class="container space-1 space-1--lg">
+            <!--전체 난가정보-->
+            <div class="board">
+                <div class="board-heading row text-center">
+                    <div class="col-sm-1 hidden-sm d-none d-sm-block">유형</div>
+                    <div class="col-sm-1 hidden-sm d-none d-sm-block">NO</div>
+                    <div class="col-12  col-sm-5">제목</div>
+                    <div class="col-sm-2 hidden-sm d-none d-sm-block">이름</div>
+                    <div class="col-sm-2 hidden-sm d-none d-sm-block">날짜</div>
+                    <div class="col-sm-1 hidden-sm d-none d-sm-block">조회</div>
+                </div>
+                <ul class="list-unstyled">
+                    <li class="row board-row text-center">
+                        <div class="col-1 col-sm-1"><span class="badge badge-primary">공지</span></div>
+                        <div class="col-sm-1 d-none d-sm-block">0001</div>
+                        <div class="col-11  col-sm-5 text-left">테스트입니다ㅗ이함지암ㅈ
+                            <span class="d-block d-sm-none">이름 날짜 조회</span>
+                        </div>
+                        <div class="col-sm-2 d-none d-sm-block">아무개</div>
+                        <div class="col-sm-2 d-none d-sm-block">2016.05.01</div>
+                        <div class="col-sm-1 d-none d-sm-block">255</div>
+                    </li>
+                    <li class="row board-row text-center">
+                        <div class="col-1 col-sm-1 "><span class="badge badge-secondary">QNA</span></div>
+                        <div class="col-sm-1 d-none d-sm-block">0001</div>
+                        <div class="col-11  col-sm-5 text-left">테스트입니다ㅗ이함지암ㅈ
+                            <span class="d-block d-sm-none">이름 날짜 조회</span>
+                        </div>
+                        <div class="col-sm-2 d-none d-sm-block">아무개</div>
+                        <div class="col-sm-2 d-none d-sm-block">2016.05.01</div>
+                        <div class="col-sm-1 d-none d-sm-block">255</div>
+                    </li>
+                    <li class="row board-row text-center">
+                        <div class="col-1 col-sm-1 "><span class="badge badge-purple">뉴스</span></div>
+                        <div class="col-sm-1 d-none d-sm-block">0001</div>
+                        <div class="col-11  col-sm-5 text-left">테스트입니다ㅗ이함지암ㅈ
+                            <span class="d-block d-sm-none">이름 날짜 조회</span>
+                        </div>
+                        <div class="col-sm-2 d-none d-sm-block">아무개</div>
+                        <div class="col-sm-2 d-none d-sm-block">2016.05.01</div>
+                        <div class="col-sm-1 d-none d-sm-block">255</div>
+                    </li>
+                    <li class="row board-row text-center">
+                        <div class="col-1 col-sm-1 "><span class="badge badge-warning">자유</span></div>
+                        <div class="col-sm-1 d-none d-sm-block">0001</div>
+                        <div class="col-11  col-sm-5 text-left">테스트입니다ㅗ이함지암ㅈ
+                            <span class="d-block d-sm-none">이름 날짜 조회</span>
+                        </div>
+                        <div class="col-sm-2 d-none d-sm-block">아무개</div>
+                        <div class="col-sm-2 d-none d-sm-block">2016.05.01</div>
+                        <div class="col-sm-1 d-none d-sm-block">255</div>
+                    </li>
+
+                </ul>
+            </div>
+            <!--END 전체난가정보-->
+        </div>
+        <!--END 난가정보 section-->
+    </main>
+</section>

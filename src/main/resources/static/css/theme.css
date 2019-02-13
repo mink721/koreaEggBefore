@@ -16618,6 +16618,10 @@ button:focus {
   min-height: 17.5rem;
 }
 
+.min-height-pl {
+  min-height: 8.5rem;
+}
+
 @media (min-width: 576px) {
   .height-100vh--sm {
     height: 100vh;

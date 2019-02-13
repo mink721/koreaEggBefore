@@ -18,6 +18,9 @@ public class Product {
     private String origin;
     private String shopName;
     private String shopId;
+    private String imgS;
+    private String content;
+
 
 
 }

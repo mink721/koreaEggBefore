@@ -8,9 +8,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.web.servlet.WebMvcRegistrations;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
@@ -20,10 +23,7 @@ import javax.sql.DataSource;
 @SpringBootApplication
 @Slf4j
 @MapperScan(basePackages = "cc.koreaEgg")
-public class Application implements WebMvcConfigurer {
-
-  @Autowired
-  private DataSource dataSource;
+public class Application implements WebMvcConfigurer{
 
   @Value("${property.hello}")
   private String propertyHello;
@@ -34,7 +34,7 @@ public class Application implements WebMvcConfigurer {
     registry.addViewController("/index").setViewName("home");
     registry.addViewController("/error").setViewName("error");
     registry.addViewController("/cast").setViewName("cast");
-    registry.addViewController("/board").setViewName("board");
+    registry.addViewController("/boardList").setViewName("boardList");
     registry.addViewController("/product").setViewName("product");
     registry.addViewController("/agent").setViewName("agent");
     registry.addViewController("/agentList").setViewName("agentList");

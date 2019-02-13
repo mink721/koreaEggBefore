@@ -85,14 +85,14 @@
                                 </li>
                                 <!-- End Home -->
                                 <!-- Works -->
-                                <li class="nav-item u-header__nav-item">
+                                <!--<li class="nav-item u-header__nav-item">
                                     <a sec:authorize="!hasAuthority('CAST_READ')" class="nav-link u-header__nav-link text-warning" href="javascript:alert('권한이없습니다')">
                                         협력사
                                     </a>
                                     <a sec:authorize="hasAuthority('CAST_READ')" class="nav-link u-header__nav-link" href="/agentList">
                                         협력사
                                     </a>
-                                </li>
+                                </li>-->
                                 <!-- End Works -->
                                 <!-- Works -->
                                 <li class="nav-item u-header__nav-item">
@@ -106,7 +106,7 @@
                                 <!-- End Works -->
                                 <!-- Blog -->
                                 <li class="nav-item u-header__nav-item">
-                                    <a class="nav-link u-header__nav-link" href="/board">
+                                    <a class="nav-link u-header__nav-link" href="/boardList">
                                         게시판
                                     </a>
                                 </li>
@@ -127,7 +127,7 @@
                                 <!-- End 로그인 버튼 -->
                                 <!-- user profile -->
                                 <li sec:authorize="isAuthenticated()" class="nav-item hs-has-sub-menu u-header__nav-item-btn u-header__nav-item-user"
-                                    data-event="hover"
+                                    data-event="click"
                                     data-animation-in="fadeInUp"
                                     data-animation-out="fadeOut">
                                     <a id="userDropdownInvoker" class="d-flex align-items-center u-header__nav-item-user-name" href="javascript:;"
