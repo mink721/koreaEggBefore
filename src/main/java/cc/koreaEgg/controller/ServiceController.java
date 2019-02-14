@@ -17,10 +17,15 @@ import javax.validation.Valid;
 @Slf4j
 public class ServiceController {
 
+  @RequestMapping(value = "/board", method = RequestMethod.GET)
+  public String boardView(Model model){
+    model.addAttribute("board", new Board());
+    return  "board";
+  }
+
   @RequestMapping(value = "/registBoard", method = RequestMethod.GET)
   public String createBoardView(Model model){
-    model.addAttribute("board", new Board());
-    return "board";
+    return  "redirect:" + "/board?regist";
   }
 
 }

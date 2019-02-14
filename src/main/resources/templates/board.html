@@ -11,18 +11,29 @@
             </div>
             <!-- End Title -->
 
+            <div class="row align-items-center" th:unless="${param.regist}">
+                <div class="col-md-4">
+                    <label class="h6 small d-block text-uppercase mb-3 mb-lg-0">게시글번호 : </label>
+                </div>
+                <div class="col-md-8">
+                    <div  th:text="*{id}" ></div>
+                </div>
+            </div>
             <!-- Input Form -->
             <div class="row align-items-center">
                 <div class="col-md-4">
                     <label class="h6 small d-block text-uppercase mb-3 mb-lg-0">유형 : </label>
                 </div>
                 <div class="col-md-8">
-                    <select class="custom-select">
+                    <select class="custom-select" th:if="${param.regist}">
                         <option selected>자유게시판</option>
                         <option value="budget1">공지</option>
                         <option value="budget2">QNA</option>
                         <option value="budget3">자유</option>
                     </select>
+                    <div th:unless="${param.regist}" th:text="*{type}" ></div>
+                    <div th:unless="${param.regist}" th:text="*{witer}" ></div>
+                    <div th:unless="${param.regist}" th:text="*{count}" ></div>
                 </div>
             </div>
             <!-- End Input Form -->
@@ -38,7 +49,10 @@
                                    th:field="*{title}"
                                    data-msg="Please enter your frist name."
                                    data-error-class="u-has-error"
-                                   data-success-class="u-has-success">
+                                   data-success-class="u-has-success"
+                                   th:if="${param.regist}"
+                            >
+                            <div th:unless="${param.regist}" th:text="*{title}" ></div>
                         </div>
                     </div>
                 </div>

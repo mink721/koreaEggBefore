@@ -280,27 +280,27 @@
                         };
                         tranceCoordsToAddr(pos);
                     },
-                    function(err) {
-                        switch (err.code){
-                            case err.PERMISSION_DENIED:
+                    function(error) {
+                        var msg;
+                        switch(error.code) {
+                            case error.PERMISSION_DENIED:
+                                // 사용자가 위치정보 사용을 허용하지 않았을 때
                                 msg = "위치동의를 거부하였습니다";
                                 break;
-
-                            case err.PERMISSION_UNAVAILABLE:
+                            case error.POSITION_UNAVAILABLE:
+                                // 위치 정보 사용이 불가능할 때
                                 msg = "지리정보를 얻을 수 없음";
                                 break;
-
-                            case err.TIMEOUT:
+                            case error.TIMEOUT:
+                                // 위치 정보를 가져오려 시도했지만, 시간이 초과되었을 때
                                 msg = "시간초과";
                                 break;
-
-                            case err.UNKNOWN_ERROR:
+                            case error.UNKNOWN_ERROR:
+                                // 기타 알 수 없는 오류가 발생하였을 때
                                 msg = "알 수 없는 오류 발생";
                                 break;
                         }
                         alert(msg);
-
-
                     }
                 );
             }
@@ -417,47 +417,6 @@
         });
 
 
-
-
-        var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
-        var options = { //지도를 생성할 때 필요한 기본 옵션
-            center: new daum.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표.
-            level: 3 //지도의 레벨(확대, 축소 정도)
-        };
-
-        var map = new daum.maps.Map(container, options); //지도 생성 및 객체 리턴\
-
-        // 마커가 표시될 위치입니다
-        var markerPosition  = new daum.maps.LatLng(33.450701, 126.570667);
-
-        // 마커를 생성합니다
-        var marker = new daum.maps.Marker({
-            position: markerPosition
-        });
-
-        // 마커가 지도 위에 표시되도록 설정합니다
-        marker.setMap(map);
-
-        // 이미지 지도에서 마커가 표시될 위치입니다
-        var markerPosition  = new daum.maps.LatLng(33.450701, 126.570667);
-
-        // 이미지 지도에 표시할 마커입니다
-        // 이미지 지도에 표시할 마커는 Object 형태입니다
-        var marker = {
-            position: markerPosition
-        };
-
-        var staticMapContainer  = document.getElementById('staticMap'), // 이미지 지도를 표시할 div
-            staticMapOption = {
-                center: new daum.maps.LatLng(33.450701, 126.570667), // 이미지 지도의 중심좌표
-                level: 3, // 이미지 지도의 확대 레벨
-                marker: marker // 이미지 지도에 표시할 마커
-            };
-
-        // 이미지 지도를 생성합니다
-        var staticMap = new daum.maps.StaticMap(staticMapContainer, staticMapOption);
-
-        console.log('scdasd');
         /*]]>*/
     </script>
 </section>

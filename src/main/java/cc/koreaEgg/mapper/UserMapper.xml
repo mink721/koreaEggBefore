@@ -32,8 +32,8 @@
 
     <!--TODO AN 유저등록 UserServiceTest 테스트 만들어놈-->
     <insert id="createUser" parameterType="User">
-      INSERT INTO USER (role, user_id, status, user_name, pwd, mobile, shop_name, post_num, address, address_detail, shop_tel, profile_image, longitude, latitude, reg_date)
-      VALUES (#{role},#{userId},#{status},#{userName},#{pwd},#{mobile},#{shopName},#{postNum},#{address},#{addressDetail},#{shopTel},#{profileImage},#{longitude},#{latitude},NOW())
+      INSERT INTO USER (user_id, user_name, pwd, mobile, shop_name, post_num, address, address_detail, shop_tel, profile_image, longitude, latitude, reg_date)
+      VALUES (#{userId},#{userName},#{pwd},#{mobile},#{shopName},#{postNum},#{address},#{addressDetail},#{shopTel},#{profileImage},#{longitude},#{latitude},NOW())
     </insert>
 
     <select id="selectUserById" parameterType="long">
