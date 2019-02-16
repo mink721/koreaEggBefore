@@ -39,6 +39,7 @@ public class Application implements WebMvcConfigurer{
     registry.addViewController("/test").setViewName("test");
     registry.addViewController("/myPage").setViewName("myPage");
     registry.addViewController("/registCast").setViewName("registCast");
+    registry.addViewController("/egg").setViewName("egg");
   }
 
   @Bean
@@ -69,7 +70,7 @@ public class Application implements WebMvcConfigurer{
         SecurityConstraint securityConstraint = new SecurityConstraint();
         securityConstraint.setUserConstraint("CONFIDENTIAL");
         SecurityCollection collection = new SecurityCollection();
-        collection.addPattern("/*");
+        collection.addPattern("/egg");
         securityConstraint.addCollection(collection);
         context.addConstraint(securityConstraint);
       }
