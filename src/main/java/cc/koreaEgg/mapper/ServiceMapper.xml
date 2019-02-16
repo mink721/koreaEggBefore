@@ -5,24 +5,40 @@
 
 <mapper namespace="cc.koreaEgg.mapper.ServiceMapper">
 
-    <select id="selectAllPriceInfo" resultType="priceInfo">
-    /* TODO AN 각 지역별로 최신난가정보 조회*/
-
+    <select id="selectAreaList" resultType="area">
+        SELECT * FROM AREA ORDER BY id ASC
     </select>
 
-    <select id="selectPriceInfoByCty" resultType="priceInfo">
-    /* TODO AN 지역별로 난가정보 조회 페이징처리는 어떻게 하는거임?*/
+    <select id="selectAllPriceInfo" resultType="priceInfo">
+    /* TODO AN 각 지역별로 최신난가정보 조회*/
+        SELECT *, (SELECT area_name FROM AREA WHERE id = area_id) area_name
+        FROM PRICE_INFO
+        WHERE id IN
+            (
+                SELECT MAX(id) id FROM PRICE_INFO
+                GROUP BY area_id
+            )
+        ORDER BY AREA_ID ASC
+    </select>
 
+    <select id="selectPriceInfoByAreaId" parameterType="map" resultType="priceInfo">
+    /* TODO AN 지역별로 난가정보 조회 페이징처리는 어떻게 하는거임?*/
+        SELECT *, (SELECT area_name FROM AREA WHERE id = area_id) area_name
+        FROM PRICE_INFO
+        WHERE area_id = #{areaId}
+        ORDER BY id DESC
+        <if test="limit neq null">LIMIT <if test="offset neq null">#{offset}, </if>#{limit}</if>
     </select>
 
     <insert id="createPriceInfo">
     /* TODO AN 난가정보 등록 updateDate는 DB에서 알아서 시분초까지 들어가길!  */
-
+        INSERT INTO PRICE_INFO (area_id, size1, size2, size3, size4, size5, size6, reg_date, memo)
+        VALUES (#{areaId},#{size1},#{size2},#{size3},#{size4},#{size5},#{size6},NOW(),#{memo})
     </insert>
 
-    <insert id="deletePriceInfo">
+    <insert id="deletePriceInfo" parameterType="long">
     /* TODO AN 건당 ID로? 삭제 */
-
+        DELETE FROM PRICE_INFO WHERE id = #{id}
     </insert>
 
     <!-- TODO 게시판 등록-->

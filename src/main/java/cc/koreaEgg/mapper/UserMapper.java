@@ -1,9 +1,11 @@
 package cc.koreaEgg.mapper;
 
 import cc.koreaEgg.entity.User;
+import cc.koreaEgg.entity.UserRoleReq;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 @Mapper
@@ -16,4 +18,9 @@ public interface UserMapper {
     void updateUserPwd(@Param("id") Long id, @Param("pwd") String pwd);
     void updateUser(User user);
     void deleteUser(long id);
+
+
+    void createUserRoleReq(UserRoleReq userRoleReq);
+    List<UserRoleReq> selectAllUserRoleReq(@Param("userId") String userId, @Param("status") Integer status, @Param("reqName") String reqName, @Param("startDate") Date startDate, @Param("endDate") Date endDate);
+    void updateUserRoleReq(UserRoleReq userRoleReq);    //입금 확인 후 업데이트(status, role, deposit 필수)
 }

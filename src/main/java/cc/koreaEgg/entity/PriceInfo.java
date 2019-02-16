@@ -13,14 +13,15 @@ import java.util.Date;
 public class PriceInfo {
 
     private Long id;
-    private String country;
+    private Integer areaId; //서울,대전,영주,부산,대구,광주,전주,충북
+    private String   areaName;
     private int size1;
     private int size2;
     private int size3;
     private int size4;
     private int size5;
     private int size6;
-    private Date updateDate;
+    private Date regDate;
     private String memo;
 
 }
