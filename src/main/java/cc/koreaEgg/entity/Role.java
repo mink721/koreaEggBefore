@@ -10,6 +10,12 @@ public enum Role {
     AGENT,
     ADMIN;
 
+    private String roleName;
+
+    public void Role(String str){
+        this.roleName = str;
+    }
+
     @Override
     public String toString() { return "ROLE_" + this.name();  }
 

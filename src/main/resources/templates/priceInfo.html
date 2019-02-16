@@ -98,12 +98,26 @@
                         </tr>
                     </thead>
                     <tbody>
+                    <div th:each="price : ${list}">
                         <tr>
+                            <th class="text-sm-center" rowspan="2"><span th:text="${price.areaName}"></span><br/><span class="small" th:text="${#dates.format(price.regDate, 'yy.MM.dd')}">02.02</span></th>
+                            <td><span class="position-relative mr-2"><span th:text="${price.size1}"></span><span class="badge-xs badge-secondary badge-pos rounded-circle mr--8px"></span></span></td>
+                            <td><span class="position-relative mr-2"><span th:text="${price.size2}"></span><span class="badge-xs badge-secondary badge-pos rounded-circle mr--8px"></span></span></td>
+                            <td><span class="position-relative mr-2"><span th:text="${price.size3}"></span><span class="badge-xs badge-secondary badge-pos rounded-circle mr--8px"></span></span></td>
+                            <td><span class="position-relative mr-2"><span th:text="${price.size4}"></span><span class="badge-xs badge-secondary badge-pos rounded-circle mr--8px"></span></span></td>
+                            <td><span class="position-relative mr-2"><span th:text="${price.size5}"></span><span class="badge-xs badge-secondary badge-pos rounded-circle mr--8px"></span></span></td>
+                            <td><span class="position-relative mr-2"><span th:text="${price.size6}"></span><span class="badge-xs badge-secondary badge-pos rounded-circle mr--8px"></span></span></td>
+                        </tr>
+                        <tr>
+                            <td colspan="6" class="py-0"><span class="span small" th:text="${price.memo}">전체 +7원 인상</span></td>
+                        </tr>
+                    </div>
+                    <!--<tr>
                             <th class="text-sm-center" rowspan="2"><span>서울</span><br/><span class="small">02.02</span></th>
-                            <td><span class="position-relative mr-2">131<span class="badge-xs badge-secondary badge-pos rounded-circle mr--8px">+5</span></span></td>
+                            <td><span class="position-relative mr-2">131<span class="badge-xs badge-secondary badge-pos rounded-circle mr&#45;&#45;8px">+5</span></span></td>
                             <td>489</td>
                             <td>789</td>
-                            <td><span class="position-relative mr-2">131<span class="badge-xs badge-secondary badge-pos rounded-circle mr--8px">-2</span></span></td>
+                            <td><span class="position-relative mr-2">131<span class="badge-xs badge-secondary badge-pos rounded-circle mr&#45;&#45;8px">-2</span></span></td>
                             <td>103</td>
                             <td>0</td>
                         </tr>
@@ -172,7 +186,7 @@
                             <td>115</td>
                             <td>103</td>
                             <td>0</td>
-                        </tr>
+                        </tr>-->
                     </tbody>
                 </table>
             </div>

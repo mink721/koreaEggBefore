@@ -1,82 +1,155 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  layout:decorate="~{layout/default}" >
 <section layout:fragment="content">
-    <!-- Hire Us Form -->
-    <div class="container space-2 space-3--lg">
-        <form th:formaction="@{/registBoard}" method="post" th:object="${board}"
-              class="js-validate w-lg-75 px-3 px-sm-9 mx-lg-auto">
-            <!-- Title -->
-            <div class="w-md-80 w-lg-60 text-center mx-md-auto mb-9">
-                <h1 class="h3">게시글 작성</h1>
-            </div>
-            <!-- End Title -->
 
-            <div class="row align-items-center" th:unless="${param.regist}">
-                <div class="col-md-4">
-                    <label class="h6 small d-block text-uppercase mb-3 mb-lg-0">게시글번호 : </label>
-                </div>
-                <div class="col-md-8">
-                    <div  th:text="*{id}" ></div>
-                </div>
+    <!-- Hero Section -->
+    <div class="gradient-overlay-half-dark-v3 bg-img-hero" th:style="'background-image: url('+@{/img/test/000.jpg}+');'">
+        <div class="d-lg-flex align-items-lg-center height-45vh--lg">
+            <!--검색 Form -->
+            <div class="container space-1 space-0--lg mt-lg-8">
+                <form class="w-lg-75 px-3 px-sm-9 mx-lg-auto justify-content-lg-between align-items-lg-center">
+                    <div class="bg-white shadow-sm rounded p-3 row">
+                        <div class="col-12 col-md-2 offset-md-1 pr-0 pl-1"><button type="button" class="btn btn-primary mb-2  btn-block">전체</button></div>
+                        <div class="col-6 col-md-2 pr-0 pl-1"><button type="button" class="btn btn-secondary mb-2  btn-block" data-toggle="collapse" data-target="#test1" aria-expanded="false" aria-controls="collapseExample">공지사항</button></div>
+                        <div class="col-6 col-md-2 pr-0 pl-1"><button type="button" class="btn btn-secondary mb-2  btn-block">1:1문의</button></div>
+                        <div class="col-6 col-md-2 pr-0 pl-1"><button type="button" class="btn btn-secondary mb-2  btn-block">계란소식</button></div>
+                    </div>
+                </form>
             </div>
-            <!-- Input Form -->
-            <div class="row align-items-center">
-                <div class="col-md-4">
-                    <label class="h6 small d-block text-uppercase mb-3 mb-lg-0">유형 : </label>
-                </div>
-                <div class="col-md-8">
-                    <select class="custom-select" th:if="${param.regist}">
-                        <option selected>자유게시판</option>
-                        <option value="budget1">공지</option>
-                        <option value="budget2">QNA</option>
-                        <option value="budget3">자유</option>
-                    </select>
-                    <div th:unless="${param.regist}" th:text="*{type}" ></div>
-                    <div th:unless="${param.regist}" th:text="*{witer}" ></div>
-                    <div th:unless="${param.regist}" th:text="*{count}" ></div>
-                </div>
+            <!--END 검색 폼-->
+        </div>
+    </div>
+    <!-- End Hero Section -->
+
+    <!-- Hire Us Form -->
+    <div class="container space-1">
+        <!--view-->
+        <div th:unless="${param.regist}">
+            <div class="row" >
+                <span th:text="*{id}"></span>
+                <span th:text="*{type}"></span>
+                <span th:text="*{title}"></span>
+                <span th:text="*{regDate}"></span>
             </div>
-            <!-- End Input Form -->
-            <!-- Input Form -->
-            <div class="row align-items-center">
-                <div class="col-md-4">
-                    <label class="h6 small d-block text-uppercase mb-3 mb-lg-0">제목</label>
-                </div>
-                <div class="col-md-8">
-                    <div class="js-form-message">
-                        <div class="js-focus-state input-group form">
-                            <input class="form-control form__input" type="text" name="fullName" required
-                                   th:field="*{title}"
-                                   data-msg="Please enter your frist name."
-                                   data-error-class="u-has-error"
-                                   data-success-class="u-has-success"
-                                   th:if="${param.regist}"
-                            >
-                            <div th:unless="${param.regist}" th:text="*{title}" ></div>
+            <div th:text="*{contents}"></div>
+            <a  role="button" class="btn btn-primary" href="/boardList">목록</a>
+        </div>
+
+        <!--등록-->
+        <!-- Contacts Section -->
+        <div  th:if="${param.regist}" class="js-validate rounded p-sm-7 mx-lg-auto" >
+                <!-- Contact Us Form -->
+                <form th:formaction="@{/registBoard}" method="post" th:object="${board}">
+                    <input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                    <!--1:1문의-->
+                    <div th:if="${param.vs}">
+                        <!-- Input Form -->
+                        <div class="row mb-5">
+                            <div class="col-md-2">
+                                <label class="h6 small d-block text-uppercase mb-3 mb-lg-0">Name:</label>
+                            </div>
+                            <div class="col-md-10">
+                                <div class="js-form-message">
+                                    <div class="js-focus-state input-group form">
+                                        <input class="form-control form__input" type="text" name="fullName" required
+                                               placeholder="Your full name"
+                                               aria-label="Your full name"
+                                               data-msg="Please enter your frist name."
+                                               data-error-class="u-has-error"
+                                               data-success-class="u-has-success">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Input Form -->
+
+                        <!-- Input Form -->
+                        <div class="row mb-5">
+                            <div class="col-md-2">
+                                <label class="h6 small d-block text-uppercase mb-3 mb-lg-0">Phone number:</label>
+                            </div>
+                            <div class="col-md-10">
+                                <div class="js-form-message">
+                                    <div class="js-focus-state input-group form">
+                                        <input class="form-control form__input" type="text" name="phoneNumber" required
+                                               placeholder="Your phone number"
+                                               aria-label="Your phone number"
+                                               data-msg="Please enter your frist name."
+                                               data-error-class="u-has-error"
+                                               data-success-class="u-has-success">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Input Form -->
+                    </div>
+
+                    <div th:unless="${param.vs}">
+                        <!-- Input Form -->
+                        <div class="row mb-5">
+                            <div class="col-md-2">
+                                <label class="h6 small d-block text-uppercase mb-3 mb-lg-0">유형:</label>
+                            </div>
+                            <div class="col-md-10">
+                                <select class="custom-select">
+                                    <option selected>자유게시판</option>
+                                    <option value="budget1">공지</option>
+                                    <option value="budget2">QNA</option>
+                                    <option value="budget3">자유</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- End Input Form -->
+                        <!-- Input Form -->
+                        <div class="row mb-5">
+                            <div class="col-md-2">
+                                <label class="h6 small d-block text-uppercase mb-3 mb-lg-0">제목:</label>
+                            </div>
+                            <div class="col-md-10">
+                                <div class="js-form-message">
+                                    <div class="js-focus-state input-group form">
+                                        <input class="form-control form__input" type="text" name="fullName" required
+                                               th:field="*{title}"
+                                               data-msg="Please enter your frist name."
+                                               data-error-class="u-has-error"
+                                               data-success-class="u-has-success">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Input Form -->
+                    </div>
+
+                    <!-- Input Form -->
+                    <div class="row mb-5">
+                        <div class="col-md-2">
+                            <label class="h6 small d-block text-uppercase mb-3 mb-lg-0">Message:</label>
+                        </div>
+                        <div class="col-md-10">
+                            <div class="js-form-message">
+                                <div class="js-focus-state input-group form">
+              <textarea class="form-control form__input" rows="4" name="message" required
+                        placeholder="Please let us know why you're reaching out and what you may need help with. The more, the better!"
+                        aria-label="Please let us know why you're reaching out and what you may need help with. The more, the better!"
+                        data-msg="Please enter a reason."
+                        data-error-class="u-has-error"
+                        data-success-class="u-has-success"></textarea>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <!-- End Input Form -->
-            <!-- Input Form -->
-            <div class="mb-5">
-                <label class="h6 small d-block text-uppercase mb-3">내용:</label>
-                <div class="js-focus-state input-group form">
-                <textarea class="form-control form__input" rows="10" name="aboutYourProject" required
-                          th:field="*{contents}"
-                          placeholder="Hi there, I would like to ..."
-                  aria-label="Hi there, I would like to ..."
-                  data-msg="Please enter a reason."
-                  data-error-class="u-has-error"
-                  data-success-class="u-has-success"></textarea>
-                </div>
-            </div>
-            <!-- End Input Form -->
+                    <!-- End Input Form -->
 
-            <div class="text-center">
-                <button type="submit" class="btn btn-primary mb-4">등록</button>
-            </div>
-        </form>
+                    <div class="row">
+                        <div class="col-md-8 offset-md-4">
+                            <button type="submit" class="btn btn-primary btn-wide">입력완료</button>
+                        </div>
+                    </div>
+                </form>
+                <!-- End Contact Us Form -->
+        </div>
+        <!-- Contacts Section -->
+
     </div>
 
     <script th:inline="javascript">

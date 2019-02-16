@@ -40,7 +40,7 @@
       SELECT * FROM USER WHERE id = #{id}
     </select>
 
-    <select id="selectUserByUserId" parameterType="map">
+    <select id="selectUserByUserId" parameterType="map" resultType="user">
         SELECT * FROM USER WHERE user_id = #{userId} LIMIT 1
     </select>
 

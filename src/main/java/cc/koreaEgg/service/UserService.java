@@ -39,7 +39,6 @@ public class UserService implements UserDetailsService {
         userMapper.createUser(user);
     }
 
-
     /* security customer user */
     @Override
     public UserDetails loadUserByUsername(final String username)
@@ -111,6 +110,15 @@ public class UserService implements UserDetailsService {
             return null;
         } else {
             return users.get(0);
+        }
+    }
+
+    public boolean existId(String userId){
+        User user = userMapper.selectUserByUserId(userId);
+        if(user == null){
+            return true;
+        }else{
+            return false;
         }
     }
 }

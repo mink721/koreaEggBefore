@@ -256,7 +256,7 @@
     </main>
 
     <script th:inline="javascript" type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=af40a347c5a17c5118392cee56f35da6&libraries=services"></script>
-    <script th:inline="javascript" type="text/javascript" src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+    <script th:inline="javascript" type="text/javascript" src="https://ssl.daumcdn.net/dmaps/map_js_init/postcode.v2.js"></script>
     <script th:inline="javascript">
         /*<![CDATA[*/
 
@@ -265,11 +265,6 @@
         var pos;
 
         function currentPosition() {
-
-            navigator.permissions.query({name: 'geolocation'}).then(function(status) {
-                alert(status);
-            });
-
 
             if(navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
@@ -281,7 +276,7 @@
                         tranceCoordsToAddr(pos);
                     },
                     function(error) {
-                        var msg;
+                        var msg = "위치를 찾을수 없습니다";
                         switch(error.code) {
                             case error.PERMISSION_DENIED:
                                 // 사용자가 위치정보 사용을 허용하지 않았을 때

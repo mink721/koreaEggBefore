@@ -14395,6 +14395,7 @@ button:focus {
   box-shadow: 0 0 1.5625rem rgba(218, 75, 72, 0.1);
 }
 
+.u-has-error .custom
 .u-has-error .form:focus,
 .u-has-error .form.u-focus-state .form__text,
 .u-has-error .form.u-focus-state .form__input,

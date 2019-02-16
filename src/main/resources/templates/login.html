@@ -21,6 +21,10 @@
             </div>
             <!-- End Title -->
 
+            <div th:if="${param.afterRegist}" class="alert alert-danger" role="alert">
+                회원가입 되었습니다 로그인 해주세요
+            </div>
+
             <!-- Input -->
             <div class="js-form-message mb-3">
                 <div class="js-focus-state input-group form">
@@ -79,7 +83,7 @@
                 <button type="submit" class="btn btn-block btn-primary">로그인</button>
             </div>
             <div class="mb-5 text-center">
-                <a class="" href="recover-account.html">비밀번호가 생각나지 않으세요?</a>
+                <a class="" href="recover-account">아이디/비밀번호가 생각나지 않으세요?</a>
             </div>
             <div class="text-center mb-3">
                 <a class="btn btn-block btn-outline-primary" href="/registUser" role="button">회원가입</a>
