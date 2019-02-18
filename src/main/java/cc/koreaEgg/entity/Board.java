@@ -11,7 +11,10 @@ import java.util.Date;
 @ToString
 public class Board {
 
-    private Long id;
+    public static int BOARD_NOTICE = 1;
+    public static int BOARD_NEWS = 2;
+
+    private Integer id;
     private Integer status;
     private String boardName;
     private Date regDate;
