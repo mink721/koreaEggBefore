@@ -26,7 +26,7 @@
                     <div class="col-sm-2 hidden-sm d-none d-sm-block">등록일</div>
                 </div>
                 <ul class="list-unstyled">
-                    <li class="row board-row text-center">
+                    <li th:each="price : ${}" class="row board-row text-center">
                         <div class="col-1 col-sm-1"><span class="badge badge-primary">공지</span></div>
                         <div class="col-sm-1 d-none d-sm-block">0001</div>
                         <div class="col-11  col-sm-8 text-left">테스트입니다ㅗ이함지암ㅈ

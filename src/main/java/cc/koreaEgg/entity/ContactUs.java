@@ -6,15 +6,17 @@ import lombok.ToString;
 
 import java.util.Date;
 
+
 @Getter
 @Setter
 @ToString
-public class Board {
+public class ContactUs {
 
     private Long id;
-    private String type;
+    private Long userId;
+    private String answerName;
+    private String answerMobile;
     private String title;
     private String contents;
     private Date regDate;
-
 }
