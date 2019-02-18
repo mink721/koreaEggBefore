@@ -6,39 +6,33 @@
         <!--view-->
         <div th:unless="${param.regist}">
             <div class="row" >
-                <span th:text="*{id}"></span>
-                <span th:text="*{type}"></span>
+                <span th:text="*{reqName}"></span>
+                <span th:text="*{reqMobile}"></span>
                 <span th:text="*{title}"></span>
                 <span th:text="*{regDate}"></span>
             </div>
             <div th:text="*{contents}"></div>
+            <div th:text="*{answer}"></div>
             <a  role="button" class="btn btn-primary" href="/boardList">목록</a>
         </div>
 
         <!--등록-->
+        <!-- Contacts Section -->
         <div  th:if="${param.regist}" class="js-validate rounded p-sm-7 mx-lg-auto" >
             <!-- Contact Us Form -->
-            <form th:formaction="@{/registBoard}" method="post" th:object="${board}">
+            <form th:formaction="@{/registContactUs}" method="post" th:object="${contactUs}">
                 <input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                <!--TODO userId value 넣기-->
+                <input type="hidden"  name="userId" value="">
+                    <!-- Input Form -->
                     <div class="row mb-5">
                         <div class="col-md-2">
-                            <label class="h6 small d-block text-uppercase mb-3 mb-lg-0">유형:</label>
-                        </div>
-                        <div class="col-md-10">
-                            <select class="custom-select" name="type">
-                                <option value="1">공지</option>
-                                <option value="2">뉴스</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row mb-5">
-                        <div class="col-md-2">
-                            <label class="h6 small d-block text-uppercase mb-3 mb-lg-0">제목:</label>
+                            <label class="h6 small d-block text-uppercase mb-3 mb-lg-0">성명</label>
                         </div>
                         <div class="col-md-10">
                             <div class="js-form-message">
                                 <div class="js-focus-state input-group form">
-                                    <input class="form-control form__input" type="text" name="title" required
+                                    <input class="form-control form__input" type="text" name="reqName" required
                                            data-msg="Please enter your frist name."
                                            data-error-class="u-has-error"
                                            data-success-class="u-has-success">
@@ -48,33 +42,45 @@
                     </div>
                     <div class="row mb-5">
                         <div class="col-md-2">
-                            <label class="h6 small d-block text-uppercase mb-3 mb-lg-0">내용:</label>
+                            <label class="h6 small d-block text-uppercase mb-3 mb-lg-0">연락처</label>
                         </div>
                         <div class="col-md-10">
                             <div class="js-form-message">
                                 <div class="js-focus-state input-group form">
-                                    <textarea class="form-control form__input" rows="4" name="contents" required
-                                    placeholder=""
-                                    aria-label=""
-                                    data-msg="Please enter a reason."
-                                    data-error-class="u-has-error"
-                                    data-success-class="u-has-success"></textarea>
+                                    <input class="form-control form__input" type="text" name="reqMobile" required
+                                           data-msg="Please enter your frist name."
+                                           data-error-class="u-has-error"
+                                           data-success-class="u-has-success">
                                 </div>
                             </div>
                         </div>
                     </div>
-                <!-- End Input Form -->
 
+                <!-- Input Form -->
+                <div class="row mb-5">
+                    <div class="col-md-2">
+                        <label class="h6 small d-block text-uppercase mb-3 mb-lg-0">내용</label>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="js-form-message">
+                            <div class="js-focus-state input-group form">
+                            <textarea class="form-control form__input" rows="4" name="contents" required
+                                    placeholder="문의 내용을 입력해주세요"
+                                    data-msg="Please enter a reason."
+                                    data-error-class="u-has-error"
+                                    data-success-class="u-has-success"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Input Form -->
                 <div class="row">
                     <div class="col-md-8 offset-md-4">
                         <button type="submit" class="btn btn-primary btn-wide">입력완료</button>
                     </div>
                 </div>
             </form>
-            <!-- End Contact Us Form -->
         </div>
-        <!-- Contacts Section -->
-
     </div>
 
     <script th:inline="javascript">

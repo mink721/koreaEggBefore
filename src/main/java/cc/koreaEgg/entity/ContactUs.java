@@ -14,9 +14,10 @@ public class ContactUs {
 
     private Long id;
     private Long userId;
-    private String answerName;
-    private String answerMobile;
+    private String reqName;
+    private String reqMobile;
     private String title;
     private String contents;
+    private String answer;
     private Date regDate;
 }
