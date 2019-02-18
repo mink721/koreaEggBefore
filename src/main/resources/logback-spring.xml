@@ -55,7 +55,7 @@
 
     <!-- TRACE > DEBUG > INFO > WARN > ERROR, 대소문자 구분 안함 -->
     <!-- LOG everything at INFO level -->
-    <root level="DEBUG">
+    <root level="INFO">
         <appender-ref ref="RollingFile" />
         <appender-ref ref="Console" />
     </root>

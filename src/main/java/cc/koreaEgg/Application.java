@@ -70,7 +70,7 @@ public class Application implements WebMvcConfigurer{
         SecurityConstraint securityConstraint = new SecurityConstraint();
         securityConstraint.setUserConstraint("CONFIDENTIAL");
         SecurityCollection collection = new SecurityCollection();
-        collection.addPattern("/egg");
+        collection.addPattern("/*");
         securityConstraint.addCollection(collection);
         context.addConstraint(securityConstraint);
       }
