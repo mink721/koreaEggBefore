@@ -47,8 +47,8 @@
 
     <!-- TODO 게시판 등록-->
     <insert id="createBoardMessage" parameterType="boardMessage">
-        INSERT INTO BOARD_MESSAGE (board_id, status, user_id, title, contents, reg_date)
-        VALUES (#{boardId},1,#{userId},#{title},#{contents},NOW())
+        INSERT INTO BOARD_MESSAGE (board_id, status, title, contents, reg_date)
+        VALUES (#{boardId},1,#{title},#{contents},NOW())
     </insert>
 
     <!--TODO 게시판 수정-->
@@ -61,7 +61,7 @@
     </update>
 
     <!--TODO 게시판 LIST COUNT -->
-    <select id="selectBoardMessageList" parameterType="map" resultType="boardMessage">
+    <select id="selectBoardMessageListCount" parameterType="map" resultType="boardMessage">
         SELECT count(*) cnt
         FROM BOARD_MESSAGE
         WHERE 1=1
@@ -90,6 +90,14 @@
             AND ( (a.title LIKE CONCAT('%',#{searchText},'%')) OR (a.contents LIKE CONCAT('%',#{searchText},'%')) )
         </if>
         <if test="limit neq null">LIMIT <if test="offset neq null">#{offset}, </if>#{limit}</if>
+    </select>
+
+    <!--TODO 게시판  -->
+    <select id="selectBoardMessage" parameterType="long" resultType="boardMessage">
+        SELECT a.*, b.board_name
+        FROM BOARD_MESSAGE a, BOARD b
+        WHERE a.board_id = b.id
+        AND a.id = #{id}
     </select>
 
     <!--TODO 게시판 삭제-->

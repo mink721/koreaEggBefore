@@ -13,11 +13,9 @@ import java.util.Date;
 public class User {
 
   private Long id;
-  private Role role;
   private String userId;
-  private Integer status;
-  private String userName;
   private String pwd;
+  private String userName;
   private String mobile;
 
   private String shopName;
@@ -35,8 +33,15 @@ public class User {
   private Date updateDate;
   private Date expireDate; /* TODO AN history에서 가져와야함 로그인할때마다 만료일 확인할거임*/
 
+  //생년월일
+  private Date birthday;
+  //로그인횟수
+  private Integer loginCount;
+  private String homepage;
 
+  private Role role;
   private String memo;
+  private Integer status;
 
 
   public void setRole( String role ) {

@@ -24,17 +24,6 @@ public class ServiceController {
     @Autowired
     private AppService appService;
 
-  @RequestMapping(value = "/board", method = RequestMethod.GET)
-  public String boardView(Model model){
-    model.addAttribute("board", new Board());
-    return  "board";
-  }
-
-  @RequestMapping(value = "/registBoard", method = RequestMethod.GET)
-  public String createBoardView(Model model){
-    return  "redirect:" + "/board?regist";
-  }
-
  @RequestMapping(value = "/product", method = RequestMethod.GET)
   public String productView(Model model){
     model.addAttribute("product", new Product());

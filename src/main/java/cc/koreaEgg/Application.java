@@ -13,7 +13,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
@@ -25,6 +27,7 @@ public class Application implements WebMvcConfigurer{
 
   @Value("${property.hello}")
   private String propertyHello;
+
 
   @Override
   public void addViewControllers(ViewControllerRegistry registry) {
@@ -40,6 +43,14 @@ public class Application implements WebMvcConfigurer{
     registry.addViewController("/myPage").setViewName("myPage");
     registry.addViewController("/registCast").setViewName("registCast");
     registry.addViewController("/egg").setViewName("egg");
+  }
+
+  @Bean
+  public MessageSource messageSource() {
+    ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+    messageSource.setBasename("classpath:messages");
+    messageSource.setCacheSeconds(10); //reload messages every 10 seconds
+    return messageSource;
   }
 
   @Bean

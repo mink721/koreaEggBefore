@@ -21,4 +21,5 @@ public interface ServiceMapper {
     void updateBoardMessage(BoardMessage boardMessage);
     int selectBoardMessageListCount(@Param("boardId") Integer boardId, @Param("status") Integer status, @Param("searchText") String searchText);
     List<BoardMessage> selectBoardMessageList(@Param("boardId") Integer boardId, @Param("status") Integer status, @Param("searchText") String searchText, @Param("offset") Integer offset, @Param("limit") Integer limit);
+    BoardMessage selectBoardMessage(long id);
 }

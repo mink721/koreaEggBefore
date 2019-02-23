@@ -3,6 +3,7 @@ package cc.koreaEgg.service;
 import cc.koreaEgg.entity.User;
 import cc.koreaEgg.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.GrantedAuthority;
@@ -120,5 +121,13 @@ public class UserService implements UserDetailsService {
         }else{
             return false;
         }
+    }
+
+    public List<User> selectAllUser(String userId, String userName, String mobile, String shopName, String address, String role){
+        return userMapper.selectAllUser(userId, userName, mobile, shopName, address, role);
+    }
+
+    public User selectUserById(long id){
+        return userMapper.selectUserById(id);
     }
 }

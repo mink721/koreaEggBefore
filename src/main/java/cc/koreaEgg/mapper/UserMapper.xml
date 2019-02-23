@@ -16,18 +16,27 @@
     <select id="selectAllUser" parameterType="map" resultType="User">
         SELECT *
         FROM USER
-        WHERE 1=1
-        <if test="status neq null">
-            AND status = #{status}
+        WHERE status = 1
+        <if test="userId!=null and !userId.equals('')">
+            AND user_id LIKE CONCAT('%',#{userId},'%')
         </if>
-        <if test="userName neq null">
+        <if test="userName!=null and !userName.equals('')">
             AND user_name LIKE CONCAT('%',#{userName},'%')
         </if>
-        <if test="shopName neq null">
+        <if test="mobile!=null and !mobile.equals('')">
+            AND mobile LIKE CONCAT('%',#{mobile},'%')
+        </if>
+        <if test="shopName!=null and !shopName.equals('')">
             AND shop_name LIKE CONCAT('%',#{shopName},'%')
         </if>
-        ORDER BY id desc
-        <if test="limit neq null">LIMIT <if test="offset neq null">#{offset},</if> #{limit}</if>
+        <if test="address!=null and !address.equals('')">
+            AND address LIKE CONCAT('%',#{address},'%')
+        </if>
+        <if test="role!=null and !role.equals('')">
+            AND role = #{role}
+        </if>
+        <!--ORDER BY id desc
+        <if test="limit neq null">LIMIT <if test="offset neq null">#{offset},</if> #{limit}</if>-->
     </select>
 
     <!--TODO AN 유저등록 UserServiceTest 테스트 만들어놈-->
@@ -36,7 +45,7 @@
       VALUES (#{userId},#{userName},#{pwd},#{mobile},#{shopName},#{postNum},#{address},#{addressDetail},#{shopTel},#{profileImage},#{longitude},#{latitude},NOW())
     </insert>
 
-    <select id="selectUserById" parameterType="long">
+    <select id="selectUserById" parameterType="long" resultType="user">
       SELECT * FROM USER WHERE id = #{id}
     </select>
 

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  layout:decorate="~{/admin/adminDefault}" >
+<section layout:fragment="content">
+    <main id="content" role="main">
+        <div>
+            <form th:formaction="@{/registUser}" method="post"
+                  class="js-validate w-lg-75 px-3 px-sm-9 mx-lg-auto form-signin"
+                  th:object="${user}">
+                <input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">아이디</label>
+                    <div class="col-sm-10">
+                        <span th:text="*{userId}"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">성명</label>
+                    <div class="col-sm-10">
+                        <input type="text" readonly class="form-control-plaintext" th:field="*{userName}"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">핸드폰</label>
+                    <div class="col-sm-10">
+                        <input type="text" readonly class="form-control-plaintext" th:field="*{mobile}"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">상호</label>
+                    <div class="col-sm-10">
+                        <input type="text" readonly class="form-control-plaintext" th:field="*{shopName}"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">전화</label>
+                    <div class="col-sm-10">
+                        <input type="text" readonly class="form-control-plaintext" th:field="*{shopTel}"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">주소</label>
+                    <div class="col-sm-10">
+                        <input type="text" readonly class="form-control-plaintext" th:field="*{address}"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">상세주소</label>
+                    <div class="col-sm-10">
+                        <input type="text" readonly class="form-control-plaintext" th:field="*{addressDetail}"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">가입일</label>
+                    <div class="col-sm-10">
+                        <span th:text="*{regDate}"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">만료일</label>
+                    <div class="col-sm-10">
+                        <span th:text="*{expireDate}"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">로그인횟수</label>
+                    <div class="col-sm-10">
+                        <span th:text="*{loginCount}"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">홈페이지</label>
+                    <div class="col-sm-10">
+                        <input type="text" readonly class="form-control-plaintext" th:field="*{homepage}"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">메모</label>
+                    <div class="col-sm-10">
+                        <textarea type="text" readonly class="form-control-plaintext" th:field="*{memo}"/>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">회원등급</label>
+                    <div class="col-sm-10">
+                        <fieldset disabled="">
+                                <select id="disabledSelect" class="form-control-plaintext">
+                                    <option>관리지</option>
+                                    <option>유통인</option>
+                                    <option>소매점</option>
+                                </select>
+                        </fieldset>
+                        </select>
+                    </div>
+                </div>
+                <input type="submit" class="btn btn-primary" value="수정완료"/>
+            </form>
+            <a role="button" class="btn btn-primary">수정요청</a>
+            <a role="button" class="btn btn-danger">삭제요청</a>
+            <a role="button" class="btn btn-warning">비밀번호초기화</a>
+        </div>
+    </main>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+
+
+
+        /*]]>*/
+    </script>
+</section>
+</html>

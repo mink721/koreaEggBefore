@@ -39,7 +39,7 @@ public class ExceptionHandlingControllerAdvice {
 	 * 
 	 * @return Exception view.
 	 */
-	@ExceptionHandler({ SQLException.class, DataAccessException.class })
+	//@ExceptionHandler({ SQLException.class, DataAccessException.class })
 	public String databaseError(Exception exception) {
 		// Nothing to do. Return value 'databaseError' used as logical view name
 		// of an error page, passed to view-resolver(s) in usual way.
@@ -77,7 +77,7 @@ public class ExceptionHandlingControllerAdvice {
 		mav.addObject("timestamp", new Date().toString());
 		mav.addObject("status", 500);
 
-		mav.setViewName("support");
+		mav.setViewName("error");
 		return mav;
 	}
 }

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  layout:decorate="~{/admin/adminDefault}" >
+<section layout:fragment="content">
+    <main id="content" role="main">
+        <h1 class="page-header" >회원관리</h1>
+        <!--검색창-->
+        <div class="row">
+            <div class="col-md-12">
+                <form th:formaction="@{/admin/userList}" class="form-inline">
+                    <div class="form-group">
+                        <select class="form-control" name="role">
+                            <option value="" th:text="#{role.label}"></option>
+                            <option value="USER" th:text="#{role.USER}" th:selected="${param.role == 'USER'}"></option>
+                            <option value="STORE" th:text="#{role.STORE}" th:selected="${param.role == 'STORE'}"></option>
+                            <option value="RETAILER" th:text="#{role.RETAILER}" th:selected="${param.role == 'RETAILER'}"></option>
+                            <option value="WHOLESALER" th:text="#{role.WHOLESALER}" th:selected="${param.role == 'WHOLESALER'}"></option>
+                            <option value="PARTNER" th:text="#{role.PARTNER}" th:selected="${param.role == 'PARTNER'}"></option>
+                            <option value="AGENT" th:text="#{role.AGENT}" th:selected="${param.role == 'AGENT'}"></option>
+                        </select>
+                        <input type="text" class="form-control " name="userId" th:value="${param.userId}" placeholder="ID">
+                        <input type="text" class="form-control " name="userName" th:value="*{param.userName}" placeholder="성명" >
+                        <input type="text" class="form-control " name="mobile" th:value="*{param.mobile}" placeholder="휴대폰" >
+                        <input type="text" class="form-control " name="shopName" th:value="*{param.shopName}" placeholder="상호" >
+                        <input type="text" class="form-control " name="address" th:value="*{param.address}" placeholder="주소(동까지만 검색가능)" >
+                        <button type="submit" class="btn btn-default ">검색</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!--회원목록-->
+
+            <table class="table table-bordered table-responsive-sm table-sm table-hover">
+                <thead>
+                <tr class="table-secondary">
+                    <th class="text-sm-center">NO</th>
+                    <th class="text-sm-center">등급</th>
+                    <th class="text-sm-center">ID</th>
+                    <th class="text-sm-center">성명</th>
+                    <th class="text-sm-center">휴대폰</th>
+                    <th class="text-sm-center">상호</th>
+                    <th class="text-sm-center">주소</th>
+                    <th class="text-sm-center">가입일</th>
+                    <th class="text-sm-center">만료일</th>
+                    <th class="text-sm-center">로그인횟수</th>
+                    <th class="text-sm-center">더보기</th>
+                </tr>
+                </thead>
+                <tbody>
+                <div th:each="user,index : ${userList}">
+                    <tr>
+                        <td><span th:text="${index.index}+1"></span></td><!--no-->
+                        <td><span th:text="${user.role.roleName}"></span></td><!--등급-->
+                        <td><span th:text="${user.userId}"></span></td><!--ID-->
+                        <td><span th:text="${user.userName}"></span></td><!--성명-->
+                        <td><span th:text="${user.mobile}"></span></td><!--휴대폰-->
+                        <td><span th:text="${user.shopName}"></span></td><!--상호-->
+                        <td><span th:text="${user.address}"></span> <span th:text="${user.addressDetail}"></span></td><!--주소-->
+                        <td><span th:text="${#dates.format(user.regDate, 'yy.MM.dd')}"></span></td><!--가입일-->
+                        <td><span th:text="${#dates.format(user.expireDate, 'yy.MM.dd')}"></span></td><!--만료일-->
+                        <td><span th:text="${user.loginCount}"></span></td><!--로그인횟수-->
+                        <td><a th:href="@{'/admin/user?id=' + ${user.id}}">더보기</a></td><!--팩스, 홈페이지, -->
+                    </tr>
+                </div>
+                </tbody>
+            </table>
+        <span>전체회원수 : </span>
+        <a role="button" href="/registUser">회원추가</a>
+        </div>
+    </main>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+
+
+
+        /*]]>*/
+    </script>
+</section>
+</html>

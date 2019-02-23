@@ -1,9 +1,11 @@
 package cc.koreaEgg.service;
 
+import cc.koreaEgg.entity.BoardMessage;
 import cc.koreaEgg.entity.PriceInfo;
 import cc.koreaEgg.mapper.ServiceMapper;
 import cc.koreaEgg.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
@@ -26,5 +28,23 @@ public class AppService {
     public List<PriceInfo> selectAllPriceInfo(){
        return serviceMapper.selectAllPriceInfo();
     }
+
+    public void createBoardMessage(BoardMessage boardMessage){
+         serviceMapper.createBoardMessage(boardMessage);
+    }
+    public void updateBoardMessage(BoardMessage boardMessage){
+         serviceMapper.updateBoardMessage(boardMessage);
+    }
+    public int selectBoardMessageListCount(Integer boardId, Integer status, String searchText){
+        return serviceMapper.selectBoardMessageListCount(boardId, status, searchText);
+    }
+    public List<BoardMessage> selectBoardMessageList(Integer boardId, Integer status, String searchText, Integer offset, Integer limit){
+        return serviceMapper.selectBoardMessageList(boardId, status, searchText, offset, limit);
+    }
+
+    public BoardMessage selectBoardMessage(long id){
+        return serviceMapper.selectBoardMessage(id);
+    }
+
 
 }

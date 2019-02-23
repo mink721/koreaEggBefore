@@ -1,5 +1,6 @@
 package cc.koreaEgg.service;
 
+import cc.koreaEgg.entity.ContactUs;
 import cc.koreaEgg.entity.sms.SmsRequest;
 import cc.koreaEgg.entity.sms.SmsSendRequest;
 import cc.koreaEgg.entity.sms.SmsSendResponse;
@@ -37,6 +38,9 @@ public class SmsService {
 
     private final String encodingType = "utf-8";
     private ObjectMapper oMapper = new ObjectMapper();
+    private String koreaEggMobile = "01055664855";
+    private String adminMobile = "01080790179";
+    private String adminTitle = "[코리아에그 웹 에러]";
 
     public SmsSendResponse sendSms(SmsSendRequest req) throws Exception {
 
@@ -124,5 +128,22 @@ public class SmsService {
         log.trace(response.toString());
         return response;
 
+    }
+
+    public void contacUsSms(ContactUs cu) throws Exception {
+        SmsSendRequest req = new SmsSendRequest();
+
+        req.setReceiver(koreaEggMobile);
+        req.setTitle("문의 [" + cu.getTitle() +"]");
+        req.setMsg("");
+
+        SmsSendResponse res = sendSms(req);
+
+        if( res.getResult_code() != 1 ){
+            SmsSendRequest adminReq = new SmsSendRequest();
+            adminReq.setReceiver(adminMobile);
+            req.setTitle(adminTitle);
+            sendSms(adminReq);
+        }
     }
 }

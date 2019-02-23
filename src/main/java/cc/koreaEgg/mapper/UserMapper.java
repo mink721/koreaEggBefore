@@ -11,7 +11,12 @@ import java.util.List;
 @Mapper
 public interface UserMapper {
     List<User> selectUserByName(@Param("userName") String userName);
-    List<User> selectAllUser(@Param("status") Integer status, @Param("userName") String userName, @Param("shopName") String shopName);
+    List<User> selectAllUser(@Param("userId") String userId,
+                             @Param("userName") String userName,
+                             @Param("mobile") String mobile,
+                             @Param("shopName") String shopName,
+                             @Param("address") String address,
+                             @Param("role") String role);
     void createUser(User user);
     User selectUserById(long id);
     User selectUserByUserId(@Param("userId") String userId);
