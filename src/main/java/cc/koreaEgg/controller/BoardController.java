@@ -29,7 +29,7 @@ public class BoardController {
     /* 공지사항 뉴스 리스트 */
     @RequestMapping(value = "/boardList", method = RequestMethod.GET)
     public String boardList(Model model) {
-        List<BoardMessage> boardList = appService.selectBoardMessageList(null, 1, null, null, null);
+        List<BoardMessage> boardList = appService.selectBoardMessageList(null, 1, null, null);
         model.addAttribute("boardList", boardList);
         return "boardList";
     }

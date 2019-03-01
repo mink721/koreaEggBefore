@@ -114,7 +114,7 @@ public class AdminController {
     /*  난가정보 관리 */
     @GetMapping(value = "/priceCast/list")
     public String listPriceCast(@ModelAttribute("cri") Criteria cri, Integer areaId, Model model) {
-        model.addAttribute("priceCastList", appService.selectPriceCast(cri));
+        model.addAttribute("priceCastList", appService.selectPriceCastList(cri));
 
         PageMaker pageMaker = new PageMaker();
         pageMaker.setCri(cri);

@@ -111,7 +111,7 @@
         <if test="searchText neq null">
             AND ( (a.title LIKE CONCAT('%',#{searchText},'%')) OR (a.contents LIKE CONCAT('%',#{searchText},'%')) )
         </if>
-        <if test="limit neq null">LIMIT <if test="offset neq null">#{offset}, </if>#{limit}</if>
+        LIMIT #{cri.pageStart}, #{cri.perPageNum}
     </select>
 
     <!--TODO 게시판  -->
@@ -123,12 +123,66 @@
     </select>
 
     <!--TODO 게시판 삭제-->
-
-
+    <update id="deleteBoardMessage" parameterType="long">
+        UPDATE BOARD_MESSAGE SET status = 99 WHERE id = #{id}
+    </update>
 
 
     <!-- TODO 난가예보 등록-->
+    <insert id="createPriceCast" parameterType="priceCast">
+        INSERT INTO PRICE_CAST (reg_date, cast1, cast2, cast3, cast4, cast5)
+        VALUES (NOW(), #{cast1},#{cast2},#{cast3},#{cast4},#{cast5})
+    </insert>
     <!-- TODO 난가예보 수정-->
+    <update id="updatePriceCast" parameterType="priceCast">
+        UPDATE PRICE_CAST
+        SET cast1 = #{cast1}
+        , cast2 = #{cast2}
+        , cast3 = #{cast3}
+        , cast4 = #{cast4}
+        , cast5 = #{cast5}
+    </update>
     <!-- TODO 난가예보 삭제-->
+    <delete id="deletePriceCast" parameterType="long">
+        DELETE FROM PRICE_CAST WHERE id = #{id}
+    </delete>
+    <select id="selectCountPriceCast" parameterType="map" resultType="int">
+        SELECT count(*) cnt FROM PRICE_CAST
+    </select>
+    <select id="selectPriceCast" parameterType="map" resultType="priceCast">
+        SELECT * FROM PRICE_CAST ORDER BY id DESC
+        LIMIT #{cri.pageStart}, #{cri.perPageNum}
+    </select>
 
+
+    <!-- 1:1문의 -->
+    <insert id="createContactUs" parameterType="contactUs">
+        INSERT INTO CONTACT_US (user_id, answer_flag, title, req_name, req_mobile, contents, reg_date)
+        VALUES (#{userId},0,#{title},#{reqName},#{reqMobile},#{contents},NOW())
+    </insert>
+
+    <update id="updateContactUs" parameterType="contactUs">
+        UPDATE CONTACT_US
+        SET answer_flag = 1
+        , answer = #{answer}
+        , answer_date = NOW()
+        WHERE id = #{id}
+    </update>
+
+    <select id="selectCountContactUs" parameterType="map" resultType="int">
+        SELECT count(*) cnt FROM CONTACT_US
+        WHERE 1=1
+        <if test="userId neq null">
+            AND user_id = #{userId}
+        </if>
+    </select>
+
+    <select id="selectContactUsList" parameterType="map" resultType="contactUs">
+        SELECT * FROM CONTACT_US
+        WHERE 1=1
+        <if test="userId neq null">
+            AND user_id = #{userId}
+        </if>
+        LIMIT #{cri.pageStart}, #{cri.perPageNum}
+    </select>
 </mapper>

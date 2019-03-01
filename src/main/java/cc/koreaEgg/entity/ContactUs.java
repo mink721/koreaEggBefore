@@ -16,11 +16,14 @@ public class ContactUs {
 
     private Long id;
     private Long userId;
+    private Boolean answerFlag;
+
+    private String title;
     private String reqName;
     private String reqMobile;
-    private String title;
     private String contents;
-    private String answer;
     private Date regDate;
-    private Date updateDate;
+
+    private String answer;
+    private Date answerDate;
 }

@@ -37,8 +37,8 @@ public class AppService {
     public int selectBoardMessageListCount(Integer boardId, Integer status, String searchText){
         return serviceMapper.selectBoardMessageListCount(boardId, status, searchText);
     }
-    public List<BoardMessage> selectBoardMessageList(Integer boardId, Integer status, String searchText, Integer offset, Integer limit){
-        return serviceMapper.selectBoardMessageList(boardId, status, searchText, offset, limit);
+    public List<BoardMessage> selectBoardMessageList(Integer boardId, Integer status, String searchText, Criteria cri){
+        return serviceMapper.selectBoardMessageList(boardId, status, searchText, cri);
     }
 
     public BoardMessage selectBoardMessage(long id){
@@ -64,8 +64,8 @@ public class AppService {
         return serviceMapper.selectCountPriceInfoByAreaId(cri, areaId);
     }
 
-    public  List<PriceCast> selectPriceCast(Criteria cri) {
-        return serviceMapper.selectPriceCast(cri);
+    public  List<PriceCast> selectPriceCastList(Criteria cri) {
+        return serviceMapper.selectPriceCastList(cri);
     }
 
     public int selectCountPriceCast() {
