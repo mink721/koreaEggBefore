@@ -1,5 +1,6 @@
 package cc.koreaEgg.mapper;
 
+import cc.koreaEgg.entity.Criteria;
 import cc.koreaEgg.entity.User;
 import cc.koreaEgg.entity.UserRoleReq;
 import org.apache.ibatis.annotations.Mapper;
@@ -11,7 +12,14 @@ import java.util.List;
 @Mapper
 public interface UserMapper {
     List<User> selectUserByName(@Param("userName") String userName);
-    List<User> selectAllUser(@Param("userId") String userId,
+    int selectCountAllUser(@Param("userId") String userId,
+                           @Param("userName") String userName,
+                           @Param("mobile") String mobile,
+                           @Param("shopName") String shopName,
+                           @Param("address") String address,
+                           @Param("role") String role);
+    List<User> selectAllUser(@Param("cri") Criteria cri,
+                             @Param("userId") String userId,
                              @Param("userName") String userName,
                              @Param("mobile") String mobile,
                              @Param("shopName") String shopName,

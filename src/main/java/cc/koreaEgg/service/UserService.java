@@ -1,5 +1,6 @@
 package cc.koreaEgg.service;
 
+import cc.koreaEgg.entity.Criteria;
 import cc.koreaEgg.entity.User;
 import cc.koreaEgg.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -33,11 +34,12 @@ public class UserService implements UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public void addUser(User user) {
+    public void createUser(User user) {
 
         String pwd = passwordEncoder.encode(user.getPwd());
         user.setPwd(pwd);
         userMapper.createUser(user);
+        log.debug("유저 등록 완료" + user.toString());
     }
 
     /* security customer user */
@@ -106,7 +108,6 @@ public class UserService implements UserDetailsService {
 
     public User loadUserEntityByUsername(String username) {
         List<User> users = userMapper.selectUserByName(username);
-        //jdbcTemplate.query(Queries.LOAD_USER_BY_USERNAME, mapper::mapUser, username);
         if (users == null || users.size() < 1) {
             return null;
         } else {
@@ -123,11 +124,23 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    public List<User> selectAllUser(String userId, String userName, String mobile, String shopName, String address, String role){
-        return userMapper.selectAllUser(userId, userName, mobile, shopName, address, role);
+    public List<User> selectAllUser(Criteria cri, String userId, String userName, String mobile, String shopName, String address, String role){
+        return userMapper.selectAllUser(cri, userId, userName, mobile, shopName, address, role);
+    }
+
+    public int selectCountAllUser(String userId, String userName, String mobile, String shopName, String address, String role) {
+        return userMapper.selectCountAllUser( userId, userName, mobile, shopName, address, role);
     }
 
     public User selectUserById(long id){
         return userMapper.selectUserById(id);
+    }
+
+    public void updateUser(User user) {
+        userMapper.updateUser(user);
+    }
+
+    public void deleteUser(long id) {
+        userMapper.deleteUser(id);
     }
 }

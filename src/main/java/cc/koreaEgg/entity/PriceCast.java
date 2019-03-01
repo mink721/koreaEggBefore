@@ -8,7 +8,7 @@ import java.util.Date;
 @Getter
 @Setter
 @ToString
-public class Forecast {
+public class PriceCast {
 
     private Date updateDate;
     private boolean cast1;

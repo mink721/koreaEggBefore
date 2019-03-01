@@ -23,4 +23,9 @@ public interface ServiceMapper {
 
     /* TODO AN 만들어줭*/
     void updatePriceInfo(PriceInfo info);
+    List<PriceCast> selectPriceCast(Criteria cri);
+    int selectCountPriceCast();
+    void createPriceCast(PriceCast cast);
+    void updatePriceCast(PriceCast cast);
+    void deletePriceCast(long castId);
 }
