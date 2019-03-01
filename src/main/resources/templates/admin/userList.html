@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  layout:decorate="~{/admin/adminDefault}" >
 <section layout:fragment="content">
     <main id="content" role="main">
-        <h1 class="page-header" >회원관리</h1>
+        <p class="h4" >회원관리</p>
+        <hr>
         <!--검색창-->
         <div class="row">
             <div class="col-md-12">
@@ -29,7 +30,7 @@
         </div>
 
         <!--회원목록-->
-
+        <div class="space-1">
             <table class="table table-bordered table-responsive-sm table-sm table-hover">
                 <thead>
                 <tr class="table-secondary">
@@ -64,8 +65,11 @@
                 </div>
                 </tbody>
             </table>
-        <span>전체회원수 : </span>
-        <a role="button" href="/registUser">회원추가</a>
+        </div>
+
+        <div>
+            <span>전체회원수 : </span>
+            <a role="button" href="/registUser" class="btn btn-primary">회원추가</a>
         </div>
     </main>
 

@@ -93,9 +93,9 @@ public class Application implements WebMvcConfigurer{
   private Connector redirectConnector() {
     Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
     connector.setScheme("http");
-    connector.setPort(8080);
+    connector.setPort(7777);
     connector.setSecure(false);
-    connector.setRedirectPort(8443);
+    connector.setRedirectPort(7776);
 
     return connector;
   }

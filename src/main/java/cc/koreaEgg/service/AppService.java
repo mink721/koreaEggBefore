@@ -1,6 +1,8 @@
 package cc.koreaEgg.service;
 
+import cc.koreaEgg.entity.Area;
 import cc.koreaEgg.entity.BoardMessage;
+import cc.koreaEgg.entity.Criteria;
 import cc.koreaEgg.entity.PriceInfo;
 import cc.koreaEgg.mapper.ServiceMapper;
 import cc.koreaEgg.mapper.UserMapper;
@@ -47,4 +49,21 @@ public class AppService {
     }
 
 
+    public List<Area> selectAreaList() {
+        return serviceMapper.selectAreaList();
+    }
+
+    public List<PriceInfo> selectPriceInfoByAreaId(Criteria cri, Integer areaId){
+        return serviceMapper.selectPriceInfoByAreaId(cri, areaId);
+    }
+
+    public void updatePriceInfo(PriceInfo info) { serviceMapper.updatePriceInfo(info);
+    }
+
+    public void deletePriceInfo(long infoId) { serviceMapper.deletePriceInfo(infoId);
+    }
+
+    public int selectCountPriceInfoByAreaId(Criteria cri, Integer areaId) {
+        return serviceMapper.selectCountPriceInfoByAreaId(cri, areaId);
+    }
 }

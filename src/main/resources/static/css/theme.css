@@ -7685,6 +7685,14 @@ button.bg-blue:focus {
   width: auto !important;
 }
 
+.w-5 {
+  width: 5% !important;
+}
+
+.w-10 {
+  width: 10% !important;
+}
+
 .w-15 {
   width: 15% !important;
 }
