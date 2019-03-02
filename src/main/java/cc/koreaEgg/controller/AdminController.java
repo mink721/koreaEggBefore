@@ -34,7 +34,7 @@ public class AdminController {
     }
 
 
-    /*  유저관리  */
+    /*  유저 관리  */
     @GetMapping(value = "/user/list")
     public String listUser(@ModelAttribute("cri") Criteria cri,
                               @RequestParam Map<String,String> search,
@@ -75,10 +75,10 @@ public class AdminController {
         userService.deleteUser(id);
         return  "redirect:/admin/user/list";
     }
-    /*  유저관리 끝  */
+    /*  유저 관리 끝  */
 
 
-    /*  난가정보 관리 */
+    /*  난가 정보 관리 */
     @GetMapping(value = "/priceInfo/list")
     public String listPriceInfo(@ModelAttribute("cri") Criteria cri, Integer areaId, Model model) {
         model.addAttribute("areaList", appService.selectAreaList());
@@ -89,7 +89,7 @@ public class AdminController {
         pageMaker.setTotalCount(appService.selectCountPriceInfoByAreaId(cri, areaId));
 
         model.addAttribute("pageMaker", pageMaker);
-    return "admin/priceInfo/infoList";
+    return "admin/infoList";
     }
 
     @PostMapping(value = "/priceInfo/register")
@@ -109,11 +109,11 @@ public class AdminController {
         appService.deletePriceInfo(infoId);
         return  "redirect:/admin/priceInfo/list";
     }
-    /* 난가정보 관리 끝*/
+    /* 난가 정보 관리 끝*/
 
-    /*  난가정보 관리 */
+    /*  난가 예보 관리 */
     @GetMapping(value = "/priceCast/list")
-    public String listPriceCast(@ModelAttribute("cri") Criteria cri, Integer areaId, Model model) {
+    public String listPriceCast(@ModelAttribute("cri") Criteria cri, Model model) {
         model.addAttribute("priceCastList", appService.selectPriceCastList(cri));
 
         PageMaker pageMaker = new PageMaker();
@@ -121,7 +121,7 @@ public class AdminController {
         pageMaker.setTotalCount(appService.selectCountPriceCast());
 
         model.addAttribute("pageMaker", pageMaker);
-        return "admin/priceCast/castList";
+        return "admin/castList";
     }
 
     @PostMapping(value = "/priceCast/register")
@@ -141,31 +141,186 @@ public class AdminController {
         appService.deletePriceCast(castId);
         return  "redirect:/admin/priceCast/list";
     }
-    /* 난가예보 관리 끝*/
+    /* 난가 예보 관리 끝*/
 
-    @RequestMapping(value = "/priceCast", method = RequestMethod.GET)
-    public String adminPriceCast(Model model) {
-    return "admin/priceCast";
+    /*  게시판 정보 관리 */
+    @GetMapping(value = "/board/list")
+    public String listBoard(@ModelAttribute("cri") Criteria cri, Integer boardId, String serarchText, Model model) {
+        model.addAttribute("boardList", appService.selectBoardMessageList(boardId, 1, serarchText, cri));
+        model.addAttribute("areaList", appService.selectBoardList());
+
+        PageMaker pageMaker = new PageMaker();
+        pageMaker.setCri(cri);
+        pageMaker.setTotalCount(appService.selectBoardMessageListCount(boardId, 1, serarchText));
+
+        model.addAttribute("pageMaker", pageMaker);
+        return "admin/boardList";
     }
 
-    @RequestMapping(value = "/deposit", method = RequestMethod.GET)
-    public String adminDeposit(Model model) {
-    return "admin/deposit";
+    @GetMapping(value = "/board/register")
+    public String registerBoard(Model model){
+        model.addAttribute("board", new BoardMessage());
+        model.addAttribute("areaList", appService.selectBoardList());
+        model.addAttribute("register",true);
+        return  "admin/board";
     }
 
-    @RequestMapping(value = "/vs", method = RequestMethod.GET)
-    public String adminVs(Model model) {
-    return "admin/vs";
+    @PostMapping(value = "/board/register")
+    public String createBoard(BoardMessage board){
+        appService.createBoardMessage(board);
+        return  "redirect:/admin/board/list";
     }
 
-    @RequestMapping(value = "/board", method = RequestMethod.GET)
-    public String adminBoard(Model model) {
-    return "admin/board";
+    @GetMapping(value = "/board/read")
+    public String readBoard(long id, Model model) {
+        model.addAttribute("board", appService.selectBoardMessage(id));
+        return "admin/board";
     }
 
-    @RequestMapping(value = "/product", method = RequestMethod.GET)
-    public String adminProduct(Model model) {
-    return "admin/product";
+    @GetMapping(value = "/board/mod")
+    public String modBoard(long id, Model model) {
+        model.addAttribute("board", appService.selectBoardMessage(id));
+        model.addAttribute("areaList", appService.selectBoardList());
+        model.addAttribute("modify",true);
+        return "admin/board";
     }
+
+    @PostMapping(value = "/board/mod")
+    public String modBoard(BoardMessage board){
+        appService.updateBoardMessage(board);
+        return  "redirect:/admin/board/list";
+    }
+
+    @GetMapping(value = "/board/remove")
+    public String removeBoard(long boardId){
+        appService.deleteBoardMessage(boardId);
+        return  "redirect:/admin/board/list";
+    }
+    /* 게시판 관리 끝*/
+
+    /*  문의 관리 */
+    @GetMapping(value = "/contact/list")
+    public String listContact(@ModelAttribute("cri") Criteria cri, Integer status, Model model) {
+        model.addAttribute("boardList", appService.selectContactUsList(null, status, cri));
+
+        PageMaker pageMaker = new PageMaker();
+        pageMaker.setCri(cri);
+        pageMaker.setTotalCount(appService.selectCountContactUs(null, status));
+
+        model.addAttribute("pageMaker", pageMaker);
+        return "admin/contactList";
+    }
+
+    @GetMapping(value = "/contact/read")
+    public String readContact(long id, Model model) {
+        model.addAttribute("board", appService.selectContactUs(id));
+        return "admin/contact";
+    }
+
+    @PostMapping(value = "/board/answer")
+    public String answerContact(ContactUs contact){
+        appService.updateContactUs(contact);
+        return  "redirect:/admin/contact/list";
+    }
+    /* 문의 관리 끝*/
+
+    /*  상품 관리 */
+    @GetMapping(value = "/product/list")
+    public String listProduct(@ModelAttribute("cri") Criteria cri, Model model) {
+        //model.addAttribute("priceCastList", appService.selectPriceCast(cri));
+
+        PageMaker pageMaker = new PageMaker();
+        pageMaker.setCri(cri);
+        //pageMaker.setTotalCount(appService.selectCountPriceCast());
+
+        model.addAttribute("pageMaker", pageMaker);
+        return "admin/productList";
+    }
+
+    @GetMapping(value = "/product/register")
+    public String registerProduct(){
+        return  "admin/product";
+    }
+
+    @PostMapping(value = "/product/register")
+    public String createProduct(Product goods){
+        //appService.createBoardMessage(goods);
+        return  "redirect:/admin/product/list";
+    }
+
+    @GetMapping(value = "/product/read")
+    public String readProduct(long id, Model model) {
+        //model.addAttribute("board", appService.selectBoardMessage(id));
+        return "admin/product";
+    }
+
+    @GetMapping(value = "/product/mod")
+    public String modProduct(long id, Model model) {
+        //model.addAttribute("board", appService.selectBoardMessage(id));
+        return "admin/product";
+    }
+
+    @PostMapping(value = "/product/mod")
+    public String modProduct(Product goods){
+        //appService.updateBoardMessage(board);
+        return  "redirect:/admin/product/list";
+    }
+
+    @GetMapping(value = "/product/remove")
+    public String removeProduct(long productId){
+        //appService.deletePriceCast(castId);
+        return  "redirect:/admin/product/list";
+    }
+    /* 상품 관리 끝*/
+
+    /*  입금 관리 */
+    @GetMapping(value = "/deposit/list")
+    public String listDeposit(@ModelAttribute("cri") Criteria cri, Model model) {
+        //model.addAttribute("priceCastList", appService.selectPriceCast(cri));
+
+        PageMaker pageMaker = new PageMaker();
+        pageMaker.setCri(cri);
+        //pageMaker.setTotalCount(appService.selectCountPriceCast());
+
+        model.addAttribute("pageMaker", pageMaker);
+        return "admin/depositList";
+    }
+
+    @GetMapping(value = "/deposit/register")
+    public String registerDeposit(){
+        return  "admin/deposit";
+    }
+
+    @PostMapping(value = "/deposit/register")
+    public String createDeposit(UserRoleReq req){
+        //appService.createBoardMessage(goods);
+        return  "redirect:/admin/deposit/list";
+    }
+
+    /*read?*/
+    @GetMapping(value = "/deposit/read")
+    public String readDeposit(long id, Model model) {
+        //model.addAttribute("board", appService.selectBoardMessage(id));
+        return "admin/deposit";
+    }
+
+    @GetMapping(value = "/deposit/mod")
+    public String modDeposit(long id, Model model) {
+        //model.addAttribute("board", appService.selectBoardMessage(id));
+        return "admin/deposit";
+    }
+
+    @PostMapping(value = "/deposit/mod")
+    public String modDeposit(UserRoleReq req){
+        //appService.updateBoardMessage(board);
+        return  "redirect:/admin/deposit/list";
+    }
+
+    @GetMapping(value = "/deposit/remove")
+    public String removeDeposit(long productId){
+        //appService.deletePriceCast(castId);
+        return  "redirect:/admin/deposit/list";
+    }
+    /* 입금 관리 끝*/
 
 }

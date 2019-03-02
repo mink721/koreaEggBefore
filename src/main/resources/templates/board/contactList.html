@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/default"  >
+
+<section layout:fragment="content">
+    <!-- ========== MAIN CONTENT ========== -->
+    <main id="content" role="main">
+        <!-- CTA -->
+        <div class="gradient-half-primary-v1 text-center rounded space-1 mt-lg-9">
+            <div class="mb-4">
+                <h2 class="h4 text-white">1:1문의</h2>
+                <p class="text-white">궁금하신 사항은 1:1문의를 주시면 빠르게 답변해드립니다</p>
+            </div>
+            <a class="btn btn-sm btn-primary btn-wide" href="/board/list">공지사항</a>
+            <a class="btn btn-sm btn-dark btn-wide" href="/contact/list">1:1문의</a>
+        </div>
+        <!-- End CTA -->
+
+        <!-- 난가정보 section -->
+        <div class="container space-1 space-2--lg">
+            <!--전체 난가정보-->
+            <div class="board">
+                <div class="board-heading row text-center">
+                    <div class="col-sm-1 hidden-sm d-none d-sm-block">상태</div>
+                    <div class="col-12  col-sm-8">제목</div>
+                    <div class="col-sm-2 hidden-sm d-none d-sm-block">등록일</div>
+                </div>
+                <ul class="list-unstyled">
+                    <li th:each="board : ${contactList}" class="row board-row text-center">
+
+                    <div class="col-sm-1 d-none d-sm-block">
+                        <span th:if="${board.answerFlag}" class="text-danger">답변완료</span>
+                        <span th:unless="${board.answerFlag}" class="text-danger">답변대기</span>
+                    </div>
+                    <div class="col-12 col-sm-8 text-left">
+                        <span th:if="${board.answerFlag}" class="badge badge-primary d-block d-sm-none">답변완료</span>
+                        <span th:unless="${board.answerFlag}"class="badge badge-primary d-block d-sm-none">답변대기</span>
+                        <a th:href="@{read(id=${board.id})}"><span th:text="${board.title}" ></span></a>
+                        <span th:text="${#dates.format(board.regDate, 'yyyy.MM.dd')}" class="d-block d-sm-none"></span>
+                    </div>
+                    <div th:text="${#dates.format(board.regDate, 'yyyy.MM.dd')}" class="col-sm-2 d-none d-sm-block"></div>
+                    <div><a role="button" class="btn btn-xs py-1 btn-danger"
+                                 th:href="@{remove(id=${board.id})}">삭제</a></div>
+                    </li>
+                </ul>
+            </div>
+            <!--END 전체난가정보-->
+            <div class="row">
+                <div class="col-md-3 col-md-offset-3">
+                    <a role="button" class="btn btn-sm btn-primary btn-wide text-white" th:href="@{register}">글등록</a>
+                </div>
+            </div>
+
+            <nav class="row">
+                <ul class="col-3 pagination justify-content-between" >
+                    <li class="">총 목록개수 : <span th:text="${pageMaker.totalCount}"></span></li>
+                    <li class="">
+                        <select class="form-control form-control-sm" id="perPageNum">
+                            <option th:selected="${pageMaker.cri.perPageNum} == 10" value="10" sele>10</option>
+                            <option th:selected="${pageMaker.cri.perPageNum} == 20" value="20">20</option>
+                            <option th:selected="${pageMaker.cri.perPageNum} == 30" value="30">30</option>
+                            <option th:selected="${pageMaker.cri.perPageNum} == 50" value="50">50</option>
+                            <option th:selected="${pageMaker.cri.perPageNum} == 100" value="100">100</option>
+                        </select>
+                    </li>
+                </ul>
+                <ul class="col-9 pagination justify-content-end">
+
+                    <li  class="page-item" th:if="${pageMaker.prev} == true">
+                        <a class="page-link" th:href="@{list(page=${pageMaker.startPage}-1,perPageNum=${pageMaker.cri.perPageNum},areaId=${param.areaId})}">이전</a>
+                    </li>
+
+                    <li  class="page-item" th:each="idx,iterStat : ${#numbers.sequence(pageMaker.startPage,pageMaker.endPage)}"  th:classappend="${pageMaker.cri.page} == ${idx} ? active : null">
+                        <a class="page-link" th:href="@{list(page=${idx},perPageNum=${pageMaker.cri.perPageNum},areaId=${param.areaId})}" th:text="${idx}"></a>
+                    </li>
+
+                    <li  class="page-item" th:if="${pageMaker.next} == true and ${pageMaker.endPage > 0}">
+                        <a class="page-link" th:href="@{list(page=${pageMaker.endPage}+1,perPageNum=${pageMaker.cri.perPageNum},areaId=${param.areaId})}">다음</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <!--END 난가정보 section-->
+    </main>
+</section>

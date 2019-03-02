@@ -27,7 +27,7 @@ public interface UserMapper {
                              @Param("role") String role);
     void createUser(User user);
     User selectUserById(long id);
-    User selectUserByUserId(@Param("userId") String userId);
+    List<User> selectUserByUserId(@Param("userId") String userId);
     void updateUserPwd(@Param("id") Long id, @Param("pwd") String pwd);
     void updateUser(User user);
     void deleteUser(long id);

@@ -67,59 +67,27 @@ public class UserService implements UserDetailsService {
             grantedAuthorityList.add(new SimpleGrantedAuthority(userRole));
         }
 
-        return new UserDetails() {
-            @Override
-            public Collection<? extends GrantedAuthority> getAuthorities() {
-                //return singletonList(new SimpleGrantedAuthority(role));
-                return grantedAuthorityList;
-            }
-
-            @Override
-            public String getPassword() {
-                return user.getPwd();
-            }
-
-            @Override
-            public String getUsername() {
-                return username;
-            }
-
-            @Override
-            public boolean isAccountNonExpired() {
-                return true;
-            }
-
-            @Override
-            public boolean isAccountNonLocked() {
-                return true;
-            }
-
-            @Override
-            public boolean isCredentialsNonExpired() {
-                return true;
-            }
-
-            @Override
-            public boolean isEnabled() {
-                return true;
-            }
-        };
+        user.setAuthorities(grantedAuthorityList);
+        return user;
     }
 
-    public User loadUserEntityByUsername(String username) {
-        List<User> users = userMapper.selectUserByName(username);
+    public User loadUserEntityByUsername(String userId) {
+        List<User> users = userMapper.selectUserByUserId(userId);
         if (users == null || users.size() < 1) {
             return null;
-        } else {
+        } else if (users.size() > 1){
+            /*TODO 아이디가 중복되는 말도 안되는 일이!!??*/
+            return null;
+        }else {
             return users.get(0);
         }
     }
 
     public boolean existId(String userId){
-        User user = userMapper.selectUserByUserId(userId);
-        if(user == null){
+        List<User> users = userMapper.selectUserByUserId(userId);
+        if (users == null || users.size() < 1) {
             return true;
-        }else{
+        }else {
             return false;
         }
     }

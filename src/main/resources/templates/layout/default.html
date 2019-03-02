@@ -126,7 +126,7 @@
                                 <span class="fa fa-lock u-icon__inner"></span>
                             </i>
                             <span>유통인 회원만 볼수 있습니다.<br/></span>
-                            <a href="/class"><span>등급보기</span></a>
+                            <!--<a href="/class"><span>등급보기</span></a>-->
                         </div>
                     </div>
                     <div sec:authorize="hasAuthority('CAST_READ')" class="card-body justify-content-center px-0 ">
@@ -163,11 +163,11 @@
                     <div class="card-body">
                         <div class="text-center px-lg-1 px-3">
                         <ul class="list-unstyled text-secondary">
-                            <a href="/vsList" class="text-body">
+                            <a href="/contact/register" class="text-body">
                                 <li class="media align-items-center pb-2">
                                     <img class="max-width-5 mr-2"  th:src="@{/svg/business-icons/iStar_Design_Business_LineIcons_Live-66.svg}" alt="Image Description"/>
                                     <div class="media-body">
-                                        문의 게시판
+                                        1:1 문의
                                     </div>
                                 </li>
                             </a>

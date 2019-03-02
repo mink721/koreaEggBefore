@@ -6,6 +6,7 @@ import cc.koreaEgg.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -82,5 +83,37 @@ public class AppService {
 
     public void deletePriceCast(long castId) {
         serviceMapper.deletePriceCast(castId);
+    }
+
+    public void deleteBoardMessage(long id) {
+        serviceMapper.deleteBoardMessage(id);
+    }
+
+    public List<ContactUs> selectContactUsList(Long userId, Integer answerFlag, Criteria cri) {
+        return serviceMapper.selectContactUsList(userId, answerFlag, cri);
+    }
+
+    public int selectCountContactUs(Long userId, Integer answerFlag) {
+        return serviceMapper.selectCountContactUs(userId, answerFlag);
+    }
+
+    public void updateContactUs(ContactUs contact) {
+        serviceMapper.updateContactUs(contact);
+    }
+
+    public ContactUs selectContactUs(long id) {
+        return serviceMapper.selectContactUs(id);
+    }
+
+    public List<Board> selectBoardList() {
+        return  serviceMapper.selectBoardList();
+    }
+
+    public void deleteContactUs(long id) {
+        serviceMapper.deleteContactUs(id);
+    }
+
+    public void createContactUs(ContactUs cu) {
+        serviceMapper.createContactUs(cu);
     }
 }

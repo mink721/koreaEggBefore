@@ -33,6 +33,11 @@ public interface ServiceMapper {
 
     void createContactUs(ContactUs contactUs);
     void updateContactUs(ContactUs contactUs);
-    int selectCountContactUs(@Param("userId") Long userId);
-    List<ContactUs> selectContactUsList(@Param("userId") Long userId, @Param("cri") Criteria cri);
+    int selectCountContactUs(@Param("userId") Long userId, @Param("answerFlag") Integer answerFlag);
+    List<ContactUs> selectContactUsList(@Param("userId") Long userId, @Param("answerFlag") Integer answerFlag, @Param("cri") Criteria cri);
+    ContactUs selectContactUs(@Param("id") long id);
+
+    List<Board> selectBoardList();
+
+    void deleteContactUs(long id);
 }

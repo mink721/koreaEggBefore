@@ -2,86 +2,51 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  layout:decorate="~{/admin/adminDefault}" >
 <section layout:fragment="content">
     <main id="content" role="main">
-        <span class="h4 m-0 p-0" >난가정보관리</span>
+        <span class="h4 m-0 p-0" >난가예보관리</span>
         <hr class="mt-1">
-        <!--검색창-->
-        <div class="row" >
-                <div class="col-2 px-1"><a role="button" class="btn btn-primary btn-block btn-sm"
-                                           th:classappend="${param.areaId} == null ? btn-primary : btn-secondary"
-                                           th:href="@{/admin/priceInfo(perPageNum=${pageMaker.cri.perPageNum})}">전체</a></div>
-            <div th:each="area : ${areaList}">
-                <div class="col-2 px-1"><a role="button" class="btn btn-sm" aria-pressed="true"
-                     th:href="@{/admin/priceInfo(areaId=*{area.id},perPageNum=${pageMaker.cri.perPageNum})}" th:text="*{area.areaName}"
-                     th:classappend="${#strings.equals(param.areaId, #strings.toString(area.id))} ? btn-primary : btn-secondary"  ></a></div>
-            </div>
-        </div>
 
-        <!--회원목록-->
         <div class="space-1">
             <table class="table table-bordered table-responsive-sm table-sm table-hover">
                 <thead>
                 <tr class="table-secondary">
-                    <th class="text-sm-center w-15">지역</th>
-                    <th class="text-sm-center w-10">적용일</th>
-                    <th class="text-sm-center w-10">왕</th>
-                    <th class="text-sm-center w-10">특</th>
-                    <th class="text-sm-center w-10">대</th>
-                    <th class="text-sm-center w-10">중</th>
-                    <th class="text-sm-center w-10">소</th>
-                    <th class="text-sm-center w-10">경</th>
-                    <th class="text-sm-center w-10">비고</th>
-                    <th class="text-sm-center w-15" colspan="2"><button class="btn btn-xs btn-secondary" onclick="visibleInputTr()">난가정보입력</button></th>
+                    <th class="text-sm-center">등록일</th>
+                    <th class="text-sm-center" colspan="5">난가예보</th>
+                    <th class="text-sm-center" colspan="2"><button class="btn btn-xs btn-secondary" onclick="visibleInputTr()">난가예보입력</button></th>
                 </tr>
                 </thead>
                 <tbody>
-                    <form action="/admin/createPriceInfo" th:formaction="@{/createPriceInfo}" method="post" onsubmit="return frmsubmit();" >
+                    <form th:action="@{register}" method="post" onsubmit="return frmsubmit();" >
                         <input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-                        <tr id="inputTr" style="display: none">
-                            <td><select class="form-control form-control-sm" name="areaId">
-                                <option selected value="1" sele>서울</option>
-                                <option value="2">대전</option>
-                                <option value="3">영주</option>
-                                <option value="4">부산</option>
-                                <option value="5">대구</option>
-                                <option value="6">광주</option>
-                                <option value="7">전주</option>
-                                <option value="8">충북</option>
-                                </select>
-                            </td><!--지역-->
+                        <tr id="inputTr" style="display: none" class="text-sm-center">
                             <td><span th:text="${#dates.format(#dates.createNow(), 'yyyy.MM.dd')}"></span></td><!--적용일-->
-                            <td><input class="form-control form-control-sm" type="number" name="size1"/></td><!--왕-->
-                            <td><input class="form-control form-control-sm" type="number" name="size2"/></td><!--왕-->
-                            <td><input class="form-control form-control-sm" type="number" name="size3"/></td><!--왕-->
-                            <td><input class="form-control form-control-sm" type="number" name="size4"/></td><!--왕-->
-                            <td><input class="form-control form-control-sm" type="number" name="size5"/></td><!--왕-->
-                            <td><input class="form-control form-control-sm" type="number" name="size6"/></td><!--왕-->
-                            <td><input class="form-control form-control-sm" type="text" name="memo"/></td><!--왕-->
+                            <td><input class="form-control form-control-sm" type="radio" name="cast" value="1"></td>
+                            <td><input class="form-control form-control-sm" type="radio" name="cast" value="2"></td>
+                            <td><input class="form-control form-control-sm" type="radio" name="cast" value="3"></td>
+                            <td><input class="form-control form-control-sm" type="radio" name="cast" value="4"></td>
+                            <td><input class="form-control form-control-sm" type="radio" name="cast" value="5"></td>
                             <td><button type="button" class="btn btn-xs btn-secondary" onclick="invisibleInputTr()" >취소</button></td><!--수정-->
                             <td><button class="btn btn-xs btn-primary">등록</button></td><!--수정-->
                             <!--<td><a th:href="@{'/admin/user?id=' + ${user.id}}">더보기</a></td>-->
                         </tr>
                     </form>
-                <div th:each="info,index : ${priceInfoList}">
-                    <form action="/admin/updatePriceInfo" th:formaction="@{/updatePriceInfo}" method="post">
+                <div th:each="info,index : ${priceCastList}">
+                    <form th:action="@{mod}" method="post">
                         <input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-                        <input type="hidden" name="id" th:value="${info.id}">
-                        <tr>
-                            <td><span th:text="${info.areaName}"></span></td><!--지역-->
+                        <input type="hidden" name="id" th:value="*{info.id}">
+                        <tr class="text-sm-center">
                             <td><span th:text="${#dates.format(info.regDate, 'yyyy.MM.dd')}"></span></td><!--적용일-->
-                            <td><span th:text="${info.size1}"></span><input class="form-control form-control-sm" style="display: none" type="number" name="size1"/></td><!--왕-->
-                            <td><span th:text="${info.size2}"></span><input class="form-control form-control-sm" style="display: none" type="number" name="size2"/></td><!--특-->
-                            <td><span th:text="${info.size3}"></span><input class="form-control form-control-sm" style="display: none" type="number" name="size3"/></td><!--대-->
-                            <td><span th:text="${info.size4}"></span><input class="form-control form-control-sm" style="display: none" type="number" name="size4"/></td><!--중-->
-                            <td><span th:text="${info.size5}"></span><input class="form-control form-control-sm" style="display: none" type="number" name="size5"/></td><!--소-->
-                            <td><span th:text="${info.size6}"></span><input class="form-control form-control-sm" style="display: none" type="number" name="size6"/></td><!--경-->
-                            <td><span th:text="${info.memo}"></span><input class="form-control form-control-sm" style="display: none" type="text" name="memo"/></td><!--비고-->
+                            <td><a href="#" th:classappend="*{info.cast} == 1 ? btn-danger : null" class="btn btn-xs btn-secondary disabled" role="button" aria-disabled="true">-2</a><input class="form-control form-control-sm" style="display: none" type="radio" name="cast" value="1"/></td>
+                            <td><a href="#" th:classappend="*{info.cast} == 2 ? btn-danger : null" class="btn btn-xs btn-secondary disabled" role="button" aria-disabled="true">-1</a><input class="form-control form-control-sm" style="display: none" type="radio" name="cast" value="2"/></td>
+                            <td><a href="#" th:classappend="*{info.cast} == 3 ? btn-danger : null" class="btn btn-xs btn-secondary disabled" role="button" aria-disabled="true">-0</a><input class="form-control form-control-sm" style="display: none" type="radio" name="cast" value="3"/></td>
+                            <td><a href="#" th:classappend="*{info.cast} == 4 ? btn-danger : null" class="btn btn-xs btn-secondary disabled" role="button" aria-disabled="true">+1</a><input class="form-control form-control-sm" style="display: none" type="radio" name="cast" value="4"/></td>
+                            <td><a href="#" th:classappend="*{info.cast} == 5 ? btn-danger : null" class="btn btn-xs btn-secondary disabled" role="button" aria-disabled="true">+2</a><input class="form-control form-control-sm" style="display: none" type="radio" name="cast" value="5"/></td>
                             <td><button type="button" class="btn btn-xs py-1 btn-secondary updateBtn updateBtnTg" >수정</button><button type="button" class="btn btn-xs py-1 btn-secondary updateCancelBtn updateBtnTg" style="display: none" >취소</button></td><!--수정-->
                             <td><button type="button" class="btn btn-xs py-1 btn-danger updateBtnTg"
                                         data-toggle="modal"
                                         data-target="#exampleModal"
                                         data-title="삭제"
                                         data-body="삭제하시겠습니까?"
-                                        th:data-confirm="'/admin/deletePriceInfo?infoId='+ ${info.id}">삭제</button>
+                                        th:data-confirm="@{remove(castId=*{info.id})}">삭제</button>
                                 <button class="btn btn-xs py-1 btn-primary updateBtnTg" style="display: none" >완료</button></td><!--삭제-->
                             <!--<td><a th:href="@{'/admin/user?id=' + ${user.id}}">더보기</a></td>-->
                         </tr>
@@ -107,15 +72,15 @@
                 <ul class="col-9 pagination justify-content-end">
 
                     <li  class="page-item" th:if="${pageMaker.prev} == true">
-                        <a class="page-link" th:href="@{/admin/priceInfo(page=${pageMaker.startPage}-1,perPageNum=${pageMaker.cri.perPageNum},areaId=${param.areaId})}">이전</a>
+                        <a class="page-link" th:href="@{list(page=${pageMaker.startPage}-1,perPageNum=${pageMaker.cri.perPageNum},areaId=${param.areaId})}">이전</a>
                     </li>
 
                     <li  class="page-item" th:each="idx,iterStat : ${#numbers.sequence(pageMaker.startPage,pageMaker.endPage)}"  th:classappend="${pageMaker.cri.page} == ${idx} ? active : null">
-                        <a class="page-link" th:href="@{/admin/priceInfo(page=${idx},perPageNum=${pageMaker.cri.perPageNum},areaId=${param.areaId})}" th:text="${idx}"></a>
+                        <a class="page-link" th:href="@{list(page=${idx},perPageNum=${pageMaker.cri.perPageNum},areaId=${param.areaId})}" th:text="${idx}"></a>
                     </li>
 
                     <li  class="page-item" th:if="${pageMaker.next} == true and ${pageMaker.endPage > 0}">
-                        <a class="page-link" th:href="@{/admin/priceInfo(page=${pageMaker.endPage}+1,perPageNum=${pageMaker.cri.perPageNum},areaId=${param.areaId})}">다음</a>
+                        <a class="page-link" th:href="@{list(page=${pageMaker.endPage}+1,perPageNum=${pageMaker.cri.perPageNum},areaId=${param.areaId})}">다음</a>
                     </li>
                 </ul>
             </nav>
@@ -148,7 +113,7 @@
         /*<![CDATA[*/
 
         function frmsubmit() {
-            if($("#inputTr input").val() == ''){
+            if($("#inputTr input:radio[name='cast']:checked").length == 0){
                 alert("값을 입력해주세요")
                 return false;
             }
@@ -169,7 +134,7 @@
             $("#perPageNum").on('change',function (event) {
                 $(this).val();
                 var areaId = [[${param.areaId}]] == null ? '' : [[${param.areaId}]];
-                location.href = "/admin/priceInfo?perPageNum=" + $(this).val() + "&areaId=" + areaId;
+                location.href = "list?perPageNum=" + $(this).val() + "&areaId=" + areaId;
             });
 
             $('#exampleModal').on('show.bs.modal', function (event) {
@@ -196,9 +161,6 @@
                 var modal = $(this);
                 console.log(modal.parents("tr").html());
                 modal.parents("tr").find(".form-control").prev().hide();
-                modal.parents("tr").find(".form-control").each(function (index, value) {
-                    $(this).val($(this).prev().html());
-                })
                 modal.parents("tr").find(".form-control").show();
                 modal.parents("tr").find(".updateBtnTg").toggle();
             });
@@ -209,7 +171,6 @@
                 modal.parents("tr").find(".form-control").hide();
                 modal.parents("tr").find(".updateBtnTg").toggle();
             });
-
 
         });
 

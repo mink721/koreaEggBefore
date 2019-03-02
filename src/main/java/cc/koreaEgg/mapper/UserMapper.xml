@@ -12,6 +12,12 @@
         WHERE user_name LIKE CONCAT('%',#{userName},'%')
     </select>
 
+
+    <select id="selectUserByUserId" parameterType="map" resultType="user">
+        SELECT * FROM USER WHERE user_id = #{userId} AND status = 1
+    </select>
+
+
     <!--유저 전체 검색-->
     <select id="selectAllUser" parameterType="map" resultType="User">
         SELECT *
@@ -71,10 +77,6 @@
 
     <select id="selectUserById" parameterType="long" resultType="user">
       SELECT * FROM USER WHERE id = #{id}
-    </select>
-
-    <select id="selectUserByUserId" parameterType="map" resultType="user">
-        SELECT * FROM USER WHERE user_id = #{userId} LIMIT 1
     </select>
 
       <!--TODO AN 비밀번호 찾기용-->

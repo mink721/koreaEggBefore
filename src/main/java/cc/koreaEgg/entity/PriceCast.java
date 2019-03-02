@@ -16,6 +16,7 @@ public class PriceCast {
 
     private Long id;
     private Date regDate;
+    private int cast;
     private boolean cast1;      // +2
     private boolean cast2;      // +1
     private boolean cast3;      // +0

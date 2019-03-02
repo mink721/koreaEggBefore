@@ -6,14 +6,16 @@ import cc.koreaEgg.service.AppService;
 import cc.koreaEgg.service.SmsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
+import javax.jws.soap.SOAPBinding;
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -27,51 +29,67 @@ public class BoardController {
     private AppService appService;
 
     /* 공지사항 뉴스 리스트 */
-    @RequestMapping(value = "/boardList", method = RequestMethod.GET)
-    public String boardList(Model model) {
-        List<BoardMessage> boardList = appService.selectBoardMessageList(null, 1, null, null);
-        model.addAttribute("boardList", boardList);
-        return "boardList";
+    @GetMapping(value = "/board/list")
+    public String listBoard(@ModelAttribute("cri") Criteria cri, Model model) {
+        model.addAttribute("boardList", appService.selectBoardMessageList(null, 1, null, cri));
+
+        PageMaker pageMaker = new PageMaker();
+        pageMaker.setCri(cri);
+        pageMaker.setTotalCount(appService.selectBoardMessageListCount(null, 1, null));
+
+        model.addAttribute("pageMaker", pageMaker);
+
+        return "board/boardList";
     }
 
-  @RequestMapping(value = "/contactUsList", method = RequestMethod.GET)
-  public String contactUsList(Model model){
-
-      //model.addAttribute("board", new Board());
-     return  "contactUsList";
+    @GetMapping(value = "/board/read")
+    public String readBoard(long id, Model model) {
+        model.addAttribute("board", appService.selectBoardMessage(id));
+        return "board/board";
     }
 
-    @PostMapping(value = "/registerBoard")
-    public String registerBoardPost(@Valid BoardMessage board, BindingResult result, Model model){
-        appService.createBoardMessage(board);
-        log.info("Form submitted successfully");
-      return  "redirect:" + "/boardList";
+    @RequestMapping(value = "/contact/list", method = RequestMethod.GET)
+    public String contactUsList(@ModelAttribute("cri") Criteria cri, @AuthenticationPrincipal User user, Model model){
+
+        model.addAttribute("contactList", appService.selectContactUsList(user.getId(), null, cri ));
+
+        PageMaker pageMaker = new PageMaker();
+        pageMaker.setCri(cri);
+        pageMaker.setTotalCount(appService.selectCountContactUs(user.getId(), null));
+
+        model.addAttribute("pageMaker", pageMaker);
+
+        return  "board/contactList";
     }
 
-    @PostMapping(value = "/registerContactUs")
-    public String registerContactUsPost(@Valid ContactUs cu, BindingResult result) throws Exception{
-
-      smsService.contacUsSms(cu);
-      return  "redirect:" + "/contactUsList";
+    @GetMapping(value = "/contact/register")
+    public String registerContact(Model model){
+        model.addAttribute("contact", new ContactUs());
+        model.addAttribute("register",true);
+        return  "board/contactUs";
+    }
+    @PostMapping(value = "/contact/register")
+    public String createContact(@Valid ContactUs cu, BindingResult result, @AuthenticationPrincipal User user){
+        cu.setUserId(user.getId());
+        appService.createContactUs(cu);
+        return  "redirect:/contact/list";
     }
 
-    @RequestMapping(value = "/board", method = RequestMethod.GET)
-    public String board(Long id, Model model) {
-        if(id == null){
-            model.addAttribute("msg","조회된 게시글이 없습니다");
-            model.addAttribute("board", new BoardMessage());
-        }else{
-            BoardMessage board = appService.selectBoardMessage(id);
-            model.addAttribute("board", board);
+    @PostAuthorize("isAuthenticated() and (( #model[contact].userId == principal.id ) or hasRole('ROLE_ADMIN'))")
+    @GetMapping(value = "/contact/read")
+    public String contactUs(long id, Model model){
+        model.addAttribute("contact", appService.selectContactUs(id));
+        return  "board/contactUs";
+    }
+
+    @GetMapping(value = "/contact/remove")
+    public String removeContact(long id, @AuthenticationPrincipal User user){
+        ContactUs cu = appService.selectContactUs(id);
+        if(cu.getUserId() == user.getId()){
+            appService.deleteContactUs(id);
         }
-        return "board";
+        return  "redirect:/contact/list";
     }
-
-  @RequestMapping(value = "/contactUs", method = RequestMethod.GET)
-  public String contactUs(Long id, Model model){
-        //model.addAttribute("board", boardList);
-        return  "contactUs";
-  }
 
 
 }

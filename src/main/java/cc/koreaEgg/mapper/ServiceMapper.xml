@@ -83,7 +83,7 @@
     </update>
 
     <!--TODO 게시판 LIST COUNT -->
-    <select id="selectBoardMessageListCount" parameterType="map" resultType="boardMessage">
+    <select id="selectBoardMessageListCount" parameterType="map" resultType="int">
         SELECT count(*) cnt
         FROM BOARD_MESSAGE
         WHERE 1=1
@@ -111,8 +111,16 @@
         <if test="searchText neq null">
             AND ( (a.title LIKE CONCAT('%',#{searchText},'%')) OR (a.contents LIKE CONCAT('%',#{searchText},'%')) )
         </if>
+        ORDER BY iD DESC
         LIMIT #{cri.pageStart}, #{cri.perPageNum}
     </select>
+
+    <select id="selectBoardList" resultType="board">
+        SELECT *
+        FROM BOARD
+    </select>
+
+
 
     <!--TODO 게시판  -->
     <select id="selectBoardMessage" parameterType="long" resultType="boardMessage">
@@ -130,17 +138,14 @@
 
     <!-- TODO 난가예보 등록-->
     <insert id="createPriceCast" parameterType="priceCast">
-        INSERT INTO PRICE_CAST (reg_date, cast1, cast2, cast3, cast4, cast5)
-        VALUES (NOW(), #{cast1},#{cast2},#{cast3},#{cast4},#{cast5})
+        INSERT INTO PRICE_CAST (reg_date, cast)
+        VALUES (NOW(), #{cast})
     </insert>
     <!-- TODO 난가예보 수정-->
     <update id="updatePriceCast" parameterType="priceCast">
         UPDATE PRICE_CAST
-        SET cast1 = #{cast1}
-        , cast2 = #{cast2}
-        , cast3 = #{cast3}
-        , cast4 = #{cast4}
-        , cast5 = #{cast5}
+        SET cast = #{cast}
+        WHERE id = #{id}
     </update>
     <!-- TODO 난가예보 삭제-->
     <delete id="deletePriceCast" parameterType="long">
@@ -149,7 +154,7 @@
     <select id="selectCountPriceCast" parameterType="map" resultType="int">
         SELECT count(*) cnt FROM PRICE_CAST
     </select>
-    <select id="selectPriceCast" parameterType="map" resultType="priceCast">
+    <select id="selectPriceCastList" parameterType="map" resultType="priceCast">
         SELECT * FROM PRICE_CAST ORDER BY id DESC
         LIMIT #{cri.pageStart}, #{cri.perPageNum}
     </select>
@@ -175,6 +180,9 @@
         <if test="userId neq null">
             AND user_id = #{userId}
         </if>
+        <if test="answerFlag neq null">
+            AND answerFlag = #{answerFlag}
+        </if>
     </select>
 
     <select id="selectContactUsList" parameterType="map" resultType="contactUs">
@@ -183,6 +191,18 @@
         <if test="userId neq null">
             AND user_id = #{userId}
         </if>
+        <if test="answerFlag neq null">
+            AND answerFlag = #{answerFlag}
+        </if>
         LIMIT #{cri.pageStart}, #{cri.perPageNum}
     </select>
+
+    <select id="selectContactUs" parameterType="long" resultType="contactUs">
+        SELECT * FROM CONTACT_US
+        WHERE id = #{id}
+    </select>
+
+    <delete id="deleteContactUs" parameterType="long">
+        DELETE FROM CONTACT_US WHERE id = #{id}
+    </delete>
 </mapper>

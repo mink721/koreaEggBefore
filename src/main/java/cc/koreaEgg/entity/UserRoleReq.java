@@ -18,6 +18,7 @@ public class UserRoleReq {
     private Role role;
     private String reqName; // 입금자명
     private int deposit;    // 입금
+    private String memo;
     private Date regDate;
     private Date updateDate;
     private Date expireDate;
