@@ -23,5 +23,10 @@ public class PriceInfo {
     private int size6;
     private Date regDate;
     private String memo;
-
+    private int diff1;
+    private int diff2;
+    private int diff3;
+    private int diff4;
+    private int diff5;
+    private int diff6;
 }
