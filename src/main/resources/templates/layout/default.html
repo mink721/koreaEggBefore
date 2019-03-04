@@ -130,11 +130,16 @@
                         </div>
                     </div>
                     <div sec:authorize="hasAuthority('CAST_READ')" class="card-body justify-content-center px-0 ">
-                        <a href="#" class="btn btn-secondary disabled" style="width: 18% !important;" role="button" aria-disabled="true">-2</a>
-                        <a href="#" class="btn btn-danger disabled" style="width: 18% !important;" role="button" aria-disabled="true">-1</a>
-                        <a href="#" class="btn btn-secondary disabled" style="width: 18% !important;" role="button" aria-disabled="true"> 0</a>
-                        <a href="#" class="btn btn-secondary disabled" style="width: 18% !important;" role="button" aria-disabled="true">+1</a>
-                        <a href="#" class="btn btn-secondary disabled" style="width: 18% !important;"  role="button" aria-disabled="true">+2</a>
+                        <div th:each="area : ${areaList}">
+                            <div class="col-2 px-1"><a role="button" class="btn btn-sm" aria-pressed="true"
+                                                       th:href="@{list(boardId=*{area.id},perPageNum=${pageMaker.cri.perPageNum})}" th:text="*{area.boardName}"
+                                                       th:classappend="${#strings.equals(param.boardId, #strings.toString(area.id))} ? btn-primary : btn-secondary"  ></a></div>
+                        </div>
+                        <a href="#" th:classappend="${session.priceCast.cast} == 1 ? btn-danger : null" class="btn btn-secondary disabled" style="width: 18% !important;" role="button" aria-disabled="true">-2</a>
+                        <a href="#" th:classappend="${session.priceCast.cast} == 2 ? btn-danger : null" class="btn btn-secondary disabled" style="width: 18% !important;" role="button" aria-disabled="true">-1</a>
+                        <a href="#" th:classappend="${session.priceCast.cast} == 3 ? btn-danger : null" class="btn btn-secondary disabled" style="width: 18% !important;" role="button" aria-disabled="true">0</a>
+                        <a href="#" th:classappend="${session.priceCast.cast} == 4 ? btn-danger : null" class="btn btn-secondary disabled" style="width: 18% !important;" role="button" aria-disabled="true">+1</a>
+                        <a href="#" th:classappend="${session.priceCast.cast} == 5 ? btn-danger : null" class="btn btn-secondary disabled" style="width: 18% !important;" role="button" aria-disabled="true">+2</a>
                     </div>
                 </div>
                 <!-- End Card -->

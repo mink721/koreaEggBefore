@@ -40,4 +40,6 @@ public interface ServiceMapper {
     List<Board> selectBoardList();
 
     void deleteContactUs(long id);
+
+    PriceCast selectPriceCast();
 }

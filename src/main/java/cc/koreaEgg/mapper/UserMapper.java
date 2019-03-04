@@ -36,4 +36,6 @@ public interface UserMapper {
     void createUserRoleReq(UserRoleReq userRoleReq);
     List<UserRoleReq> selectAllUserRoleReq(@Param("userId") String userId, @Param("status") Integer status, @Param("reqName") String reqName, @Param("startDate") Date startDate, @Param("endDate") Date endDate);
     void updateUserRoleReq(UserRoleReq userRoleReq);    //입금 확인 후 업데이트(status, role, deposit 필수)
+
+    void countUpVisit(long userId);
 }

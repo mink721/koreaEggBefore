@@ -105,6 +105,12 @@
         WHERE id = #{id}
     </update>
 
+    <update id="countUpVisit" parameterType="long">
+        UPDATE USER
+        SET login_count = login_count+1
+        WHERE id = #{id}
+    </update>
+
     <!--TODO AN 유저탈퇴 개인정보만 지우고 status값만 off로 변경?-->
     <update id="deleteUser" parameterType="long">
         UPDATE USER

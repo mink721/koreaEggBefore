@@ -1,5 +1,7 @@
 package cc.koreaEgg.config;
 
+import cc.koreaEgg.handler.LoginFailureHandler;
+import cc.koreaEgg.handler.LoginSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,6 +27,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
   @Autowired
   private UserDetailsService userDetailsService;
+  @Autowired
+  private LoginSuccessHandler loginSuccessHandler;
+  @Autowired
+  private LoginFailureHandler loginFailureHandler;
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
@@ -33,18 +39,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             //static resources configuration
             .antMatchers("/resources/**", "/webjars/**", "/img/**").permitAll()
             //login page and registration end-point
-            //.antMatchers("/login", "/registration").permitAll()
-            //.antMatchers("/cast").hasAnyAuthority("CAST_READ","ROLE_ADMIN")
             .antMatchers("/cast/**").hasAnyAuthority("ROLE_ADMIN,CAST_READ")
               //all other requests
             //.anyRequest().authenticated()
             .anyRequest().permitAll()
             .and()
           // login form configuration
-          .formLogin()
+          .formLogin().successHandler(loginSuccessHandler)
             .loginPage("/login")
             .failureUrl("/login?error")
-            .defaultSuccessUrl("/")
+            /*.defaultSuccessUrl("/")*/
             .permitAll()
             .and()
           //logout configuration

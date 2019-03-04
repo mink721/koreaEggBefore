@@ -159,6 +159,11 @@
         LIMIT #{cri.pageStart}, #{cri.perPageNum}
     </select>
 
+    <select id="selectPriceCast" resultType="priceCast">
+        SELECT * FROM PRICE_CAST ORDER BY id DESC
+        LIMIT 1
+    </select>
+
 
     <!-- 1:1문의 -->
     <insert id="createContactUs" parameterType="contactUs">

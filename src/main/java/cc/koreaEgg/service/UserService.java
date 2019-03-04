@@ -111,4 +111,8 @@ public class UserService implements UserDetailsService {
     public void deleteUser(long id) {
         userMapper.deleteUser(id);
     }
+
+    public void countUpVisit(long userId) {
+        userMapper.countUpVisit(userId);
+    }
 }

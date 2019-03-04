@@ -116,4 +116,8 @@ public class AppService {
     public void createContactUs(ContactUs cu) {
         serviceMapper.createContactUs(cu);
     }
+
+    public PriceCast selectPriceCast() {
+        return serviceMapper.selectPriceCast();
+    }
 }
