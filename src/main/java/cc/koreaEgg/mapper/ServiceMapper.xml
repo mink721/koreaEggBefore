@@ -31,117 +31,20 @@
 
     <select id="selectAllPriceInfo" resultType="priceInfo">
     /* TODO AN 각 지역별로 최신난가정보 조회*/
+        SELECT t.id, t.area_id,
+        t.size1, (t.size1 - (select b.size1 from PRICE_INFO b where b.area_id=t.area_id and b.id &lt; t.id order by id desc limit 1)) AS diff1,
+        t.size2, (t.size2 - (select b.size2 from PRICE_INFO b where b.area_id=t.area_id and b.id &lt; t.id order by id desc limit 1)) AS diff2,
+        t.size3, (t.size3 - (select b.size3 from PRICE_INFO b where b.area_id=t.area_id and b.id &lt; t.id order by id desc limit 1)) AS diff3,
+        t.size4, (t.size4 - (select b.size4 from PRICE_INFO b where b.area_id=t.area_id and b.id &lt; t.id order by id desc limit 1)) AS diff4,
+        t.size5, (t.size5 - (select b.size5 from PRICE_INFO b where b.area_id=t.area_id and b.id &lt; t.id order by id desc limit 1)) AS diff5,
+        t.size6, (t.size6 - (select b.size6 from PRICE_INFO b where b.area_id=t.area_id and b.id &lt; t.id order by id desc limit 1)) AS diff6,
+        t.reg_date, t.memo, (SELECT area_name FROM AREA WHERE id = t.area_id) area_name
+        FROM
         (
-        select a.id, a.area_id, a.size1, a.size2, a.size3, a.size4, a.size5, a.size6
-        , ifnull((a.size1 - (select b.size1 from PRICE_INFO b where b.area_id=1 and b.id &lt; a.id order by id desc limit 1)),0) diff1
-        , ifnull((a.size2 - (select b.size2 from PRICE_INFO b where b.area_id=1 and b.id &lt; a.id order by id desc limit 1)),0) diff2
-        , ifnull((a.size3 - (select b.size3 from PRICE_INFO b where b.area_id=1 and b.id &lt; a.id order by id desc limit 1)),0) diff3
-        , ifnull((a.size4 - (select b.size4 from PRICE_INFO b where b.area_id=1 and b.id &lt; a.id order by id desc limit 1)),0) diff4
-        , ifnull((a.size5 - (select b.size5 from PRICE_INFO b where b.area_id=1 and b.id &lt; a.id order by id desc limit 1)),0) diff5
-        , ifnull((a.size6 - (select b.size6 from PRICE_INFO b where b.area_id=1 and b.id &lt; a.id order by id desc limit 1)),0) diff6
-        , (SELECT area_name FROM AREA WHERE id = area_id) area_name
-        from PRICE_INFO a where a.area_id = 1
-        order by a.id desc
-        LIMIT 1
-        )
-        union all
-        (
-        select a.id, a.area_id, a.size1, a.size2, a.size3, a.size4, a.size5, a.size6
-        , ifnull((a.size1 - (select b.size1 from PRICE_INFO b where b.area_id=2 and b.id &lt; a.id order by id desc limit 1)),0) diff1
-        , ifnull((a.size2 - (select b.size2 from PRICE_INFO b where b.area_id=2 and b.id &lt; a.id order by id desc limit 1)),0) diff2
-        , ifnull((a.size3 - (select b.size3 from PRICE_INFO b where b.area_id=2 and b.id &lt; a.id order by id desc limit 1)),0) diff3
-        , ifnull((a.size4 - (select b.size4 from PRICE_INFO b where b.area_id=2 and b.id &lt; a.id order by id desc limit 1)),0) diff4
-        , ifnull((a.size5 - (select b.size5 from PRICE_INFO b where b.area_id=2 and b.id &lt; a.id order by id desc limit 1)),0) diff5
-        , ifnull((a.size6 - (select b.size6 from PRICE_INFO b where b.area_id=2 and b.id &lt; a.id order by id desc limit 1)),0) diff6
-        , (SELECT area_name FROM AREA WHERE id = area_id) area_name
-        from PRICE_INFO a where a.area_id = 2
-        order by a.id desc
-        LIMIT 1
-        )
-        union all
-        (
-        select a.id, a.area_id, a.size1, a.size2, a.size3, a.size4, a.size5, a.size6
-        , ifnull((a.size1 - (select b.size1 from PRICE_INFO b where b.area_id=3 and b.id &lt; a.id order by id desc limit 1)),0) diff1
-        , ifnull((a.size2 - (select b.size2 from PRICE_INFO b where b.area_id=3 and b.id &lt; a.id order by id desc limit 1)),0) diff2
-        , ifnull((a.size3 - (select b.size3 from PRICE_INFO b where b.area_id=3 and b.id &lt; a.id order by id desc limit 1)),0) diff3
-        , ifnull((a.size4 - (select b.size4 from PRICE_INFO b where b.area_id=3 and b.id &lt; a.id order by id desc limit 1)),0) diff4
-        , ifnull((a.size5 - (select b.size5 from PRICE_INFO b where b.area_id=3 and b.id &lt; a.id order by id desc limit 1)),0) diff5
-        , ifnull((a.size6 - (select b.size6 from PRICE_INFO b where b.area_id=3 and b.id &lt; a.id order by id desc limit 1)),0) diff6
-        , (SELECT area_name FROM AREA WHERE id = area_id) area_name
-        from PRICE_INFO a where a.area_id = 3
-        order by a.id desc
-        LIMIT 1
-        )
-        union all
-        (
-        select a.id, a.area_id, a.size1, a.size2, a.size3, a.size4, a.size5, a.size6
-        , ifnull((a.size1 - (select b.size1 from PRICE_INFO b where b.area_id=4 and b.id &lt; a.id order by id desc limit 1)),0) diff1
-        , ifnull((a.size2 - (select b.size2 from PRICE_INFO b where b.area_id=4 and b.id &lt; a.id order by id desc limit 1)),0) diff2
-        , ifnull((a.size3 - (select b.size3 from PRICE_INFO b where b.area_id=4 and b.id &lt; a.id order by id desc limit 1)),0) diff3
-        , ifnull((a.size4 - (select b.size4 from PRICE_INFO b where b.area_id=4 and b.id &lt; a.id order by id desc limit 1)),0) diff4
-        , ifnull((a.size5 - (select b.size5 from PRICE_INFO b where b.area_id=4 and b.id &lt; a.id order by id desc limit 1)),0) diff5
-        , ifnull((a.size6 - (select b.size6 from PRICE_INFO b where b.area_id=4 and b.id &lt; a.id order by id desc limit 1)),0) diff6
-        , (SELECT area_name FROM AREA WHERE id = area_id) area_name
-        from PRICE_INFO a where a.area_id = 4
-        order by a.id desc
-        LIMIT 1
-        )
-        union all
-        (
-        select a.id, a.area_id, a.size1, a.size2, a.size3, a.size4, a.size5, a.size6
-        , ifnull((a.size1 - (select b.size1 from PRICE_INFO b where b.area_id=5 and b.id &lt; a.id order by id desc limit 1)),0) diff1
-        , ifnull((a.size2 - (select b.size2 from PRICE_INFO b where b.area_id=5 and b.id &lt; a.id order by id desc limit 1)),0) diff2
-        , ifnull((a.size3 - (select b.size3 from PRICE_INFO b where b.area_id=5 and b.id &lt; a.id order by id desc limit 1)),0) diff3
-        , ifnull((a.size4 - (select b.size4 from PRICE_INFO b where b.area_id=5 and b.id &lt; a.id order by id desc limit 1)),0) diff4
-        , ifnull((a.size5 - (select b.size5 from PRICE_INFO b where b.area_id=5 and b.id &lt; a.id order by id desc limit 1)),0) diff5
-        , ifnull((a.size6 - (select b.size6 from PRICE_INFO b where b.area_id=5 and b.id &lt; a.id order by id desc limit 1)),0) diff6
-        , (SELECT area_name FROM AREA WHERE id = area_id) area_name
-        from PRICE_INFO a where a.area_id = 5
-        order by a.id desc
-        LIMIT 1
-        )
-        union all
-        (
-        select a.id, a.area_id, a.size1, a.size2, a.size3, a.size4, a.size5, a.size6
-        , ifnull((a.size1 - (select b.size1 from PRICE_INFO b where b.area_id=6 and b.id &lt; a.id order by id desc limit 1)),0) diff1
-        , ifnull((a.size2 - (select b.size2 from PRICE_INFO b where b.area_id=6 and b.id &lt; a.id order by id desc limit 1)),0) diff2
-        , ifnull((a.size3 - (select b.size3 from PRICE_INFO b where b.area_id=6 and b.id &lt; a.id order by id desc limit 1)),0) diff3
-        , ifnull((a.size4 - (select b.size4 from PRICE_INFO b where b.area_id=6 and b.id &lt; a.id order by id desc limit 1)),0) diff4
-        , ifnull((a.size5 - (select b.size5 from PRICE_INFO b where b.area_id=6 and b.id &lt; a.id order by id desc limit 1)),0) diff5
-        , ifnull((a.size6 - (select b.size6 from PRICE_INFO b where b.area_id=6 and b.id &lt; a.id order by id desc limit 1)),0) diff6
-        , (SELECT area_name FROM AREA WHERE id = area_id) area_name
-        from PRICE_INFO a where a.area_id = 6
-        order by a.id desc
-        LIMIT 1
-        )
-        union all
-        (
-        select a.id, a.area_id, a.size1, a.size2, a.size3, a.size4, a.size5, a.size6
-        , ifnull((a.size1 - (select b.size1 from PRICE_INFO b where b.area_id=7 and b.id &lt; a.id order by id desc limit 1)),0) diff1
-        , ifnull((a.size2 - (select b.size2 from PRICE_INFO b where b.area_id=7 and b.id &lt; a.id order by id desc limit 1)),0) diff2
-        , ifnull((a.size3 - (select b.size3 from PRICE_INFO b where b.area_id=7 and b.id &lt; a.id order by id desc limit 1)),0) diff3
-        , ifnull((a.size4 - (select b.size4 from PRICE_INFO b where b.area_id=7 and b.id &lt; a.id order by id desc limit 1)),0) diff4
-        , ifnull((a.size5 - (select b.size5 from PRICE_INFO b where b.area_id=7 and b.id &lt; a.id order by id desc limit 1)),0) diff5
-        , ifnull((a.size6 - (select b.size6 from PRICE_INFO b where b.area_id=7 and b.id &lt; a.id order by id desc limit 1)),0) diff6
-        , (SELECT area_name FROM AREA WHERE id = area_id) area_name
-        from PRICE_INFO a where a.area_id = 7
-        order by a.id desc
-        LIMIT 1
-        )
-        union all
-        (
-        select a.id, a.area_id, a.size1, a.size2, a.size3, a.size4, a.size5, a.size6
-        , ifnull((a.size1 - (select b.size1 from PRICE_INFO b where b.area_id=8 and b.id &lt; a.id order by id desc limit 1)),0) diff1
-        , ifnull((a.size2 - (select b.size2 from PRICE_INFO b where b.area_id=8 and b.id &lt; a.id order by id desc limit 1)),0) diff2
-        , ifnull((a.size3 - (select b.size3 from PRICE_INFO b where b.area_id=8 and b.id &lt; a.id order by id desc limit 1)),0) diff3
-        , ifnull((a.size4 - (select b.size4 from PRICE_INFO b where b.area_id=8 and b.id &lt; a.id order by id desc limit 1)),0) diff4
-        , ifnull((a.size5 - (select b.size5 from PRICE_INFO b where b.area_id=8 and b.id &lt; a.id order by id desc limit 1)),0) diff5
-        , ifnull((a.size6 - (select b.size6 from PRICE_INFO b where b.area_id=8 and b.id &lt; a.id order by id desc limit 1)),0) diff6
-        , (SELECT area_name FROM AREA WHERE id = area_id) area_name
-        from PRICE_INFO a where a.area_id = 8
-        order by a.id desc
-        LIMIT 1
-        )
+        SELECT *
+        FROM PRICE_INFO WHERE reg_date in ( SELECT max(reg_date) from PRICE_INFO group by area_id )
+        ) AS t
+        ORDER BY t.AREA_ID ASC
     </select>
 
     <insert id="createPriceInfo">
@@ -289,7 +192,7 @@
             AND user_id = #{userId}
         </if>
         <if test="answerFlag neq null">
-            AND answerFlag = #{answerFlag}
+            AND answer_flag = #{answerFlag}
         </if>
     </select>
 
@@ -300,7 +203,7 @@
             AND user_id = #{userId}
         </if>
         <if test="answerFlag neq null">
-            AND answerFlag = #{answerFlag}
+            AND answer_flag = #{answerFlag}
         </if>
         LIMIT #{cri.pageStart}, #{cri.perPageNum}
     </select>

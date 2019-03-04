@@ -33,7 +33,6 @@ public class LoginSuccessHandler  implements AuthenticationSuccessHandler {
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws ServletException, IOException {
 
-        log.trace("login ID " + ((User)authentication.getPrincipal()).getId() );
         userService.countUpVisit( ((User)authentication.getPrincipal()).getId() );
         HttpSession session = request.getSession();
         session.setAttribute("priceCast", appService.selectPriceCast());

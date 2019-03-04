@@ -1,9 +1,6 @@
 package cc.koreaEgg.controller;
 
-import cc.koreaEgg.entity.Board;
-import cc.koreaEgg.entity.PriceInfo;
-import cc.koreaEgg.entity.Product;
-import cc.koreaEgg.entity.User;
+import cc.koreaEgg.entity.*;
 import cc.koreaEgg.service.AppService;
 import cc.koreaEgg.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -24,24 +23,39 @@ public class ServiceController {
     @Autowired
     private AppService appService;
 
- @RequestMapping(value = "/product", method = RequestMethod.GET)
-  public String productView(Model model){
+    @GetMapping(value = "/priceInfo/list")
+    public String listPriceInfo(Model model){
+        model.addAttribute("areaList", appService.selectAreaList());
+        model.addAttribute("list", appService.selectAllPriceInfo());
+        return  "price/infoList";
+    }
+
+    @GetMapping(value = "/priceInfo/read")
+    public String readPriceInfo(@ModelAttribute("cri") Criteria cri, Integer id, Model model){
+        model.addAttribute("areaList", appService.selectAreaList());
+        model.addAttribute("list", appService.selectPriceInfoByAreaId(cri, id));
+
+        PageMaker pageMaker = new PageMaker();
+        pageMaker.setCri(cri);
+        pageMaker.setTotalCount(appService.selectCountPriceInfoByAreaId(id));
+
+        model.addAttribute("pageMaker", pageMaker);
+
+        return  "price/info";
+    }
+
+    @RequestMapping(value = "/product", method = RequestMethod.GET)
+    public String productView(Model model){
     model.addAttribute("product", new Product());
     return  "product";
-  }
-
-  @RequestMapping(value = "/registProduct", method = RequestMethod.GET)
-  public String createProductView(Model model){
-    return  "redirect:" + "/product?regist";
-  }
-
-    @RequestMapping(value = "/priceInfo", method = RequestMethod.GET)
-    public String priceInfo(Model model){
-        List<PriceInfo> list = appService.selectAllPriceInfo();
-        model.addAttribute("list",list);
-        log.info("list info " + list.toString());
-        return  "priceInfo";
     }
+
+    @RequestMapping(value = "/registProduct", method = RequestMethod.GET)
+    public String createProductView(Model model){
+    return  "redirect:" + "/product?regist";
+    }
+
+
 
     @RequestMapping(value = "/registPriceInfo", method = RequestMethod.GET)
     public String registPriceInfoGet(){

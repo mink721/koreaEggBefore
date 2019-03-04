@@ -61,8 +61,8 @@ public class AppService {
     public void deletePriceInfo(long infoId) { serviceMapper.deletePriceInfo(infoId);
     }
 
-    public int selectCountPriceInfoByAreaId(Criteria cri, Integer areaId) {
-        return serviceMapper.selectCountPriceInfoByAreaId(cri, areaId);
+    public int selectCountPriceInfoByAreaId(Integer areaId) {
+        return serviceMapper.selectCountPriceInfoByAreaId(areaId);
     }
 
     public  List<PriceCast> selectPriceCastList(Criteria cri) {

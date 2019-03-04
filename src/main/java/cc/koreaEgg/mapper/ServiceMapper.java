@@ -11,7 +11,7 @@ public interface ServiceMapper {
     List<Area> selectAreaList();
     List<PriceInfo> selectAllPriceInfo();
     List<PriceInfo> selectPriceInfoByAreaId(@Param("cri") Criteria cri, @Param("areaId") Integer areaId);
-    int selectCountPriceInfoByAreaId(@Param("cri") Criteria cri, @Param("areaId") Integer areaId);
+    int selectCountPriceInfoByAreaId(@Param("areaId") Integer areaId);
     void createBoardMessage(BoardMessage boardMessage);
 
     void updateBoardMessage(BoardMessage boardMessage);

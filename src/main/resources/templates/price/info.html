@@ -12,18 +12,22 @@
                     <form class="w-lg-75 px-3 px-sm-9 mx-lg-auto justify-content-lg-between align-items-lg-center">
                         <div class="bg-white shadow-sm rounded p-3 row">
                             <div class="col-md-3 position-relative d-none d-md-block" >
-                                <button type="button" class="btn btn-primary px-8 content-centered">전체</button>
+                                <a role="button" class="btn px-8 content-centered"
+                                   th:classappend="${param.id} == null? btn-primary : btn-secondary"
+                                   th:href="@{list}"
+                                >전체</a>
                             </div>
                             <div class="col-md-9 row">
-                                <div class="col-4 col-md-3 pr-0 pl-1 d-block d-xl-none d-lg-none d-md-none "><button type="button" class="btn btn-primary mb-2  btn-block">전체</button></div>
-                                <div class="col-4 col-md-3 pr-0 pl-1"><button type="button" class="btn btn-secondary mb-2  btn-block" data-toggle="collapse" data-target="#test1" aria-expanded="false" aria-controls="collapseExample">서울</button></div>
-                                <div class="col-4 col-md-3 pr-0 pl-1"><button type="button" class="btn btn-secondary mb-2  btn-block">대전</button></div>
-                                <div class="col-4 col-md-3 pr-0 pl-1"><button type="button" class="btn btn-secondary mb-2  btn-block">영주</button></div>
-                                <div class="col-4 col-md-3 pr-0 pl-1"><button type="button" class="btn btn-secondary mb-2  btn-block">부산</button></div>
-                                <div class="col-4 col-md-3 pr-0 pl-1"><button type="button" class="btn btn-secondary mb-2  btn-block">대구</button></div>
-                                <div class="col-4 col-md-3 pr-0 pl-1"><button type="button" class="btn btn-secondary mb-2  btn-block">광주</button></div>
-                                <div class="col-4 col-md-3 pr-0 pl-1"><button type="button" class="btn btn-secondary mb-2  btn-block">전주</button></div>
-                                <div class="col-4 col-md-3 pr-0 pl-1"><button type="button" class="btn btn-secondary mb-2  btn-block">충북</button></div>
+                                <div class="col-4 col-md-3 pr-0 pl-1 d-block d-xl-none d-lg-none d-md-none ">
+                                    <a role="button" class="btn mb-2 btn-block text-white"
+                                       th:classappend="${param.id} == null? btn-primary : btn-secondary"
+                                       th:href="@{list}">전체</a>
+                                </div>
+                                <div class="col-4 col-md-3 pr-0 pl-1" th:each="area : ${areaList}">
+                                    <a role="button" class="btn mb-2 btn-block text-white" aria-pressed="true"
+                                       th:href="@{read(id=${area.id})}" th:text="*{area.areaName}"
+                                       th:classappend="${#strings.equals(param.id, #strings.toString(area.id))} ? btn-primary : btn-secondary"  ></a>
+                                </div>
                             </div>
                         </div>
                     </form>
@@ -101,15 +105,33 @@
                     <div th:each="price : ${list}">
                         <tr>
                             <th class="text-sm-center" rowspan="2"><span th:text="${price.areaName}"></span><br/><span class="small" th:text="${#dates.format(price.regDate, 'yy.MM.dd')}">02.02</span></th>
-                            <td><span class="position-relative mr-2"><span th:text="${price.size1}"></span><span class="badge-xs badge-secondary badge-pos rounded-circle mr--8px"></span></span></td>
-                            <td><span class="position-relative mr-2"><span th:text="${price.size2}"></span><span class="badge-xs badge-secondary badge-pos rounded-circle mr--8px"></span></span></td>
-                            <td><span class="position-relative mr-2"><span th:text="${price.size3}"></span><span class="badge-xs badge-secondary badge-pos rounded-circle mr--8px"></span></span></td>
-                            <td><span class="position-relative mr-2"><span th:text="${price.size4}"></span><span class="badge-xs badge-secondary badge-pos rounded-circle mr--8px"></span></span></td>
-                            <td><span class="position-relative mr-2"><span th:text="${price.size5}"></span><span class="badge-xs badge-secondary badge-pos rounded-circle mr--8px"></span></span></td>
-                            <td><span class="position-relative mr-2"><span th:text="${price.size6}"></span><span class="badge-xs badge-secondary badge-pos rounded-circle mr--8px"></span></span></td>
+                            <td><span class="position-relative mr-2"><span th:text="${price.size1}"></span>
+                                <span th:text="${price.diff1}" th:unless="${price.diff1} ==0 "
+                                      th:classappend="${price.diff1} < 0 ? badge-info : null"
+                                      class="badge-xs badge-danger badge-pos rounded-circle mr--8px"></span></span></td>
+                            <td><span class="position-relative mr-2"><span th:text="${price.size2}"></span>
+                                <span th:text="${price.diff2}" th:unless="${price.diff2} ==0 "
+                                      th:classappend="${price.diff2} < 0 ? badge-info : null"
+                                      class="badge-xs badge-danger badge-pos rounded-circle mr--8px"></span></span></td>
+                            <td><span class="position-relative mr-2"><span th:text="${price.size3}"></span>
+                                <span th:text="${price.diff3}" th:unless="${price.diff3} ==0 "
+                                      th:classappend="${price.diff3} < 0 ? badge-info : null"
+                                      class="badge-xs badge-danger badge-pos rounded-circle mr--8px"></span></span></td>
+                            <td><span class="position-relative mr-2"><span th:text="${price.size4}"></span>
+                                <span th:text="${price.diff4}" th:unless="${price.diff4} ==0 "
+                                      th:classappend="${price.diff4} < 0 ? badge-info : null"
+                                      class="badge-xs badge-danger badge-pos rounded-circle mr--8px"></span></span></td>
+                            <td><span class="position-relative mr-2"><span th:text="${price.size5}"></span>
+                                <span th:text="${price.diff5}" th:unless="${price.diff5} ==0 "
+                                      th:classappend="${price.diff5} < 0 ? badge-info : null"
+                                      class="badge-xs badge-danger badge-pos rounded-circle mr--8px"></span></span></td>
+                            <td><span class="position-relative mr-2"><span th:text="${price.size6}"></span>
+                                <span th:text="${price.diff6}" th:unless="${price.diff6} ==0 "
+                                      th:classappend="${price.diff6} < 0 ? badge-info : null"
+                                      class="badge-xs badge-danger badge-pos rounded-circle mr--8px"></span></span></td>
                         </tr>
                         <tr>
-                            <td colspan="6" class="py-0"><span class="span small" th:text="${price.memo}">전체 +7원 인상</span></td>
+                            <td colspan="6" class="py-0"><span class="span small" th:text="${price.memo}"></span></td>
                         </tr>
                     </div>
                     </tbody>

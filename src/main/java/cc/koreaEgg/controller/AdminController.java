@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -86,7 +87,7 @@ public class AdminController {
 
         PageMaker pageMaker = new PageMaker();
         pageMaker.setCri(cri);
-        pageMaker.setTotalCount(appService.selectCountPriceInfoByAreaId(cri, areaId));
+        pageMaker.setTotalCount(appService.selectCountPriceInfoByAreaId(areaId));
 
         model.addAttribute("pageMaker", pageMaker);
     return "admin/infoList";
@@ -276,11 +277,13 @@ public class AdminController {
     /*  입금 관리 */
     @GetMapping(value = "/deposit/list")
     public String listDeposit(@ModelAttribute("cri") Criteria cri, Model model) {
-        //model.addAttribute("priceCastList", appService.selectPriceCast(cri));
+        //model.addAttribute("infoList", appService.selectPriceCast(cri));
 
+        List<UserRoleReq> reqList = new ArrayList();
+        reqList.add(new UserRoleReq());
         PageMaker pageMaker = new PageMaker();
         pageMaker.setCri(cri);
-        //pageMaker.setTotalCount(appService.selectCountPriceCast());
+        pageMaker.setTotalCount(1);
 
         model.addAttribute("pageMaker", pageMaker);
         return "admin/depositList";
@@ -297,19 +300,6 @@ public class AdminController {
         return  "redirect:/admin/deposit/list";
     }
 
-    /*read?*/
-    @GetMapping(value = "/deposit/read")
-    public String readDeposit(long id, Model model) {
-        //model.addAttribute("board", appService.selectBoardMessage(id));
-        return "admin/deposit";
-    }
-
-    @GetMapping(value = "/deposit/mod")
-    public String modDeposit(long id, Model model) {
-        //model.addAttribute("board", appService.selectBoardMessage(id));
-        return "admin/deposit";
-    }
-
     @PostMapping(value = "/deposit/mod")
     public String modDeposit(UserRoleReq req){
         //appService.updateBoardMessage(board);
@@ -317,7 +307,7 @@ public class AdminController {
     }
 
     @GetMapping(value = "/deposit/remove")
-    public String removeDeposit(long productId){
+    public String removeDeposit(long id){
         //appService.deletePriceCast(castId);
         return  "redirect:/admin/deposit/list";
     }
