@@ -13,13 +13,15 @@ import org.apache.ibatis.type.Alias;
 public class Product {
 
     private Long id;
+    private String userId;
+    private Long priceId;
     private String name;
-    private Price price;
     private String origin;
     private String shopName;
-    private String shopId;
-    private String imgS;
     private String content;
+
+    private String imagePath;
+    private Price price;
 
 
 

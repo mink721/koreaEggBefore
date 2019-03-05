@@ -14,7 +14,7 @@ public class UserRoleReq {
 
     private Long id;
     private Long userId;
-    private Long userName;
+    private String userName;
     private Integer status;
     private Role role;
     private String reqName; // 입금자명
