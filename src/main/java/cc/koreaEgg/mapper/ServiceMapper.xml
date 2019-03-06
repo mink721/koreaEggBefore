@@ -216,4 +216,8 @@
     <delete id="deleteContactUs" parameterType="long">
         DELETE FROM CONTACT_US WHERE id = #{id}
     </delete>
+
+    <insert id="createUploadFile" parameterType="uploadFile">
+
+    </insert>
 </mapper>
