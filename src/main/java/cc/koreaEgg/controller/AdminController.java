@@ -11,9 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 관리자만 접근 가능한 컨트롤러
@@ -57,7 +55,7 @@ public class AdminController {
     @GetMapping(value = "/user/read")
     public String readUser(long id, Model model) {
     model.addAttribute("user", userService.selectUserById(id));
-    return "admin/user";
+    return "admin/user/user";
     }
 
     @PostMapping(value = "/user/mod")
@@ -214,11 +212,11 @@ public class AdminController {
 
     @GetMapping(value = "/contact/read")
     public String readContact(long id, Model model) {
-        model.addAttribute("board", appService.selectContactUs(id));
+        model.addAttribute("contact", appService.selectContactUs(id));
         return "admin/contact";
     }
 
-    @PostMapping(value = "/board/answer")
+    @PostMapping(value = "/contact/answer")
     public String answerContact(ContactUs contact){
         appService.updateContactUs(contact);
         return  "redirect:/admin/contact/list";
@@ -276,14 +274,16 @@ public class AdminController {
 
     /*  입금 관리 */
     @GetMapping(value = "/deposit/list")
-    public String listDeposit(@ModelAttribute("cri") Criteria cri, Model model) {
-        //model.addAttribute("infoList", appService.selectPriceCast(cri));
+    public String listDeposit(@ModelAttribute("cri") Criteria cri,
+                              String userId, String userName, Integer status, String reqName, String memo, Date startDate, Date endDate
+                              ,Model model) {
+        model.addAttribute("infoList", userService.selectAllUserRoleReqList(cri, userId, userName, status, reqName, memo, startDate, endDate));
 
         List<UserRoleReq> reqList = new ArrayList();
         reqList.add(new UserRoleReq());
         PageMaker pageMaker = new PageMaker();
         pageMaker.setCri(cri);
-        pageMaker.setTotalCount(1);
+        pageMaker.setTotalCount(userService.selectCountAllUserRoleReqList(userId, userName, status, reqName, memo, startDate, endDate));
 
         model.addAttribute("pageMaker", pageMaker);
         return "admin/depositList";
@@ -296,19 +296,28 @@ public class AdminController {
 
     @PostMapping(value = "/deposit/register")
     public String createDeposit(UserRoleReq req){
-        //appService.createBoardMessage(goods);
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.YEAR, 1);
+        req.setExpireDate(cal.getTime());
+        req.setUpdateDate(new Date());
+        userService.createUserRoleReq(req);
         return  "redirect:/admin/deposit/list";
     }
 
     @PostMapping(value = "/deposit/mod")
     public String modDeposit(UserRoleReq req){
-        //appService.updateBoardMessage(board);
+        req.setStatus(CODE.END.getCode());
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.YEAR, 1);
+        req.setExpireDate(cal.getTime());
+        req.setUpdateDate(new Date());
+        userService.updateUserRoleReq(req);
         return  "redirect:/admin/deposit/list";
     }
 
     @GetMapping(value = "/deposit/remove")
     public String removeDeposit(long id){
-        //appService.deletePriceCast(castId);
+
         return  "redirect:/admin/deposit/list";
     }
     /* 입금 관리 끝*/

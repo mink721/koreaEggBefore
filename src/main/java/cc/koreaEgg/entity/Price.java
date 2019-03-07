@@ -14,12 +14,13 @@ import java.util.Date;
 @Alias("price")
 public class Price {
 
+    private Long id;
     private Long productId;
     private int cost;
     private int consumer;
     private int store;
     private int retail;
-    private int wholeSale;
+    private int wholesale;
     private int partner;
     private int agent;
     private Date updateDate;

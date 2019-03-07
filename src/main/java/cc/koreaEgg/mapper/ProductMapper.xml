@@ -5,8 +5,25 @@
 
 <mapper namespace="cc.koreaEgg.mapper.ProductMapper">
 
+    <select id="selectProductList" parameterType="map">
+        SELECT * FROM PRODUCT t, PRICE e WHERE t.id = e.prpduct_id AND
+    </select>
+
+    <select id="selectProduct" parameterType="long">
+        SELECT * FROM PRODUCT WHERE id = #{id}
+    </select>
     <!-- TODO 상품등록 -->
-    <!-- TODO 상품수정 -->
-    <!-- TODO 상품삭제 -->
+    <insert id="createProduct" parameterType="product">
+        <selectKey resultType="long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO PRODUCT (user_id, name, origin, contents)
+        VALUES (#{userId},#{name},#{origin},#{contents})
+    </insert>
+
+    <insert id="createPrice" parameterType="price">
+        INSERT INTO PRICE (product_id, user_id, cost, consumer, store, retail, wholeSale, partner, agent, reg_date)
+        VALUES (#{productId}, #{userId},#{cost},#{consumer},#{store},#{retail},#{wholeSale},#{partner},#{agent},NOW())
+    </insert>
 
 </mapper>

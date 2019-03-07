@@ -2,6 +2,7 @@ package cc.koreaEgg.service;
 
 import cc.koreaEgg.entity.Criteria;
 import cc.koreaEgg.entity.User;
+import cc.koreaEgg.entity.UserRoleReq;
 import cc.koreaEgg.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
@@ -114,5 +115,18 @@ public class UserService implements UserDetailsService {
 
     public void countUpVisit(long userId) {
         userMapper.countUpVisit(userId);
+    }
+
+    public void createUserRoleReq(UserRoleReq userRoleReq){
+        userMapper.createUserRoleReq(userRoleReq);
+    }
+    public List<UserRoleReq> selectAllUserRoleReqList(Criteria cri, String userId, String userName, Integer status,  String reqName, String memo,  Date startDate, Date endDate){
+       return userMapper.selectAllUserRoleReqList(cri, userId, userName, status, reqName, memo, startDate, endDate);
+    }
+    public int selectCountAllUserRoleReqList(String userId, String userName, Integer status,  String reqName,String memo, Date startDate, Date endDate){
+        return userMapper.selectCountAllUserRoleReqList(userId, userName, status, reqName, memo, startDate, endDate);
+    }
+    public void updateUserRoleReq(UserRoleReq userRoleReq){
+        userMapper.updateUserRoleReq(userRoleReq);
     }
 }

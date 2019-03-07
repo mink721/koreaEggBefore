@@ -6,17 +6,15 @@
         <hr class="mt-1">
         <!--검색창-->
         <div class="row" >
-            <div class="col-2 px-1">
-                <a role="button" class="btn btn-primary btn-block btn-sm"
+                <a role="button" class="btn btn-primary btn-sm"
                    th:classappend="${param.status} == null? btn-primary : btn-secondary"
                    th:href="@{list(perPageNum=${pageMaker.cri.perPageNum})}">전체</a>
-                <a role="button" class="btn btn-primary btn-block btn-sm"
+                <a role="button" class="btn btn-primary btn-sm"
                    th:classappend="${#strings.equals(param.status, 0)} ? btn-primary : btn-secondary"
                    th:href="@{list(perPageNum=${pageMaker.cri.perPageNum},status=0)}">답변대기</a>
-                <a role="button" class="btn btn-primary btn-block btn-sm"
+                <a role="button" class="btn btn-primary btn-sm"
                    th:classappend="${#strings.equals(param.status, 1)} ? btn-primary : btn-secondary"
                    th:href="@{list(perPageNum=${pageMaker.cri.perPageNum},status=1)}">답변완료</a>
-            </div>
         </div>
 
         <!--게시판 목록-->
@@ -40,8 +38,7 @@
                         <td><a th:href="@{read(id=${board.id})}"><span th:text="${board.title}"></span></a></td>
                         <td><span th:text="${board.reqName}"></span></td>
                         <td><span th:text="${#dates.format(board.regDate, 'yyyy.MM.dd')}"></span></td><!--적용일-->
-                        <td><a th:if="${board.answerFlag}" role="button" class="btn btn-xs py-1 btn-secondary" th:href="@{mod(id=${board.id})}">답변수정</a>
-                            <a th:unless="${board.answerFlag}" role="button" class="btn btn-xs py-1 btn-secondary" th:href="@{read(id=${board.id})}">답변</a>
+                        <td><a th:unless="${board.answerFlag}" role="button" class="btn btn-xs py-1 btn-secondary" th:href="@{read(id=${board.id})}">답변</a>
                         </td><!--수정-->
                     </tr>
                 </div>

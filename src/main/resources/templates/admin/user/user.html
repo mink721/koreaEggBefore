@@ -1,10 +1,47 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  layout:decorate="~{/admin/adminDefault}" >
 <section layout:fragment="content">
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">회원등급 변경</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form th:action="@{/admin/deposit/register}" method="post">
+                    <div class="modal-body">
+
+                            <input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                            <input type="hidden" name="userId" th:value="${user.userId}">
+                            <input type="hidden" name="status" th:value="#{CODE.END}">
+                            <select class="form-control" name="role">
+                                <option value="USER" th:text="#{ROLE.USER}" th:selected="${user.role == 'USER'}"></option>
+                                <option value="STORE" th:text="#{ROLE.STORE}" th:selected="${user.role == 'STORE'}"></option>
+                                <option value="RETAILER" th:text="#{ROLE.RETAILER}" th:selected="${user.role == 'RETAILER'}"></option>
+                                <option value="WHOLESALER" th:text="#{ROLE.WHOLESALER}" th:selected="${user.role == 'WHOLESALER'}"></option>
+                                <option value="PARTNER" th:text="#{ROLE.PARTNER}" th:selected="${user.role == 'PARTNER'}"></option>
+                                <option value="AGENT" th:text="#{ROLE.AGENT}" th:selected="${user.role == 'AGENT'}"></option>
+                            </select>
+                            입금자명 <input class="form-control form-control-sm" type="text" name="reqName"/>
+                            입금액 <input class="form-control form-control-sm" type="number" name="deposit"/>
+                            메모 <input class="form-control form-control-sm" type="text" name="memo"/>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                        <button class="btn btn-primary" id="confirmBtn">확인</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <p class="h4" >회원상세관리</p>
     <hr/>
         <div>
-            <form th:formaction="@{/updateUser}" method="post"
+            <form th:formaction="@{mod}" method="post"
                   class="w-lg-75 px-3 px-sm-9 mx-lg-auto "
                   th:object="${user}">
                 <input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
@@ -15,7 +52,13 @@
                     </div>
                     <label class="h6 small col-3 col-md-2 col-form-label">회원등급</label>
                     <div class="col-9 col-md-4">
-                        <label class="col-form-label" th:text="*{role.roleName}"></label> <span class="small text-danger ml-4">변경은 입출금 관리에서 해주세요</span>
+                        <label class="col-form-label" th:text="*{role.roleName}"></label>
+                        <button type="button" class="btn btn-xs py-1 btn-danger updateBtnTg"
+                                data-toggle="modal"
+                                data-target="#exampleModal"
+                                data-title="삭제"
+                                data-body="삭제하시겠습니까?"
+                                >변경</button>
                     </div>
                     <label class="h6 small col-3 col-md-2 col-form-label">성명</label>
                     <div class="col-9 col-md-4">

@@ -64,10 +64,10 @@
                         <input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                         <input type="hidden" name="id" th:value="${info.id}">
                         <tr>
-                            <td><span th:text="${info.status}"></span>입금대기</td><!--지역-->
+                            <td><span th:text="${info.status} == #{CODE.END} ? '입금완료' : '입금대기'"></span></td><!--지역-->
                             <td><span th:text="${info.userId}"></span>ㅇ<input class="form-control form-control-sm" style="display: none" type="number" name="size1"/></td><!--왕-->
                             <td><span th:text="${info.userName}"></span><input class="form-control form-control-sm" style="display: none" type="number" name="size2"/></td><!--특-->
-                            <td><span th:text="${info.role}"></span><input class="form-control form-control-sm" style="display: none" type="number" name="size3"/></td><!--대-->
+                            <td><span th:text="${info.role.roleName}"></span><input class="form-control form-control-sm" style="display: none" type="number" name="size3"/></td><!--대-->
                             <td><span th:text="${info.reqName}"></span><input class="form-control form-control-sm" style="display: none" type="number" name="size4"/></td><!--중-->
                             <td><span th:text="${info.deposit}"></span><input class="form-control form-control-sm" style="display: none" type="number" name="size5"/></td><!--소-->
                             <td><span th:text="${info.memo}"></span><input class="form-control form-control-sm" style="display: none" type="number" name="size6"/></td><!--경-->

@@ -119,13 +119,12 @@
     </update>
 
     <!-- USER ROLE REQ TABLE -->
-    <insert id="createUserRoleReq">
-        /*TODO AN 유저 등급 변경 userId deposit afterRole 만 입력될수있게? expireDate도 계산해야하나? USER테이블의 ROLE도 변경해야함 */
-        INSERT INTO USER_ROLE_REQ (user_id, status, role, req_name, deposit, reg_date)
-        VALUES (#{userId},0,#{role},#{reqName},#{deposit},NOW())
+    <insert id="createUserRoleReq" parameterType="userRoleReq">
+        INSERT INTO USER_ROLE_REQ (user_id, status, role, req_name, deposit, memo,update_date,expire_date, reg_date)
+        VALUES (#{userId},#{status},#{role},#{reqName},#{deposit}, #{memo}, #{updateDate}, #{expireDate}, NOW())
     </insert>
 
-    <select id="selectAllUserRoleReq" parameterType="map" resultType="userRoleReq">
+    <select id="selectAllUserRoleReqList" parameterType="map" resultType="userRoleReq">
         /*TODO AN 전체 히스토리 가져오기*/
         SELECT * FROM USER_ROLE_REQ
         WHERE 1=1
@@ -145,6 +144,28 @@
             AND reg_date &lt;= #{endDate}
         </if>
         order by id desc
+        LIMIT #{cri.pageStart}, #{cri.perPageNum}
+    </select>
+
+    <select id="selectCountAllUserRoleReqList" parameterType="map" resultType="int">
+        /*TODO AN 전체 히스토리 가져오기*/
+        SELECT COUNT(*) FROM USER_ROLE_REQ
+        WHERE 1=1
+        <if test="userId neq null">
+            AND user_id = #{userId}
+        </if>
+        <if test="status neq null">
+            AND status = #{status}
+        </if>
+        <if test="reqName neq null">
+            AND req_name like concat('%',#{userId},'%')
+        </if>
+        <if test="startDate neq null">
+            AND reg_date &gt;= #{startDate}
+        </if>
+        <if test="endDate neq null">
+            AND reg_date &lt;= #{endDate}
+        </if>
     </select>
 
     <update id="updateUserRoleReq">
@@ -152,9 +173,13 @@
         SET status = #{status}
         , role = #{role}
         , deposit = #{deposit}
+        , req_name = #{reqName}
+        , memo = #{memo}
         , update_date = NOW()
-        , expire_date = DATE_ADD(NOW(),INTERVAL 1,YEAR)
+        , expire_date = #{expireDate}
+        WHERE id = #{id}
     </update>
+    <!--, expire_date = DATE_ADD(NOW(),INTERVAL 1,YEAR)-->
     
     <select id="selectUserRoleExp">
         /* TODO AN 한달이내에 만료되는 계정확인 관리자 확인용*/

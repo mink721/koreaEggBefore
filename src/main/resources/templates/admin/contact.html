@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{/admin/adminDefault}" >
+<section layout:fragment="content">
+
+    <div class="container space-2 space-3--lg">
+        <!--등록-->
+        <div  class="js-validate rounded p-sm-7 mx-lg-auto" >
+            <!-- Contact Us Form -->
+            <form method="post" th:action="@{answer}" th:object="${contact}">
+                <input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                <input type="hidden" name="id" th:value="*{id}">
+                    <span th:if="*{answerFlag}" class="text-danger">답변완료</span>
+                    <span th:unless="*{answerFlag}" class="text-danger">답변대기</span>
+                    <div class="row mb-5">
+                        <div class="col-md-2">
+                            <label class="h6 small d-block text-uppercase mb-3 mb-lg-0">성명:</label>
+                        </div>
+                        <div class="col-md-10" th:text="*{reqName}">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="h6 small d-block text-uppercase mb-3 mb-lg-0">연락처:</label>
+                        </div>
+                        <div class="col-md-10" th:text="*{reqMobile}">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="h6 small d-block text-uppercase mb-3 mb-lg-0">제목:</label>
+                        </div>
+                        <div class="col-md-10" th:text="*{title}">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="h6 small d-block text-uppercase mb-3 mb-lg-0">내용:</label>
+                        </div>
+                        <div class="col-md-10" th:text="*{contents}">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="h6 small d-block text-uppercase mb-3 mb-lg-0">등록일:</label>
+                        </div>
+                        <div class="col-md-10" th:text="*{#dates.format(regDate, 'yyyy.MM.dd')}">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="h6 small d-block text-uppercase mb-3 mb-lg-0">답변:</label>
+                        </div>
+                        <div class="col-md-10">
+                            <textarea name="answer" th:text="*{answer}"></textarea>
+                        </div>
+                    </div>
+
+
+                <div class="row">
+                    <div class="col-md-8 offset-md-4">
+                        <input type="submit" class="btn btn-primary btn-wide" value="답변완료"/>
+                    </div>
+                </div>
+            </form>
+            <!-- End Contact Us Form -->
+        </div>
+        <!-- Contacts Section -->
+
+    </div>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+
+        /*]]>*/
+    </script>
+</section>
+</html>

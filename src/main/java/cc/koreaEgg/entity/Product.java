@@ -14,7 +14,6 @@ public class Product {
 
     private Long id;
     private String userId;
-    private Long priceId;
     private String name;
     private String origin;
     private String shopName;
