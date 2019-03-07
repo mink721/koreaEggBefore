@@ -42,4 +42,6 @@ public interface ServiceMapper {
     void deleteContactUs(long id);
 
     PriceCast selectPriceCast();
+
+    void createUploadFile(UploadFile uploadFile);
 }

@@ -120,4 +120,8 @@ public class AppService {
     public PriceCast selectPriceCast() {
         return serviceMapper.selectPriceCast();
     }
+
+    public void createUploadFile(UploadFile uploadFile){
+        serviceMapper.createUploadFile(uploadFile);
+    }
 }
