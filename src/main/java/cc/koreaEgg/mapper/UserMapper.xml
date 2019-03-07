@@ -188,8 +188,11 @@
     <select id="selectUserRoleExpMonth">
         /* TODO AN 한달뒤에 만료되는 계정확인 매일 10시쯤 스케쥴 돌려서 문자보낼예정?*/
     </select>
-    
-    
+
+    <!-- 현재기준 유저롤 조회 -->
+    <select id="selectCurrentUserRole" parameterType="map" resultType="String">
+        select role from USER_ROLE_REQ where user_id = #{userId} and expire_date &gt; now() order by id desc  limit 1
+    </select>
     
 
 </mapper>

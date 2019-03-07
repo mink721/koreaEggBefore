@@ -43,4 +43,6 @@ public interface UserMapper {
     void updateUserRoleReq(UserRoleReq userRoleReq);    //입금 확인 후 업데이트(status, role, deposit 필수)
 
     void countUpVisit(long userId);
+
+    String selectCurrentUserRole(@Param("userId") long userId); //현재기준 유저 role 조회. 만료시 null
 }
