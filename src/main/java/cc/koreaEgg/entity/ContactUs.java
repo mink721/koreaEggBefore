@@ -5,7 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.apache.ibatis.type.Alias;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 
 @Getter
@@ -22,8 +22,8 @@ public class ContactUs {
     private String reqName;
     private String reqMobile;
     private String contents;
-    private Date regDate;
+    private Timestamp regDate;
 
     private String answer;
-    private Date answerDate;
+    private Timestamp answerDate;
 }

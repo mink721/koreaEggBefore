@@ -5,7 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.apache.ibatis.type.Alias;
 
-import java.util.Date;
+import java.sql.Timestamp;
 @Getter
 @Setter
 @ToString
@@ -20,9 +20,9 @@ public class UserRoleReq {
     private String reqName; // 입금자명
     private int deposit;    // 입금
     private String memo;
-    private Date regDate;
-    private Date updateDate;
-    private Date expireDate;
+    private Timestamp regDate;
+    private Timestamp updateDate;
+    private Timestamp expireDate;
     private int renewalCount; //갱신횟수
 
 

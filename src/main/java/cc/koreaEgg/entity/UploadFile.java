@@ -5,7 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.apache.ibatis.type.Alias;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 @Getter
 @Setter
@@ -29,9 +29,9 @@ public class UploadFile {
     // 파일확장자
     private String fileExtension;
     // 등록일시
-    private Date regDate;
+    private Timestamp regDate;
     // 수정일시
-    private Date updateDate;
+    private Timestamp updateDate;
 
 
 

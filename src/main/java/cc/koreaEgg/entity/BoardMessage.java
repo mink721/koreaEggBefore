@@ -6,7 +6,7 @@ import lombok.ToString;
 import org.apache.ibatis.type.Alias;
 
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.sql.Timestamp;
 
 @Getter
 @Setter
@@ -23,7 +23,7 @@ public class BoardMessage {
     @NotNull
     private String title;
     private String contents;
-    private Date regDate;
-    private Date updateDate;
+    private Timestamp regDate;
+    private Timestamp updateDate;
 
 }

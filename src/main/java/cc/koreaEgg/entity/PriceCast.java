@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 /*
     난가예보
@@ -15,7 +15,7 @@ import java.util.Date;
 public class PriceCast {
 
     private Long id;
-    private Date regDate;
+    private Timestamp regDate;
     private int cast;
     private boolean cast1;      // +2
     private boolean cast2;      // +1

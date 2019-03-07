@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 @Getter
 @Setter
@@ -17,6 +17,6 @@ public class Board {
     private Integer id;
     private Integer status;
     private String boardName;
-    private Date regDate;
+    private Timestamp regDate;
 
 }

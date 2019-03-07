@@ -6,7 +6,7 @@
 <mapper namespace="cc.koreaEgg.mapper.ProductMapper">
 
     <select id="selectProductList" parameterType="map">
-        SELECT * FROM PRODUCT t, PRICE e WHERE t.id = e.prpduct_id AND
+        SELECT * FROM PRODUCT t, PRICE e WHERE t.id = e.prpduct_id
     </select>
 
     <select id="selectProduct" parameterType="long">
@@ -14,11 +14,11 @@
     </select>
     <!-- TODO 상품등록 -->
     <insert id="createProduct" parameterType="product">
+        INSERT INTO PRODUCT (user_id, name, origin, contents)
+        VALUES (#{userId},#{name},#{origin},#{contents})
         <selectKey resultType="long" keyProperty="id" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
-        INSERT INTO PRODUCT (user_id, name, origin, contents)
-        VALUES (#{userId},#{name},#{origin},#{contents})
     </insert>
 
     <insert id="createPrice" parameterType="price">

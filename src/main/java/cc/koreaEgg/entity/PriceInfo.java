@@ -5,7 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.apache.ibatis.type.Alias;
 
-import java.util.Date;
+import java.sql.Timestamp;
 @Getter
 @Setter
 @ToString
@@ -21,7 +21,7 @@ public class PriceInfo {
     private int size4;
     private int size5;
     private int size6;
-    private Date regDate;
+    private Timestamp regDate;
     private String memo;
     private int diff1;
     private int diff2;

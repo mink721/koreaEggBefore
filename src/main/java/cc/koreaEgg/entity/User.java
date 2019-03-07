@@ -6,6 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.validation.constraints.NotNull;
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -33,12 +34,12 @@ public class User implements UserDetails {
   private double longitude;
   private double latitude;
 
-  private Date regDate;
-  private Date updateDate;
-  private Date expireDate; /* TODO AN history에서 가져와야함 로그인할때마다 만료일 확인할거임*/
+  private Timestamp regDate;
+  private Timestamp updateDate;
+  private Timestamp expireDate; /* TODO AN history에서 가져와야함 로그인할때마다 만료일 확인할거임*/
 
   //생년월일
-  private Date birthday;
+  private Timestamp birthday;
   //로그인횟수
   private Integer loginCount;
   private String homepage;

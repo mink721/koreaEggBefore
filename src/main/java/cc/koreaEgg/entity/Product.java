@@ -6,6 +6,9 @@ import lombok.Setter;
 import lombok.ToString;
 import org.apache.ibatis.type.Alias;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
 @Getter
 @Setter
 @ToString
@@ -13,14 +16,22 @@ import org.apache.ibatis.type.Alias;
 public class Product {
 
     private Long id;
-    private String userId;
+    private Long userId;
     private String name;
     private String origin;
     private String shopName;
-    private String content;
+    private Integer cost;
+    private Integer consumer;
+    private Integer store;
+    private Integer retail;
+    private Integer wholesale;
+    private Integer partner;
+    private Integer agent;
+    private Timestamp regDate;
+    private String contents;
 
     private String imagePath;
-    private Price price;
+
 
 
 
