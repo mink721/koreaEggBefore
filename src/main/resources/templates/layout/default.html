@@ -109,7 +109,7 @@
 
     </head>
 
-    <header th:replace="fragments/header :: header"></header>
+    <header th:replace="layout/header :: header"></header>
     <section layout:fragment="content"></section>
 
     <div class="bg-light">
@@ -130,11 +130,6 @@
                         </div>
                     </div>
                     <div sec:authorize="hasAuthority('CAST_READ')" class="card-body justify-content-center px-0 ">
-                        <div th:each="area : ${areaList}">
-                            <div class="col-2 px-1"><a role="button" class="btn btn-sm" aria-pressed="true"
-                                                       th:href="@{list(boardId=*{area.id},perPageNum=${pageMaker.cri.perPageNum})}" th:text="*{area.boardName}"
-                                                       th:classappend="${#strings.equals(param.boardId, #strings.toString(area.id))} ? btn-primary : btn-secondary"  ></a></div>
-                        </div>
                         <a href="#" th:classappend="${session.priceCast.cast} == 1 ? btn-danger : null" class="btn btn-secondary disabled" style="width: 18% !important;" role="button" aria-disabled="true">-2</a>
                         <a href="#" th:classappend="${session.priceCast.cast} == 2 ? btn-danger : null" class="btn btn-secondary disabled" style="width: 18% !important;" role="button" aria-disabled="true">-1</a>
                         <a href="#" th:classappend="${session.priceCast.cast} == 3 ? btn-danger : null" class="btn btn-secondary disabled" style="width: 18% !important;" role="button" aria-disabled="true">0</a>
@@ -191,7 +186,7 @@
         </div>
     </div>
 
-    <footer th:replace="fragments/footer :: footer"></footer>
+    <footer th:replace="layout/footer :: footer"></footer>
     </div>
 
 </html>

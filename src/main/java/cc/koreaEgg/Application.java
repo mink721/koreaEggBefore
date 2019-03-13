@@ -1,7 +1,5 @@
 package cc.koreaEgg;
 
-import cc.koreaEgg.handler.LoginFailureHandler;
-import cc.koreaEgg.handler.LoginSuccessHandler;
 import lombok.extern.slf4j.Slf4j;
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 import org.apache.catalina.Context;
@@ -18,8 +16,6 @@ import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
@@ -35,18 +31,6 @@ public class Application implements WebMvcConfigurer{
 
   @Override
   public void addViewControllers(ViewControllerRegistry registry) {
-    registry.addViewController("/").setViewName("home");
-    registry.addViewController("/index").setViewName("home");
-    registry.addViewController("/error").setViewName("error");
-    registry.addViewController("/cast").setViewName("cast");
-    registry.addViewController("/boardList").setViewName("boardList");
-    registry.addViewController("/agent").setViewName("agent");
-    registry.addViewController("/agentList").setViewName("agentList");
-    registry.addViewController("/class").setViewName("class");
-    registry.addViewController("/test").setViewName("test");
-    registry.addViewController("/myPage").setViewName("myPage");
-    registry.addViewController("/registCast").setViewName("registCast");
-    registry.addViewController("/egg").setViewName("egg");
   }
 
   @Bean

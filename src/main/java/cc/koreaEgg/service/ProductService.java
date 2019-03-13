@@ -19,17 +19,20 @@ public class ProductService {
     ProductMapper productMapper;
 
     public void createProduct(Product product){
-        long productId = productMapper.createProduct(product);
-        product.getPrice().setProductId(productId);
-        productMapper.createPrice(product.getPrice());
+       productMapper.createProduct(product);
+        //product.getPrice().setProductId(productId);
+       // productMapper.createPrice(product.getPrice());
     }
-
-   /* public List<Product> selectProductList(){
-       return productMapper.selectProductList();
-    }*/
 
     public Product selectProduct(long id){
         return productMapper.selectProduct(id);
     }
 
+    public void createShop(Shop shop){ productMapper.createShop(shop);}
+
+    public List<Shop> selectShopList(Criteria cri, double lon, double lat, String role){ return productMapper.selectShopList(cri, lon, lat, role);}
+
+    public List<Product> selectProductList(Criteria cri, Long shopId, Integer size) {
+        return productMapper.selectProductList(cri,shopId,size);
+    }
 }

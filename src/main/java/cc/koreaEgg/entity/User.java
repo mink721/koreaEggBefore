@@ -23,6 +23,7 @@ public class User implements UserDetails {
   private String userName;
   private String mobile;
 
+  private Long shopId;
   private String shopName;
   private String postNum;
   private String address;
@@ -36,7 +37,7 @@ public class User implements UserDetails {
 
   private Timestamp regDate;
   private Timestamp updateDate;
-  private Timestamp expireDate; /* TODO AN history에서 가져와야함 로그인할때마다 만료일 확인할거임*/
+
 
   //생년월일
   private Timestamp birthday;
@@ -44,9 +45,13 @@ public class User implements UserDetails {
   private Integer loginCount;
   private String homepage;
 
-  private Role role;
+  private Role baseRole;
   private String memo;
   private Integer status;
+
+  private Role role;
+  private Timestamp expireDate;
+  private boolean roleChange;
 
   List<GrantedAuthority> authorities;
   private boolean accountNonExpired = true;

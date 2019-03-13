@@ -7,39 +7,83 @@
 
     <!-- USER TABLE -->
     <select id="selectUserByName" resultType="User">
-        SELECT *
-        FROM USER
-        WHERE user_name LIKE CONCAT('%',#{userName},'%')
+        SELECT
+          if( IFNULL(currentRole,'USER') = u.base_role , u.base_role, currentRole ) AS role,
+          expired AS expire_date,
+          if( IFNULL(currentRole,'USER') = u.base_role , 0, 1 ) AS role_change,
+          u.*, r.role
+          FROM USER u left join
+            (
+            SELECT *, if(expire_date &lt; now(), 'USER' , role ) AS currentRole,
+            if(expire_date > now(), expire_date , null ) AS expired
+            FROM USER_ROLE_REQ WHERE status=29 AND id in (select max(id) from USER_ROLE_REQ group by user_id)
+            ) r on u.id = r.user_id
+        WHERE u.status = 1 AND u.user_name LIKE CONCAT('%',#{userName},'%')
     </select>
 
 
     <select id="selectUserByUserId" parameterType="map" resultType="user">
-        SELECT * FROM USER WHERE user_id = #{userId} AND status = 1
+        SELECT
+          if( IFNULL(currentRole,'USER') = u.base_role , u.base_role, currentRole ) AS role,
+          expired AS expire_date,
+          if( IFNULL(currentRole,'USER') = u.base_role , 0, 1 ) AS role_change,
+          u.*, r.role
+          FROM USER u left join
+            (
+            SELECT *, if(expire_date &lt; now(), 'USER' , role ) AS currentRole,
+            if(expire_date > now(), expire_date , null ) AS expired
+            FROM USER_ROLE_REQ WHERE status=29 AND id in (select max(id) from USER_ROLE_REQ group by user_id)
+            ) r on u.id = r.user_id
+        WHERE u.status = 1 AND u.user_id = #{userId}
+    </select>
+
+    <select id="selectRoleChangeList" resultType="User">
+        SELECT
+        if( IFNULL(currentRole,'USER') = u.base_role , u.base_role, currentRole ) AS role,
+        expired AS expire_date,
+        if( IFNULL(currentRole,'USER') = u.base_role , 0, 1 ) AS role_change,
+        u.*, r.role
+        FROM USER u left join
+        (
+        SELECT *, if(expire_date &lt; now(), 'USER' , role ) AS currentRole,
+        if(expire_date > now(), expire_date , null ) AS expired
+        FROM USER_ROLE_REQ WHERE status=29 AND id in (select max(id) from USER_ROLE_REQ group by user_id)
+        ) r on u.id = r.user_id
+        WHERE u.status = 1 AND IFNULL(currentRole,'USER') &lt;&gt; u.base_role
     </select>
 
 
     <!--유저 전체 검색-->
     <select id="selectAllUser" parameterType="map" resultType="User">
-        SELECT *
-        FROM USER
-        WHERE status = 1
+        SELECT
+        if( IFNULL(currentRole,'USER') = u.base_role , u.base_role, currentRole ) AS role,
+        expired AS expire_date,
+        if( IFNULL(currentRole,'USER') = u.base_role , 0, 1 ) AS role_change,
+        u.*, r.role
+        FROM USER u left join
+        (
+        SELECT *, if(expire_date &lt; now(), 'USER' , role ) AS currentRole,
+        if(expire_date > now(), expire_date , null ) AS expired
+        FROM USER_ROLE_REQ WHERE status=29 AND id in (select max(id) from USER_ROLE_REQ group by user_id)
+        ) r on u.id = r.user_id
+        WHERE u.status = 1
         <if test="userId!=null and !userId.equals('')">
-            AND user_id LIKE CONCAT('%',#{userId},'%')
+            AND u.user_id LIKE CONCAT('%',#{userId},'%')
         </if>
         <if test="userName!=null and !userName.equals('')">
-            AND user_name LIKE CONCAT('%',#{userName},'%')
+            AND u.user_name LIKE CONCAT('%',#{userName},'%')
         </if>
         <if test="mobile!=null and !mobile.equals('')">
-            AND mobile LIKE CONCAT('%',#{mobile},'%')
+            AND u.mobile LIKE CONCAT('%',#{mobile},'%')
         </if>
         <if test="shopName!=null and !shopName.equals('')">
-            AND shop_name LIKE CONCAT('%',#{shopName},'%')
+            AND u.shop_name LIKE CONCAT('%',#{shopName},'%')
         </if>
         <if test="address!=null and !address.equals('')">
-            AND address LIKE CONCAT('%',#{address},'%')
+            AND u.address LIKE CONCAT('%',#{address},'%')
         </if>
         <if test="role!=null and !role.equals('')">
-            AND role = #{role}
+            AND u.base_role = #{role}
         </if>
         ORDER BY id desc
         LIMIT #{cri.pageStart}, #{cri.perPageNum}
@@ -65,14 +109,14 @@
             AND address LIKE CONCAT('%',#{address},'%')
         </if>
         <if test="role!=null and !role.equals('')">
-            AND role = #{role}
+            AND base_role = #{role}
         </if>
     </select>
 
     <!--TODO AN 유저등록 UserServiceTest 테스트 만들어놈-->
     <insert id="createUser" parameterType="User">
-      INSERT INTO USER (user_id, user_name, pwd, mobile, shop_name, post_num, address, address_detail, shop_tel, profile_image, longitude, latitude, reg_date)
-      VALUES (#{userId},#{userName},#{pwd},#{mobile},#{shopName},#{postNum},#{address},#{addressDetail},#{shopTel},#{profileImage},#{longitude},#{latitude},NOW())
+      INSERT INTO USER (user_id, user_name, pwd, mobile, shop_id, reg_date)
+      VALUES (#{userId},#{userName},#{pwd},#{mobile},#{shopId},NOW())
     </insert>
 
     <select id="selectUserById" parameterType="long" resultType="user">
@@ -88,20 +132,19 @@
 
     <update id="updateUser" parameterType="User">
         UPDATE USER
-        SET role = #{role}
+        SET base_role = #{baseRole}
         , status = #{status}
         , user_name = #{userName}
         , pwd = #{pwd}
         , mobile = #{mobile}
-        , shop_name = #{shopName}
-        , post_num = #{postNum}
-        , address = #{address}
-        , address_detail = #{addressDetail}
-        , shop_tel = #{shopTel}
-        , profile_image = #{profileImage}
-        , longitude = #{longitude}
-        , latitude = #{latitude}
+        , shop_id = #{shopId}
         , update_date = NOW()
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateUserRole">
+        UPDATE USER
+        SET base_role = #{role}
         WHERE id = #{id}
     </update>
 
@@ -190,9 +233,12 @@
     </select>
 
     <!-- 현재기준 유저롤 조회 -->
-    <select id="selectCurrentUserRole" parameterType="map" resultType="String">
-        select role from USER_ROLE_REQ where user_id = #{userId} and expire_date &gt; now() order by id desc  limit 1
+    <select id="selectCurrentUserRole" parameterType="map" resultType="role">
+        select role from USER_ROLE_REQ where user_id = #{userId} and expire_date &lt;  now() order by id desc  limit 1
     </select>
-    
+
+
+
+
 
 </mapper>

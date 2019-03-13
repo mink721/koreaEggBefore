@@ -15,15 +15,15 @@
                     <div class="modal-body">
 
                             <input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-                            <input type="hidden" name="userId" th:value="${user.userId}">
+                            <input type="hidden" name="userId" th:value="${user.id}">
                             <input type="hidden" name="status" th:value="#{CODE.END}">
                             <select class="form-control" name="role">
-                                <option value="USER" th:text="#{ROLE.USER}" th:selected="${user.role == 'USER'}"></option>
-                                <option value="STORE" th:text="#{ROLE.STORE}" th:selected="${user.role == 'STORE'}"></option>
-                                <option value="RETAILER" th:text="#{ROLE.RETAILER}" th:selected="${user.role == 'RETAILER'}"></option>
-                                <option value="WHOLESALER" th:text="#{ROLE.WHOLESALER}" th:selected="${user.role == 'WHOLESALER'}"></option>
-                                <option value="PARTNER" th:text="#{ROLE.PARTNER}" th:selected="${user.role == 'PARTNER'}"></option>
-                                <option value="AGENT" th:text="#{ROLE.AGENT}" th:selected="${user.role == 'AGENT'}"></option>
+                                <option value="USER" th:text="#{ROLE.USER}" th:selected="${user.baseRole == 'USER'}"></option>
+                                <option value="STORE" th:text="#{ROLE.STORE}" th:selected="${user.baseRole == 'STORE'}"></option>
+                                <option value="RETAILER" th:text="#{ROLE.RETAILER}" th:selected="${user.baseRole == 'RETAILER'}"></option>
+                                <option value="WHOLESALER" th:text="#{ROLE.WHOLESALER}" th:selected="${user.baseRole == 'WHOLESALER'}"></option>
+                                <option value="PARTNER" th:text="#{ROLE.PARTNER}" th:selected="${user.baseRole == 'PARTNER'}"></option>
+                                <option value="AGENT" th:text="#{ROLE.AGENT}" th:selected="${user.baseRole == 'AGENT'}"></option>
                             </select>
                             입금자명 <input class="form-control form-control-sm" type="text" name="reqName"/>
                             입금액 <input class="form-control form-control-sm" type="number" name="deposit"/>
@@ -52,7 +52,7 @@
                     </div>
                     <label class="h6 small col-3 col-md-2 col-form-label">회원등급</label>
                     <div class="col-9 col-md-4">
-                        <label class="col-form-label" th:text="*{role.roleName}"></label>
+                        <label class="col-form-label" th:text="*{baseRole.roleName}"></label>
                         <button type="button" class="btn btn-xs py-1 btn-danger updateBtnTg"
                                 data-toggle="modal"
                                 data-target="#exampleModal"

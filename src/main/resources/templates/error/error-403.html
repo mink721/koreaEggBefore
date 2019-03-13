@@ -53,21 +53,15 @@
     <div class="d-lg-flex align-items-lg-center height-100vh--lg">
       <div class="container space-3-top space-2-bottom space-0--lg">
         <div class="row justify-content-lg-between align-items-lg-center">
-          <div class="col-lg-6 mb-9 mb-lg-0">
-            <img class="w-100" th:src="@{/svg/components/maintenance-icon.svg}">
+          <div class="col-lg-6 mb-9 mb-lg-0 text-right" >
+            <img class="w-90" th:src="@{/svg/components/safe-information-dark-icon.svg}">
           </div>
 
           <div class="col-lg-5">
             <!-- Title -->
             <div class="mb-4">
-              <h1 class="h3">ERROR</h1>
-              <p class="lead">서버에서 문제가 발생하였습니다.</p>
-              <div>
-                Message : <br><span th:text="${#httpServletRequest.getAttribute('javax.servlet.error.message')}"></span><br><br>
-                exception : <br><span th:text="${#httpServletRequest.getAttribute('javax.servlet.error.exception')}"></span><br><br>
-                Code : <br><span th:text="${#httpServletRequest.getAttribute('javax.servlet.error.status_code')}"></span>
-
-              </div>
+              <h1 class="h3">접근권한이 없습니다.</h1>
+              <p class="lead"></p>
             </div>
             <!-- End Title -->
           </div>

@@ -2,6 +2,7 @@ package cc.koreaEgg.controller;
 
 import cc.koreaEgg.entity.*;
 import cc.koreaEgg.service.AppService;
+import cc.koreaEgg.service.ProductService;
 import cc.koreaEgg.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,9 @@ public class ServiceController {
 
     @Autowired
     private AppService appService;
+
+    @Autowired
+    private ProductService productService;
 
     @GetMapping(value = "/priceInfo/list")
     public String listPriceInfo(Model model){
@@ -47,37 +51,35 @@ public class ServiceController {
     @RequestMapping(value = "/product", method = RequestMethod.GET)
     public String productView(Model model){
     model.addAttribute("product", new Product());
-    return  "product";
+    return  "product/product";
     }
 
-    @RequestMapping(value = "/registProduct", method = RequestMethod.GET)
-    public String createProductView(Model model){
-    return  "redirect:" + "/product?regist";
-    }
+    @RequestMapping(value = "/agent/list", method = RequestMethod.GET)
+    public String listAgent(@ModelAttribute("cri") Criteria cri, Double lon, Double lat, Model model, String addr){
 
-
-
-    @RequestMapping(value = "/registPriceInfo", method = RequestMethod.GET)
-    public String registPriceInfoGet(){
-        return  "registPriceInfo";
-    }
-
-
-    @RequestMapping(value = "/registPriceInfo", method = RequestMethod.POST)
-    public String registPriceInfoPost(@Valid PriceInfo info, BindingResult result, Model model){
-
-        model.addAttribute("info", info);
-        if(result.hasErrors()){
-            log.info("Validation errors while submitting form.");
-            return "registPriceInfo";
+        if( lon == null && lat == null){
+            lon = 37.256714720260405;
+            lat = 127.03035456510496;
         }
-        appService.createPriceInfo(info);
-        log.info("create price Info success" + info.toString());
-        return  "redirect:" + "/sendSMS";
+        model.addAttribute("agentList", productService.selectShopList(cri, lon, lat, Role.AGENT.name()) );
+
+        PageMaker pageMaker = new PageMaker();
+        pageMaker.setCri(cri);
+        /*TODO 카운트*/
+        pageMaker.setTotalCount(10);
+
+        model.addAttribute("pageMaker", pageMaker);
+
+        //model.addAttribute("product", new Product());
+        return  "shop/agentList";
     }
 
-    @RequestMapping(value = "/sendSMS", method = RequestMethod.GET)
-    public String sendSMS(Model model){
-        return  "sendSMS";
+    @RequestMapping(value = "/agent/read", method = RequestMethod.GET)
+    public String listAgent(long id){
+
+
+        //model.addAttribute("product", new Product());
+        return  "shop/agent";
     }
+
 }

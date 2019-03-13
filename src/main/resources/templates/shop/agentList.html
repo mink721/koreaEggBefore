@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/default"  >
+
+<section layout:fragment="content">
+    <!-- ========== MAIN CONTENT ========== -->
+    <main id="content" role="main">
+        <!-- Contacts Section -->
+        <div class="container space-2 space-3--lg">
+            <div class="" th:each="shop, row: ${agentList}">
+            <div class="row">
+                <div class="col-lg-6 mb-7 mb-lg-0">
+                    <!-- Contacts Info -->
+                   <!-- <a th:href="@{read(id=${shop.id})}">-->
+                        <h1 class="h4 mb-4" th:text="${shop.name}">서울 대리점</h1>
+                    <!--</a>-->
+                    <div class="row">
+                        <div class="col-sm-6 mb-4 mb-sm-0">
+                            <h2 class="h6">대리점 정보</h2>
+                            <address class="mb-0">
+                                <ul class="list-unstyled font-size-14 text-secondary mb-0">
+                                    <li class="py-1" th:text="${shop.address}+${shop.addressDetail}">서울 동대문구 이문동 204-397</li>
+                                    <li class="py-1" th:text="${shop.tel}">02-657-8454</li>
+                                </ul>
+                            </address>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <img class="img-fluid" th:src="@{/img/test/10_0l.jpg}" alt="Image Description">
+                        </div>
+                    </div>
+                    <!-- End Contacts Info -->
+                </div>
+                <div class="col-lg-6">
+                    <div id="map" name="map" th:lon="${shop.lon}" th:lat="${shop.lat}" class="map js-g-map embed-responsive embed-responsive-21by9 h-100"></div>
+                </div>
+            </div>
+                <hr class="my-4" th:unless="${row.last}">
+            </div>
+
+
+        </div>
+        <!-- End Contacts Section -->
+    </main>
+    <!-- ========== END MAIN CONTENT ========== -->
+
+    <script th:inline="javascript" type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=af40a347c5a17c5118392cee56f35da6&libraries=services"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+
+        var divs = document.getElementsByName('map'),
+            l = divs.length, i, cur;
+
+        console.log(l);
+
+        for(i=0; i<l; i++) {
+            var mapDiv = divs[i];
+            var lon = mapDiv.getAttribute("lon");
+            var lat = mapDiv.getAttribute("lat")
+
+            var pos = new daum.maps.LatLng(lon, lat);
+
+            console.log(pos);
+            var options = { //지도를 생성할 때 필요한 기본 옵션
+                center: pos, //지도의 중심좌표.
+                level: 3 //지도의 레벨(확대, 축소 정도)
+            };
+
+            var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
+            var map = new daum.maps.Map(mapDiv, options); //지도 생성 및 객체 리턴\
+
+            // 마커를 생성합니다
+            var marker = new daum.maps.Marker({
+                position: pos
+            });
+
+            marker.setMap(map);
+        }
+
+        /*]]>*/
+    </script>
+</section>

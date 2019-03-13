@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/default"  >
+
+<section layout:fragment="content">
+    <!-- ========== MAIN CONTENT ========== -->
+    <main id="content" role="main">
+        <!-- Hero Section -->
+        <div class="gradient-half-primary-v1 text-center rounded space-1 mt-lg-9">
+            <div class="mb-4">
+                <h2 class="h4 text-white">마이페이지</h2>
+                <!--<p class="text-white">마이페이지</p>-->
+            </div>
+            <a class="btn btn-sm btn-primary btn-wide" th:href="@{/myPage}">기본정보</a>
+            <a class="btn btn-sm btn-dark btn-wide" th:href="@{/myPage/order/list}">주문내역</a>
+            <a class="btn btn-sm btn-primary btn-wide" th:href="@{/partner/product/list}">상품</a>
+        </div>
+        <!-- End Hero Section -->
+
+        <div class="container space-1">
+            <section layout:fragment="mainContent"></section>
+        </div>
+    </main>
+</section>

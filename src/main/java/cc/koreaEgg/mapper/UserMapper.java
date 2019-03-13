@@ -1,8 +1,6 @@
 package cc.koreaEgg.mapper;
 
-import cc.koreaEgg.entity.Criteria;
-import cc.koreaEgg.entity.User;
-import cc.koreaEgg.entity.UserRoleReq;
+import cc.koreaEgg.entity.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -25,11 +23,13 @@ public interface UserMapper {
                              @Param("shopName") String shopName,
                              @Param("address") String address,
                              @Param("role") String role);
+    List<User> selectRoleChangeList();
     void createUser(User user);
     User selectUserById(long id);
     List<User> selectUserByUserId(@Param("userId") String userId);
     void updateUserPwd(@Param("id") Long id, @Param("pwd") String pwd);
     void updateUser(User user);
+    void updateUserRole(User user);
     void deleteUser(long id);
 
 
@@ -44,5 +44,5 @@ public interface UserMapper {
 
     void countUpVisit(long userId);
 
-    String selectCurrentUserRole(@Param("userId") long userId); //현재기준 유저 role 조회. 만료시 null
+    Role selectCurrentUserRole(@Param("userId") long userId); //현재기준 유저 role 조회. 만료시 null
 }

@@ -2,9 +2,11 @@ package cc.koreaEgg.controller;
 
 import cc.koreaEgg.entity.*;
 import cc.koreaEgg.service.AppService;
+import cc.koreaEgg.service.ProductService;
 import cc.koreaEgg.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,6 +24,9 @@ import java.util.*;
 @RequestMapping(value = "/partner")
 public class PartnerController {
 
+    @Autowired
+    ProductService productService;
+
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String adminHome() {
@@ -31,8 +36,8 @@ public class PartnerController {
 
     /*  상품 관리 */
     @GetMapping(value = "/product/list")
-    public String listProduct(@ModelAttribute("cri") Criteria cri, Model model) {
-        //model.addAttribute("priceCastList", appService.selectPriceCast(cri));
+    public String listProduct(@ModelAttribute("cri") Criteria cri, Integer size, @AuthenticationPrincipal User user, Model model) {
+        model.addAttribute("productList", productService.selectProductList(cri, user.getShopId(), size));
 
         PageMaker pageMaker = new PageMaker();
         pageMaker.setCri(cri);
@@ -43,31 +48,32 @@ public class PartnerController {
     }
 
     @GetMapping(value = "/product/register")
-    public String registerProduct(){
+    public String registerProduct(Model model){
+        model.addAttribute("product", new Product());
         return  "partner/product";
     }
 
     @PostMapping(value = "/product/register")
-    public String createProduct(Product goods){
-        //appService.createBoardMessage(goods);
+    public String createProduct(Product product){
+        productService.createProduct(product);
         return  "redirect:/partner/product/list";
     }
 
     @GetMapping(value = "/product/read")
     public String readProduct(long id, Model model) {
-        //model.addAttribute("board", appService.selectBoardMessage(id));
+        model.addAttribute("product", productService.selectProduct(id));
         return "partner/product";
     }
 
     @GetMapping(value = "/product/mod")
     public String modProduct(long id, Model model) {
-        //model.addAttribute("board", appService.selectBoardMessage(id));
+        model.addAttribute("board", productService.selectProduct(id));
         return "partner/product";
     }
 
     @PostMapping(value = "/product/mod")
     public String modProduct(Product goods){
-        //appService.updateBoardMessage(board);
+        //productService.
         return  "redirect:/partner/product/list";
     }
 

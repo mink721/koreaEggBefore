@@ -1,8 +1,6 @@
 package cc.koreaEgg.service;
 
-import cc.koreaEgg.entity.Criteria;
-import cc.koreaEgg.entity.User;
-import cc.koreaEgg.entity.UserRoleReq;
+import cc.koreaEgg.entity.*;
 import cc.koreaEgg.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
@@ -74,13 +72,30 @@ public class UserService implements UserDetailsService {
 
     public User loadUserEntityByUsername(String userId) {
         List<User> users = userMapper.selectUserByUserId(userId);
+
         if (users == null || users.size() < 1) {
             return null;
         } else if (users.size() > 1){
             /*TODO 아이디가 중복되는 말도 안되는 일이!!??*/
             return null;
         }else {
-            return users.get(0);
+            User user = users.get(0);
+            if(user.isRoleChange()){
+                userMapper.updateUserRole(user);
+            }
+            return user;
+        }
+    }
+
+    public void refreshRole(){
+
+        List<User> roleList = userMapper.selectRoleChangeList();
+
+        Iterator<User> itr = roleList.iterator();
+
+        while( itr.hasNext() )
+        {
+            userMapper.updateUserRole(itr.next());
         }
     }
 
@@ -129,4 +144,6 @@ public class UserService implements UserDetailsService {
     public void updateUserRoleReq(UserRoleReq userRoleReq){
         userMapper.updateUserRoleReq(userRoleReq);
     }
+
+
 }

@@ -2,7 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
   <!-- Title -->
-  <title>KoreaEgg | Error 500</title>
+  <title>KoreaEgg | Error 404</title>
 
   <!-- Required Meta Tags Always Come First -->
   <meta charset="utf-8">
@@ -39,7 +39,6 @@
             </a>
           </div>
           <!-- End Logo -->
-
         </nav>
         <!-- End Nav -->
       </div>
@@ -50,25 +49,15 @@
   <!-- ========== MAIN CONTENT ========== -->
   <main id="content" role="main">
     <!-- Hero Section -->
-    <div class="d-lg-flex align-items-lg-center height-100vh--lg">
-      <div class="container space-3-top space-2-bottom space-0--lg">
-        <div class="row justify-content-lg-between align-items-lg-center">
-          <div class="col-lg-6 mb-9 mb-lg-0">
-            <img class="w-100" th:src="@{/svg/components/maintenance-icon.svg}">
-          </div>
-
-          <div class="col-lg-5">
+    <div class="bg-gray-100">
+      <div class="d-flex align-items-center height-100vh">
+        <div class="container text-center">
+          <div class="w-lg-60 mx-lg-auto">
+            <img th:src="@{/svg/components/error-404.svg}">
             <!-- Title -->
-            <div class="mb-4">
-              <h1 class="h3">ERROR</h1>
-              <p class="lead">서버에서 문제가 발생하였습니다.</p>
-              <div>
-                Message : <br><span th:text="${#httpServletRequest.getAttribute('javax.servlet.error.message')}"></span><br><br>
-                exception : <br><span th:text="${#httpServletRequest.getAttribute('javax.servlet.error.exception')}"></span><br><br>
-                Code : <br><span th:text="${#httpServletRequest.getAttribute('javax.servlet.error.status_code')}"></span>
-
-              </div>
-            </div>
+            <h1 class="display-3 font-size-48--md-down font-weight-medium mb-3">Page not found</h1>
+            <p class="lead mb-0">잘못된 경로를 요청하였습니다.</p>
+            <p class="lead mb-0">이 문제가 계속된다면 관리자에게 문의 바랍니다.</p>
             <!-- End Title -->
           </div>
         </div>
@@ -79,7 +68,7 @@
   <!-- ========== END MAIN CONTENT ========== -->
 
   <!-- ========== FOOTER ========== -->
-  <footer class="position-absolute-bottom-0--lg">
+  <footer class="position-absolute-bottom-0">
     <div class="container text-center space-1">
       <p class="small mb-0">KoreaEgg</p>
     </div>

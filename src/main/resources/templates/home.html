@@ -13,73 +13,72 @@
                     <div class="mb-4">
                         <p class="h4 text-white">가까운 계란 판매점을 검색하세요</p>
                     </div>
-                    <form class="js-validate w-lg-75 px-0 px-sm-9 mx-lg-auto justify-content-lg-between align-items-lg-center row">
+                    <form id="searchForm" th:action="@{/}" method="post"
+                          class="js-validate w-lg-75 px-0 px-sm-9 mx-lg-auto justify-content-lg-between align-items-lg-center row">
                         <!--TODO 폼 너비 어떻게 조절? -->
+                        <input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                         <div class="col-lg-12">
                             <div class="bg-white shadow-sm rounded p-3">
-                                <form class="js-validate">
-                                    <!-- Input Form -->
-                                    <!--종류-->
-                                    <div class="row align-items-center">
-                                        <div class="d-none d-md-block col-sm-2">
-                                            <label class="h6 small d-block text-uppercase mb-3 mb-lg-0">종류</label>
-                                        </div>
-                                        <div class="col-12 col-sm-10">
-                                            <select class="custom-select">
-                                                <option selected="">전체</option>
-                                                <option>왕란</option>
-                                                <option>대란</option>
-                                                <option>특란</option>
-                                                <option>중란</option>
-                                                <option>소란</option>
-                                            </select>
-                                        </div>
+                                <!--종류-->
+                                <div class="row align-items-center">
+                                    <div class="d-none d-md-block col-sm-2">
+                                        <label class="h6 small d-block text-uppercase mb-3 mb-lg-0">종류</label>
                                     </div>
-                                    <hr class="my-2">
-                                    <!--지역-->
-                                    <div class="row align-items-center">
-                                        <div class="d-none d-md-block col-sm-2">
-                                            <label class="h6 small d-block mb-3 mb-lg-0">지역</label>
+                                    <div class="col-12 col-sm-10">
+                                        <select class="custom-select" name="size">
+                                            <option selected="" value="">전체</option>
+                                            <option th:selected="${param.size} == 1" value="1">왕란</option>
+                                            <option th:selected="${param.size} == 2" value="2">특란</option>
+                                            <option th:selected="${param.size} == 3" value="3">대란</option>
+                                            <option th:selected="${param.size} == 4" value="4">중란</option>
+                                            <option th:selected="${param.size} == 5" value="5">소란</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <hr class="my-2">
+                                <!--지역-->
+                                <div class="row align-items-center">
+                                    <div class="d-none d-md-block col-sm-2">
+                                        <label class="h6 small d-block mb-3 mb-lg-0">지역</label>
+                                    </div>
+                                    <!--<div class="d-none d-md-block col-sm-1">
+                                        <a class="u-icon u-icon&#45;&#45;facebook" href="javascript:currentPosition()">
+                                            <span class="fa fa-location-arrow u-icon__inner"></span>
+                                        </a>
+                                    </div>-->
+                                    <div class="col-12 col-sm-10 input-group form">
+                                        <div id="addrWrap" class="position-absolute" style="display:none; border:1px solid #d4d7dd; height:400px;margin-left:43px;">
+                                            <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">
                                         </div>
-                                        <!--<div class="d-none d-md-block col-sm-1">
-                                            <a class="u-icon u-icon&#45;&#45;facebook" href="javascript:currentPosition()">
+                                        <div class="input-group-prepend">
+                                            <a class="u-icon u-icon--facebook" href="javascript:currentPosition()">
                                                 <span class="fa fa-location-arrow u-icon__inner"></span>
                                             </a>
-                                        </div>-->
-                                        <div class="col-12 col-sm-10 input-group form">
-                                            <div id="addrWrap" class="position-absolute" style="display:none; border:1px solid #d4d7dd; height:400px;margin-left:43px;">
-                                                <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">
-                                            </div>
-                                            <div class="input-group-prepend">
-                                                <a class="u-icon u-icon--facebook" href="javascript:currentPosition()">
-                                                    <span class="fa fa-location-arrow u-icon__inner"></span>
-                                                </a>
-                                            </div>
-                                            <input id="addr" type="text" class="form-control form__input form-control-sm"
-                                                   placeholder="건물명,도로명,지번으로 검색하세요"
-                                                   aria-label="Default example with button"
-                                                   aria-describedby="inputGroup-sizing-default"
-                                            >
                                         </div>
-                                        <!--최저수량-->
-                                        <!--<hr class="my-2">
-                                        <div class="row align-items-center">
-                                            <div class="d-none d-md-block col-sm-2">
-                                                <label class="h6 small d-block text-uppercase mb-3 mb-lg-0" for="customRange3">최저수량</label>
-                                            </div>
-                                            <div class="col-3 col-sm-2">
-                                                <input type="text" class="form-control form__input">
-                                            </div>
-                                            <div class="col-9 col-sm-8">
-                                                <input type="range" class="custom-range" min="0" max="5" step="0.5" id="customRange3" />
-                                            </div>
-                                        </div>-->
+                                        <input id="addr" type="text" th:value="${param.addr}" class="form-control form__input form-control-sm"
+                                               placeholder="건물명,도로명,지번으로 검색하세요"
+                                               aria-label="Default example with button"
+                                               aria-describedby="inputGroup-sizing-default"
+                                        >
                                     </div>
-                                    <div class="text-center mt-2">
-                                        <button type="button" class="btn btn-primary btn-sm px-8" onclick="serchAddress()">검색</button>
-                                        <!--<button type="submit" class="btn btn-primary mb-4">Let's Start Working Together</button>-->
-                                    </div>
-                                </form>
+                                    <!--최저수량-->
+                                    <!--<hr class="my-2">
+                                    <div class="row align-items-center">
+                                        <div class="d-none d-md-block col-sm-2">
+                                            <label class="h6 small d-block text-uppercase mb-3 mb-lg-0" for="customRange3">최저수량</label>
+                                        </div>
+                                        <div class="col-3 col-sm-2">
+                                            <input type="text" class="form-control form__input">
+                                        </div>
+                                        <div class="col-9 col-sm-8">
+                                            <input type="range" class="custom-range" min="0" max="5" step="0.5" id="customRange3" />
+                                        </div>
+                                    </div>-->
+                                </div>
+                                <div class="text-center mt-2">
+                                    <button type="button" class="btn btn-primary btn-sm px-8" onclick="serchAddress()">검색</button>
+                                    <!--<button type="submit" class="btn btn-primary mb-4">Let's Start Working Together</button>-->
+                                </div>
                             </div>
                         </div>
                     </form>
@@ -108,13 +107,32 @@
             </div>
             <hr class="my-2">
             <!-- 상품 alert -->
-            <div class="alert alert-warning" role="alert">
+            <!--<div class="alert alert-warning" role="alert">
                 지금 <a href="/login" class="alert-link">회원 로그인</a>을 하시면 더욱 저렴한 가격으로 구매 가능합니다.
-            </div>
+            </div>-->
 
             <!--상품 리스트 -->
-            <div class="card-deck d-block d-lg-flex">
-                <article class="card border-0 mb-2 ">
+            <div class="card-deck d-block d-lg-flex" th:each="item, row: ${productList}" th:with="numList=${#numbers.sequence(1,0)}" th:if="${row.even} or ${row.last} ">
+                <article class="card border-0 mb-2 " th:each="num : ${numList}" th:with="dataIndex=(${row.index} - ${num}),product=(${productList[dataIndex]})" th:unless="${row.last} and ${num} ">
+                        <div class="min-height-pl card-body row align-items-stretch no-gutters p-0">
+                            <div class="col-4 col-sm-3 card-img-left border border-right-0 bg-img-hero" th:attr="data-bg-img-src=@{/img/test/10_0l.jpg}"></div>
+                            <div class="col-8 col-sm-9 border border-left-0 rounded-right">
+                                <div class="p-3">
+                                    <span class="d-block">
+                                        <a href="product" class="text-dark">
+                                        <strong th:text="${product.name}"></strong> <span class="badge badge-pill badge-danger">best</span>
+                                        </a>
+                                    </span>
+                                    <strong class="text-danger" th:text="${product.consumer}">4,500원</strong> <del class="small" th:text="${product.consumer}">5,000원</del>
+                                    <div class="small" th:text="${product.shopName}">코리아에그</div>
+                                    <!--<div class="small">5~5000판 / 전국</div>
+                                    <div class="small">2019.12.31까지</div>-->
+                                </div>
+                            </div>
+                        </div>
+                </article>
+                <article class="card border-0 mb-2" th:each="num : ${numList}"  th:if="${row.last} and ${num} "></article>
+                <!--<article class="card border-0 mb-2 ">
                         <div class="min-height-pl card-body row align-items-stretch no-gutters p-0">
                             <div class="col-4 col-sm-3 card-img-left border border-right-0 bg-img-hero" th:attr="data-bg-img-src=@{/img/test/10_0l.jpg}"></div>
                             <div class="col-8 col-sm-9 border border-left-0 rounded-right">
@@ -131,32 +149,14 @@
                                 </div>
                             </div>
                         </div>
-                </article>
-                <article class="card border-0 mb-2 ">
-                        <div class="min-height-pl card-body row align-items-stretch no-gutters p-0">
-                            <div class="col-4 col-sm-3 card-img-left border border-right-0 bg-img-hero" th:attr="data-bg-img-src=@{/img/test/10_0l.jpg}"></div>
-                            <div class="col-8 col-sm-9 border border-left-0 rounded-right">
-                                <div class="p-3">
-                                    <span class="d-block">
-                                        <a href="product" class="text-dark">
-                                        <strong>참좋은계란 대란 30구</strong> <span class="badge badge-pill badge-danger">best</span>
-                                        </a>
-                                    </span>
-                                    <strong class="text-danger">4,500원</strong> <del class="small">5,000원</del>
-                                    <div class="small">코리아에그</div>
-                                    <div class="small">5~5000판 / 전국</div>
-                                    <div class="small">2019.12.31까지</div>
-                                </div>
-                            </div>
-                        </div>
-                </article>
+                </article>-->
             </div>
 
             <div class="row mt-5">
                 <div class="media align-items-center pr-lg-4 col-7">
                     <img class="max-width-6 mr-1" th:src="@{/svg/business-icons/iStar_Design_Business_LineIcons_Live-98.svg}" alt="Image Description"/>
                     <div class="media-body">
-                        <p class="h4 mb-0">대리점 <span class="font-size-13 text-muted"> * 검색위치에서 직선거리로 정렬됩니다</span></p>
+                        <p class="h4 mb-0">대리점 <span class="font-size-13 text-muted" th:if="${param.addr} != null"> * 검색위치에서 직선거리로 정렬됩니다</span></p>
                     </div>
                 </div>
                 <div class="col-5 col-md-2 offset-md-3 text-right">
@@ -166,41 +166,28 @@
             <hr class="my-2">
 
             <!-- 대리점 리스트 -->
-            <div class="card-deck d-block d-lg-flex">
-                <article class="card border-0 mb-2 ">
+            <div th:each="item, row: ${agentList}" th:with="numList=${#numbers.sequence(1,0)}" th:if="${row.even} or ${row.last} " class="card-deck d-block d-lg-flex">
+                <!--<span th:each="num : ${numList}" th:with="dataIndex=(${row.index} - ${num})" th:unless="${row.index} - ${num}==-1" th:text="${agentList[dataIndex]}"  ></span>-->
+                <article class="card border-0 mb-2" th:each="num : ${numList}" th:with="dataIndex=(${row.index} - ${num}),shop=(${agentList[dataIndex]})" th:unless="${row.last} and ${num} ">
                     <div class="min-height-pl card-body row align-items-stretch no-gutters p-0">
                         <div class="col-8 col-sm-9 border border-right-0 rounded-left">
                             <div class="p-3">
-                                    <span class="d-block">
-                                        <a href="/agentList" class="text-dark">
-                                        <strong>서울 대리점</strong>
-                                        </a>
-                                    </span>
-                                <div class="small">서울 동대문구 이문동 204-397</div>
-                                <div class="small">02-657-8454</div>
-                                <div class="small text-danger">20km <span class="text-dark">왕란 외 2건</span></div>
+                                        <span class="d-block">
+                                            <a th:href="@{read(id=${shop.id})}" class="text-dark">
+                                            <strong th:text="${shop.name}">서울 대리점</strong>
+                                            </a>
+                                        </span>
+                                <div class="small" th:text="${shop.address}+${shop.addressDetail}">서울 동대문구 이문동 204-397</div>
+                                <div class="small" th:text="${shop.tel}">02-657-8454</div>
+                                <!--TODO 판매상품 및 키로수 계산-->
+                                <div class="small text-danger dist" th:lon="${shop.lon}" th:lat="${shop.lat}"></div>
+                                    <!--<div class="small text-danger">20km <span class="text-dark">왕란 외 2건</span></div>-->
                             </div>
                         </div>
                         <div class="col-4 col-sm-3 card-img-right border border-left-0 bg-img-hero" th:attr="data-bg-img-src=@{/img/test/10_0l.jpg}"></div>
                     </div>
                 </article>
-                <article class="card border-0 mb-2 ">
-                    <div class="min-height-pl card-body row align-items-stretch no-gutters p-0">
-                        <div class="col-8 col-sm-9 border border-right-0 rounded-left">
-                            <div class="p-3">
-                                    <span class="d-block">
-                                        <a href="/agentList" class="text-dark">
-                                        <strong>서울 대리점</strong>
-                                        </a>
-                                    </span>
-                                <div class="small">서울 동대문구 이문동 204-397</div>
-                                <div class="small">02-657-8454</div>
-                                <div class="small text-danger">20km <span class="text-dark">왕란 외 2건</span></div>
-                            </div>
-                        </div>
-                        <div class="col-4 col-sm-3 card-img-right border border-left-0 bg-img-hero" th:attr="data-bg-img-src=@{/img/test/10_0l.jpg}"></div>
-                    </div>
-                </article>
+                <article class="card border-0 mb-2" th:each="num : ${numList}"  th:if="${row.last} and ${num} "></article>
             </div>
 
             <!-- 협력사 line -->
@@ -211,50 +198,39 @@
                         <p class="h4 mb-0">협력사</p>
                     </div>
                 </div>
-                <div class="col-7 col-md-2 offset-md-5 text-right">
+                <!--TODO 정렬기준추가-->
+                <!--<div class="col-7 col-md-2 offset-md-5 text-right">
                     <select class="form-control form-inline form-control-sm">
                         <option selected="">거리순</option>
                         <option>이름순</option>
                     </select>
-                </div>
+                </div>-->
             </div>
             <hr class="my-2">
 
-            <div class="card-deck d-block d-lg-flex">
-                <article class="card border-0 mb-2 ">
+            <!-- 대리점 리스트 -->
+            <div th:each="item, row: ${partnerList}" th:with="numList=${#numbers.sequence(1,0)}" th:if="${row.even} or ${row.last} " class="card-deck d-block d-lg-flex">
+                <!--<span th:each="num : ${numList}" th:with="dataIndex=(${row.index} - ${num})" th:unless="${row.index} - ${num}==-1" th:text="${agentList[dataIndex]}"  ></span>-->
+                <article class="card border-0 mb-2" th:each="num : ${numList}" th:with="dataIndex=(${row.index} - ${num}),shop=(${partnerList[dataIndex]})" th:unless="${row.last} and ${num} ">
                     <div class="min-height-pl card-body row align-items-stretch no-gutters p-0">
                         <div class="col-8 col-sm-9 border border-right-0 rounded-left">
                             <div class="p-3">
-                                    <span class="d-block">
-                                        <a href="/agentList" class="text-dark">
-                                        <strong>왕란상회</strong>
-                                        </a>
-                                    </span>
-                                <div class="small">서울 동대문구 이문동 204-397</div>
-                                <div class="small">02-657-8454</div>
-                                <div class="small text-danger">20km <span class="text-dark">왕란 외 2건</span></div>
+                                        <span class="d-block">
+                                            <a th:href="@{read(id=${shop.id})}" class="text-dark">
+                                            <strong th:text="${shop.name}">서울 대리점</strong>
+                                            </a>
+                                        </span>
+                                <div class="small" th:text="${shop.address}+${shop.addressDetail}">서울 동대문구 이문동 204-397</div>
+                                <div class="small" th:text="${shop.tel}">02-657-8454</div>
+                                <!--TODO 판매상품 및 키로수 계산-->
+                                <div class="small text-danger dist" th:lon="${shop.lon}" th:lat="${shop.lat}"></div>
+                                <!--<div class="small text-danger">20km <span class="text-dark">왕란 외 2건</span></div>-->
                             </div>
                         </div>
                         <div class="col-4 col-sm-3 card-img-right border border-left-0 bg-img-hero" th:attr="data-bg-img-src=@{/img/test/10_0l.jpg}"></div>
                     </div>
                 </article>
-                <article class="card border-0 mb-2 ">
-                    <div class="min-height-pl card-body row align-items-stretch no-gutters p-0">
-                        <div class="col-8 col-sm-9 border border-right-0 rounded-left">
-                            <div class="p-3">
-                                    <span class="d-block">
-                                        <a href="/agentList" class="text-dark">
-                                        <strong>왕란상회</strong>
-                                        </a>
-                                    </span>
-                                <div class="small">서울 동대문구 이문동 204-397</div>
-                                <div class="small">02-657-8454</div>
-                                <div class="small text-danger">20km <span class="text-dark">왕란 외 2건</span></div>
-                            </div>
-                        </div>
-                        <div class="col-4 col-sm-3 card-img-right border border-left-0 bg-img-hero" th:attr="data-bg-img-src=@{/img/test/10_0l.jpg}"></div>
-                    </div>
-                </article>
+                <article class="card border-0 mb-2" th:each="num : ${numList}"  th:if="${row.last} and ${num} "></article>
             </div>
 
         </div>
@@ -328,6 +304,13 @@
 
         var lineLine = new daum.maps.Polyline();
 
+        jQuery.fn.addHidden = function (name, value) {
+            return this.each(function () {
+                var input = $("<input>").attr("type", "hidden").attr("name", name).val(value);
+                $(this).append($(input));
+            });
+        };
+
         function serchAddress(addr) {
 
             if(addr == null){
@@ -338,10 +321,16 @@
             geocoder.addressSearch(addr, function(result, status) {
                 // 정상적으로 검색이 완료됐으면
                 if (status === daum.maps.services.Status.OK) {
-                    var start = new daum.maps.LatLng(result[0].y, result[0].x);
-                    var end = new daum.maps.LatLng(37.5863393, 127.05535029999999);
-                    alert(start + "거리 : " +distanceTo(start,end));
+
+                    $("#searchForm").addHidden('lon', result[0].y);
+                    $("#searchForm").addHidden('lat', result[0].x);
+                    $("#searchForm").addHidden('addr', $("#addr").val());
+
+                    /*document.searchForm.submit();*/
+
                 }
+
+                $("#searchForm").submit();
             });
         }
 
@@ -390,9 +379,9 @@
                     // (autoClose:false 기능을 이용한다면, 아래 코드를 제거해야 화면에서 사라지지 않는다.)
                     element_wrap.style.display = 'none';
 
+
                     // 우편번호 찾기 화면이 보이기 이전으로 scroll 위치를 되돌린다.
                     document.body.scrollTop = currentScroll;
-                    $("#addr").css("zIndex","");
                 },
                 hideMapBtn : true,
                 hideEngBtn : true,
@@ -403,16 +392,43 @@
 
             // iframe을 넣은 element를 보이게 한다.
             element_wrap.style.display = 'block';
+            element_wrap.style.zIndex = '9';
         }
 
         $(document).on('ready', function () {
 
             $("#addr").focus(function (obj) {
-                $("#addr").css("zIndex","-1");
                 sample3_execDaumPostcode();
                 //$( "#target" ).focus();
                 obj.target.blur();
             });
+
+            $(".dist").each(function (obj) {
+                var $dist = $(this);
+                var lon = $dist.attr("lon");
+                var lat = $dist.attr("lat");
+
+                var addr = /*[[ ${param.addr} ]]*/;
+                if(addr != null){
+                    /*addr = "경기도 수원시 권선구 권선동 1039-6";*/
+
+                    // 주소로 좌표를 검색합니다
+                    var geocoder = new daum.maps.services.Geocoder();
+                    geocoder.addressSearch(addr, function(result, status) {
+                        // 정상적으로 검색이 완료됐으면
+                        if (status === daum.maps.services.Status.OK) {
+
+                            console.log(result[0].y);
+                            console.log(result[0].x);
+                            var start = new daum.maps.LatLng(result[0].y, result[0].x);
+                            var end = new daum.maps.LatLng(lon, lat);
+                            var dist = distanceTo(start,end);
+                            $dist.text(Math.round(dist) +"km");
+                        }
+                    });
+                }
+
+            })
 
         });
 

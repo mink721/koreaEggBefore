@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.sql.Timestamp;
 import java.util.*;
 
 /**
@@ -38,16 +39,17 @@ public class AdminController {
     public String listUser(@ModelAttribute("cri") Criteria cri,
                               @RequestParam Map<String,String> search,
                               Model model) {
-    List<User> userList = userService.selectAllUser(cri, search.get("userId"),
+        userService.refreshRole();
+        List<User> userList = userService.selectAllUser(cri, search.get("userId"),
             search.get("userName"),search.get("mobile"),search.get("shopName"),search.get("address"), search.get("role"));
-    model.addAttribute("userList", userList);
+        model.addAttribute("userList", userList);
 
-     PageMaker pageMaker = new PageMaker();
-     pageMaker.setCri(cri);
-     pageMaker.setTotalCount(userService.selectCountAllUser(search.get("userId"),
-              search.get("userName"),search.get("mobile"),search.get("shopName"),search.get("address"), search.get("role")));
+         PageMaker pageMaker = new PageMaker();
+         pageMaker.setCri(cri);
+         pageMaker.setTotalCount(userService.selectCountAllUser(search.get("userId"),
+                  search.get("userName"),search.get("mobile"),search.get("shopName"),search.get("address"), search.get("role")));
 
-     model.addAttribute("pageMaker", pageMaker);
+         model.addAttribute("pageMaker", pageMaker);
 
     return "admin/user/userList";
     }
@@ -94,6 +96,10 @@ public class AdminController {
     @PostMapping(value = "/priceInfo/register")
     public String createPriceInfo(PriceInfo info){
       appService.createPriceInfo(info);
+/*TODO SMS*/
+        /*log.info("create price Info success" + info.toString());
+        return  "redirect:" + "/sendSMS";
+        */
       return  "redirect:/admin/priceInfo/list";
     }
 
@@ -298,8 +304,8 @@ public class AdminController {
     public String createDeposit(UserRoleReq req){
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.YEAR, 1);
-        req.setExpireDate(cal.getTime());
-        req.setUpdateDate(new Date());
+        req.setExpireDate( new Timestamp(cal.getTime().getTime()));
+        req.setUpdateDate( new Timestamp(new Date().getTime()));
         userService.createUserRoleReq(req);
         return  "redirect:/admin/deposit/list";
     }
@@ -309,8 +315,8 @@ public class AdminController {
         req.setStatus(CODE.END.getCode());
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.YEAR, 1);
-        req.setExpireDate(cal.getTime());
-        req.setUpdateDate(new Date());
+        req.setExpireDate( new Timestamp(cal.getTime().getTime()));
+        req.setUpdateDate( new Timestamp(new Date().getTime()));
         userService.updateUserRoleReq(req);
         return  "redirect:/admin/deposit/list";
     }

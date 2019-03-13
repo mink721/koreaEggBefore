@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default}" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" >
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  xmlns:sec="http://www.thymeleaf.org/extras/spring-security" >
 
     <header layout:fragment="header" id="header" class="u-header u-header--modern u-header--bordered u-header--sticky-top-sm">
         <div class="u-header__section">
@@ -10,7 +10,7 @@
                         <nav class="js-mega-menu navbar navbar-expand-lg u-header__navbar">
                             <!-- Logo -->
                             <div class="u-header__navbar-brand-wrapper">
-                                <a class="navbar-brand u-header__navbar-brand" href="/index" aria-label="Space">
+                                <a class="navbar-brand u-header__navbar-brand" href="/" aria-label="Space">
                                     <img class="u-header__navbar-brand-on-scroll" th:src="@{/svg/logos/logo.svg}" alt="Logo"/>
                                     <img class="u-header__navbar-brand-mobile" th:src="@{/svg/logos/logo-short.svg}" alt="Logo"/>
                                 </a>
@@ -33,7 +33,7 @@
                         <div id="navBar" class="collapse navbar-collapse u-header__navbar-collapse py-0">
                             <ul class="navbar-nav u-header__navbar-nav">
                                 <!-- Dropdown -->
-                                <li class="nav-item hs-has-sub-menu u-header__nav-item"
+                                <!--<li class="nav-item hs-has-sub-menu u-header__nav-item"
                                     data-event="click"
                                     data-animation-in="fadeInUp"
                                     data-animation-out="fadeOut">
@@ -44,7 +44,7 @@
                                         회원등급변경
                                         <span class="fa fa-angle-down u-header__nav-link-icon"></span>
                                     </a>
-                                    <!-- Dropdown Submenu -->
+                                    &lt;!&ndash; Dropdown Submenu &ndash;&gt;
                                     <ul id="changeUserSubMenu" class="list-inline hs-sub-menu u-header__sub-menu mb-0" style="min-width: 220px;"
                                         aria-labelledby="changeUser">
                                         <li class="dropdown-item u-header__sub-menu-list-item py-0">
@@ -69,17 +69,17 @@
                                             <a class="nav-link u-header__sub-menu-nav-link" href="/change/ROLE_ADMIN/관리자">관리자</a>
                                         </li>
                                     </ul>
-                                </li>
+                                </li>-->
                                 <!-- Home -->
                                 <li class="nav-item u-header__nav-item">
-                                    <a class="nav-link u-header__nav-link" href="/index">
+                                    <a class="nav-link u-header__nav-link" href="/">
                                         Home
                                     </a>
                                 </li>
                                 <!-- End Home -->
                                 <!-- Home -->
                                 <li class="nav-item u-header__nav-item">
-                                    <a class="nav-link u-header__nav-link" href="/agentList">
+                                    <a class="nav-link u-header__nav-link" href="/agent/list">
                                         대리점
                                     </a>
                                 </li>
@@ -96,10 +96,7 @@
                                 <!-- End Works -->
                                 <!-- Works -->
                                 <li class="nav-item u-header__nav-item">
-                                    <a sec:authorize="!hasAuthority('CAST_READ')" class="nav-link u-header__nav-link text-warning" href="javascript:alert('권한이없습니다')">
-                                        난가정보
-                                    </a>
-                                    <a sec:authorize="hasAuthority('CAST_READ')" class="nav-link u-header__nav-link" href="/priceInfo/list">
+                                    <a class="nav-link u-header__nav-link" href="/priceInfo/list">
                                         난가정보
                                     </a>
                                 </li>
@@ -132,6 +129,12 @@
                                 <li sec:authorize="isAuthenticated()" class="nav-item u-header__nav-item">
                                     <a class="nav-link u-header__nav-link p-0" href="/logout" role="button">
                                         <button type="button" class="btn btn-outline-secondary btn-xs">로그아웃</button>
+                                    </a>
+                                </li>
+                                <!--TODO 관리자만 보이도록 sec:authorize="hasAuthority('ROLE_ADMIN')"-->
+                                <li class="nav-item u-header__nav-item">
+                                    <a class="nav-link u-header__nav-link p-0" href="/admin" role="button">
+                                        <button type="button" class="btn btn-outline-secondary btn-xs">관리자페이지</button>
                                     </a>
                                 </li>
                                 <!-- End 로그인 버튼 -->

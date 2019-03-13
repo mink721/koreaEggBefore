@@ -5,17 +5,27 @@
 
 <mapper namespace="cc.koreaEgg.mapper.ProductMapper">
 
-    <select id="selectProductList" parameterType="map">
-        SELECT * FROM PRODUCT t, PRICE e WHERE t.id = e.prpduct_id
+    <select id="selectProductList" parameterType="map" resultType="product">
+        SELECT t.*, s.name AS shop_name  FROM PRODUCT t, SHOP s
+        WHERE t.shop_id = s.id
+        <if test="shopId!=null and !shopId.equals('')">
+            AND s.id = #{shopId}
+        </if>
+        <if test="size!=null and !size.equals('')">
+            AND size = #{size}
+        </if>
+        ORDER BY size asc
+        LIMIT #{cri.pageStart}, #{cri.perPageNum}
     </select>
 
-    <select id="selectProduct" parameterType="long">
-        SELECT * FROM PRODUCT WHERE id = #{id}
+    <select id="selectProduct" parameterType="long" resultType="product">
+        SELECT t.*, s.name AS shop_name  FROM PRODUCT t, SHOP s
+        WHERE t.shop_id = s.id AND t.id = #{id}
     </select>
     <!-- TODO 상품등록 -->
     <insert id="createProduct" parameterType="product">
-        INSERT INTO PRODUCT (user_id, name, origin, contents)
-        VALUES (#{userId},#{name},#{origin},#{contents})
+        INSERT INTO PRODUCT (shop_id, name, size, origin, cost, consumer, store, retail, wholesale, partner, agent, contents)
+        VALUES (#{shopId},#{name},#{size},#{origin},#{cost},#{consumer},#{store},#{retail},#{wholesale},#{partner},#{agent},#{contents})
         <selectKey resultType="long" keyProperty="id" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
@@ -25,5 +35,17 @@
         INSERT INTO PRICE (product_id, user_id, cost, consumer, store, retail, wholeSale, partner, agent, reg_date)
         VALUES (#{productId}, #{userId},#{cost},#{consumer},#{store},#{retail},#{wholeSale},#{partner},#{agent},NOW())
     </insert>
+
+    <insert id="createShop" parameterType="shop">
+        INSERT INTO SHOP (name, post_num, address, address_detail, tel, profile_image, lon, lat, reg_date, homepage)
+        VALUES (#{name},#{postNum},#{address},#{addressDetail},#{tel},#{profileImage},#{lon},#{lat},NOW(),#{homepage})
+        <selectKey keyProperty="id" resultType="Long" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <select id="selectShopList" parameterType="map" resultType="shop">
+      SELECT s.*, ST_DISTANCE(POINT(#{lon}, #{lat}), POINT(s.lon, s.lat)) AS dist FROM SHOP s, USER u WHERE s.id = u.shop_id AND u.base_role = #{role} ORDER BY dist
+    </select>
 
 </mapper>

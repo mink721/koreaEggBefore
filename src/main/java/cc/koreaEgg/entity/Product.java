@@ -16,10 +16,11 @@ import java.util.Date;
 public class Product {
 
     private Long id;
-    private Long userId;
+    private Long shopId;
     private String name;
     private String origin;
     private String shopName;
+    private Integer size;
     private Integer cost;
     private Integer consumer;
     private Integer store;

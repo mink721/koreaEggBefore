@@ -1,79 +1,104 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/default"  >
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="user/myPageLayout"  >
 
-<section layout:fragment="content">
+<section layout:fragment="mainContent">
     <!-- ========== MAIN CONTENT ========== -->
-    <main id="content" role="main">
-        <!-- About Section -->
-        <div class="container space-2 space-3--lg">
-            <form th:action="@{register}" method="post" th:object="${product}">
-                <input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                <input type="hidden" name="userId" th:value="${#authentication.principal.id}" />
-                <input type="hidden" name="price." th:value="${#authentication.principal.id}" />
-                <input class="form-control" type="text" th:field="*{name}" />
-                <input class="form-control" type="text" th:field="*{origin}" />
-                <input class="form-control" type="text" th:field="*{imagePath}" />
-                <input class="form-control" type="text" th:field="*{content}" />
-                <input class="form-control" type="text" th:field="*{name}" />
+    <!-- Hire Us Form -->
+    <div class="container space-2 space-3--lg">
+        <form th:action="@{register}" method="post"
+              class="js-validate w-lg-75 px-3 px-sm-9 mx-lg-auto form-signin"
+              th:object="${product}">
+            <input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                <input type="hidden"  name="shopId" th:value="${#authentication.principal.shopId}">
+                <span th:text="${#authentication.principal.shopId}"></span>
 
-            </form>
-
-
-
-
-
-
-
-
-            <div class="row align-items-lg-center">
-                <div class="col-md-6">
-                    <div class="pr-lg-4">
-                        <img class="img-fluid" th:src="@{/img/test/6_0l.jpg}">
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="mb-4">
-                        <!-- Title -->
-                        <h2><strong>참좋은계란 대란 30구</strong></h2>
-                        <div><small>해섭인증받은 계란</small></div>
-                        <div class="text-muted">소비자가 : <del>5,000원</del></div>
-                        <div class="h4 my-2"><span class="badge badge-pill badge-danger mr-2">할인가</span>
-                            <strong class="text-danger">4,500원</strong></div>
-                        <!-- End Title -->
-                        <!-- End Features List -->
-                        <hr class="my-2">
-                        <ul class="">
-                            <li class=" small">원산지 : 대한민국</li>
-                            <li class=" small">판매원 : 코리아에그</li>
-                            <li class=" small">최저구매수량 : 5</li>
-                            <li class=" small">최대구매수량 : 1000</li>
-                            <li class=" small">배송지역 : ㅇㅇ 100판이상(전국)</li>
-                            <li class=" small">판매기한 : ~ 2019.12.31</li>
-                        </ul>
-                        <hr class="my-2">
-                        <div class="row align-items-center">
-                            <div class="col-3 mb-3">
-                                <input type="text" class="form-control form-control-sm" placeholder="수량" />
-                            </div>
-                            <div class="col-9">
-                                <input type="range" class="custom-range" min="0" max="5" step="0.5" id="customRange3" />
-                            </div>
-                        </div>
-                        <div class="">
-                            <button type="button" class="btn-wide btn btn-outline-primary btn-sm ">장바구니담기</button>
-                            <button type="button" class="btn-wide btn btn-primary btn-sm ">구매하기</button>
+            <!-- Title -->
+            <div class="w-md-80 w-lg-60 text-center mx-md-auto mb-5">
+                <h1 class="h3">상품등록</h1>
+                <p></p>
+            </div>
+            <!-- End Title -->
+            <div class="form-row">
+                <div class="form-group col-md-5 js-form-message">
+                    <label class="h6 small d-block text-uppercase">상품명<span class="text-danger">*</span></label>
+                    <div class="js-focus-state input-group form">
+                        <input type="text" class="form-control form__input" required
+                               th:field="*{name}"
+                               id="userId"
+                               aria-label="userId"
+                               data-msg="필수입력"
+                               data-error-class="u-has-error"
+                               data-success-class="u-has-success"
+                        />
+                        <div class="invalid-feedback" id="userIdFeedback">
+                            아이디가 이미 존재합니다.
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- End About Section -->
-        <!-- History Section -->
-        <div class="container">
-            <div class="align-items-lg-center">
-                        <img class="img-fluid" th:src="@{/img/test/6_0l.jpg}">
+            <div class="form-row mb-3">
+                <div class="form-group col-md-6 form m-0 js-form-message">
+                    <label class="h6 small d-block text-uppercase">원산지<span class="text-danger">*</span></label>
+                    <div class="js-focus-state input-group form">
+                        <input type="text" class="form-control form__input" required
+                               th:field="*{origin}"
+                               aria-label="password"
+                               data-msg="필수입력"
+                               data-error-class="u-has-error"
+                               data-success-class="u-has-success"/>
+                    </div>
+                </div>
+                <div class="form-group col-md-6 m-0 js-form-message">
+                    <label class="h6 small d-block text-uppercase">사이즈<span class="text-danger">*</span></label>
+                    <div class="js-focus-state input-group form">
+                        <input type="text" class="form-control form__input"
+                               th:field="*{size}"
+                               aria-label="confirmPassword"
+                               data-error-class="u-has-error"
+                               data-success-class="u-has-success"/>
+                    </div>
+                </div>
             </div>
-        </div>
-    </main>
-    <!-- ========== END MAIN CONTENT ========== -->
+            <div class="form-row mb-5">
+                <div class="form-group col-md-6 js-form-message">
+                    <label class="h6 small d-block text-uppercase">가격<span class="text-danger">*</span></label>
+                    <div class="js-focus-state input-group form">
+                        <input type="number" class="form-control form__input" required
+                               th:field="*{cost}"
+                               aria-label="username"
+                               data-msg="필수입력"
+                               data-error-class="u-has-error"
+                               data-success-class="u-has-success"/>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row mb-5">
+                <div class="form-group col-md-6 js-form-message">
+                    <label class="h6 small d-block text-uppercase">상세설명<span class="text-danger">*</span></label>
+                    <div class="js-focus-state input-group form">
+                        <input type="number" class="form-control form__input" required
+                               th:field="*{contents}"
+                               aria-label="username"
+                               data-msg="필수입력"
+                               data-error-class="u-has-error"
+                               data-success-class="u-has-success"/>
+                    </div>
+                </div>
+            </div>
+            <input type="submit" class="btn btn-primary" value="Sign in"/>
+        </form>
+    </div>
+
+    <script th:inline="javascript" type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=af40a347c5a17c5118392cee56f35da6&libraries=services"></script>
+    <script th:inline="javascript" type="text/javascript" src="https://ssl.daumcdn.net/dmaps/map_js_init/postcode.v2.js"></script>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        $(document).on('ready', function () {
+            // initialization of form validation
+            $.HSCore.components.HSValidation.init('.js-validate');
+        });
+
+        /*]]>*/
+    </script>
 </section>
