@@ -3,6 +3,7 @@ package cc.koreaEgg.controller;
 import cc.koreaEgg.entity.Criteria;
 import cc.koreaEgg.entity.PageMaker;
 import cc.koreaEgg.entity.Role;
+import cc.koreaEgg.entity.User;
 import cc.koreaEgg.service.ProductService;
 import cc.koreaEgg.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -34,9 +36,14 @@ public class HomeController {
 
 
   @RequestMapping(value = "/")
-  public String homepage(@ModelAttribute("cri") Criteria cri, Double lon, Double lat, Model model, String addr, Integer size) {
+  public String homepage(@ModelAttribute("cri") Criteria cri, Double lon, Double lat, Model model, String addr, Integer size, @AuthenticationPrincipal User user) {
 
-    model.addAttribute("productList", productService.selectProductList(cri, null, size ));
+    Role role = Role.USER;
+    if(user != null){
+      role = user.getRole();
+    }
+
+    model.addAttribute("productList", productService.selectProductList(cri, role,null, size ));
 
 
     if( lon == null && lat == null){

@@ -6,7 +6,15 @@
 <mapper namespace="cc.koreaEgg.mapper.ProductMapper">
 
     <select id="selectProductList" parameterType="map" resultType="product">
-        SELECT t.*, s.name AS shop_name  FROM PRODUCT t, SHOP s
+        SELECT t.*, s.name AS shop_name,
+            CASE WHEN #{role}='STORE' THEN store
+                WHEN #{role}='RETAILER' THEN retail
+                WHEN #{role}='WHOLESALER' THEN wholesale
+                WHEN #{role}='PARTNER' THEN partner
+                WHEN #{role}='AGENT' THEN agent
+                ELSE consumer
+                END AS price
+          FROM PRODUCT t, SHOP s
         WHERE t.shop_id = s.id
         <if test="shopId!=null and !shopId.equals('')">
             AND s.id = #{shopId}
@@ -18,8 +26,15 @@
         LIMIT #{cri.pageStart}, #{cri.perPageNum}
     </select>
 
-    <select id="selectProduct" parameterType="long" resultType="product">
-        SELECT t.*, s.name AS shop_name  FROM PRODUCT t, SHOP s
+    <select id="selectProduct" parameterType="map" resultType="product">
+        SELECT t.*, s.name AS shop_name, CASE WHEN #{role}='STORE' THEN store
+                WHEN #{role}='RETAILER' THEN retail
+                WHEN #{role}='WHOLESALER' THEN wholesale
+                WHEN #{role}='PARTNER' THEN partner
+                WHEN #{role}='AGENT' THEN agent
+                ELSE consumer
+                END AS price
+        FROM PRODUCT t, SHOP s
         WHERE t.shop_id = s.id AND t.id = #{id}
     </select>
     <!-- TODO 상품등록 -->

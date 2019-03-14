@@ -43,8 +43,10 @@ public class UserController {
       model.addAttribute("user", user);
       return "user/register";
     }
-    productService.createShop(shop);
-    user.setShopId(shop.getId());
+    if(shop.getName() != null){
+      productService.createShop(shop);
+      user.setShopId(shop.getId());
+    }
     userService.createUser(user);
     return  "redirect:" + "/login?register";
   }

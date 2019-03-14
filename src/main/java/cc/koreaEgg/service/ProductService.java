@@ -24,15 +24,15 @@ public class ProductService {
        // productMapper.createPrice(product.getPrice());
     }
 
-    public Product selectProduct(long id){
-        return productMapper.selectProduct(id);
+    public Product selectProduct(long id, Role role){
+        return productMapper.selectProduct(id, role);
     }
 
     public void createShop(Shop shop){ productMapper.createShop(shop);}
 
     public List<Shop> selectShopList(Criteria cri, double lon, double lat, String role){ return productMapper.selectShopList(cri, lon, lat, role);}
 
-    public List<Product> selectProductList(Criteria cri, Long shopId, Integer size) {
-        return productMapper.selectProductList(cri,shopId,size);
+    public List<Product> selectProductList(Criteria cri, Role role, Long shopId, Integer size) {
+        return productMapper.selectProductList(cri, role, shopId, size);
     }
 }

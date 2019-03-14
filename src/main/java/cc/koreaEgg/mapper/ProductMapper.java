@@ -9,8 +9,8 @@ import java.util.List;
 @Mapper
 public interface ProductMapper {
 
-    List<Product> selectProductList(@Param("cri") Criteria cri, @Param("shopId") Long shopId, @Param("size") Integer size);
-    Product selectProduct(@Param("id") long id);
+    List<Product> selectProductList(@Param("cri") Criteria cri, @Param("role") Role role, @Param("shopId") Long shopId, @Param("size") Integer size);
+    Product selectProduct(@Param("id") long id, @Param("role") Role role);
     long createProduct(Product product);
     long createPrice(Price price);
 

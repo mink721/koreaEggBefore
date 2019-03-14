@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  layout:decorate="~{/admin/adminDefault}" >
+<section layout:fragment="content">
+    <main id="content" role="main">
+        <span class="h4 m-0 p-0" >상품관리</span>
+        <hr class="mt-1">
+
+        <!-- ========== MAIN CONTENT ========== -->
+        <div class="space-1">
+            <table class="table table-bordered table-responsive-sm table-sm table-hover">
+                <thead>
+                <tr class="table-secondary">
+                    <th class="text-sm-center">NO</th>
+                    <th class="text-sm-center">상품명</th>
+                    <th class="text-sm-center">사이즈</th>
+                    <th class="text-sm-center">가격</th>
+                    <th class="text-sm-center">등록일</th>
+                    <th class="text-sm-center" colspan="3"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="info,row : ${productList}">
+                    <td><span th:text="${row.index} +1 "></span></td>
+                    <td><span th:text="${info.name}"></span></td>
+                    <td><span th:text="${info.size}"></span></td>
+                    <td><span th:text="${info.cost}"></span></td>
+                    <td><span th:text="${#dates.format(info.regDate, 'yyyy.MM.dd')}"></span></td><!--적용일-->
+                    <td><button type="button" class="btn btn-xs py-1 btn-secondary updateBtn updateBtnTg" >수정</button>
+                    </td><!--수정-->
+                    <td><button type="button" class="btn btn-xs py-1 btn-danger updateBtnTg"
+                                data-toggle="modal"
+                                data-target="#exampleModal"
+                                data-title="삭제"
+                                data-body="삭제하시겠습니까?"
+                                th:data-confirm="@{remove(id=${info.id})}">삭제</button>
+                    </td><!--삭제-->
+                    <!--<td><a th:href="@{'/admin/user?id=' + ${user.id}}">더보기</a></td>-->
+                </tr>
+                </tbody>
+            </table>
+
+            <!--<a role="button" class="btn btn-primary" th:unless="${pageMaker.endPage} == ${pageMaker.cri.page}"
+              th:href="@{/admin/priceInfo(page=${pageMaker.cri.page}+1,perPageNum=${pageMaker.cri.perPageNum})}">더보기</a>-->
+            <nav class="row">
+                <ul class="col-3 pagination justify-content-between" >
+                    <li class="">총 목록개수 : <span th:text="${pageMaker.totalCount}"></span></li>
+                    <li class="">
+                        <select class="form-control form-control-sm" id="perPageNum">
+                            <option th:selected="${pageMaker.cri.perPageNum} == 10" value="10" sele>10</option>
+                            <option th:selected="${pageMaker.cri.perPageNum} == 20" value="20">20</option>
+                            <option th:selected="${pageMaker.cri.perPageNum} == 30" value="30">30</option>
+                            <option th:selected="${pageMaker.cri.perPageNum} == 50" value="50">50</option>
+                            <option th:selected="${pageMaker.cri.perPageNum} == 100" value="100">100</option>
+                        </select>
+                    </li>
+                </ul>
+                <ul class="col-9 pagination justify-content-end">
+
+                    <li  class="page-item" th:if="${pageMaker.prev} == true">
+                        <a class="page-link" th:href="@{list(page=${pageMaker.startPage}-1,perPageNum=${pageMaker.cri.perPageNum},areaId=${param.areaId})}">이전</a>
+                    </li>
+
+                    <li  class="page-item" th:each="idx,iterStat : ${#numbers.sequence(pageMaker.startPage,pageMaker.endPage)}"  th:classappend="${pageMaker.cri.page} == ${idx} ? active : null">
+                        <a class="page-link" th:href="@{list(page=${idx},perPageNum=${pageMaker.cri.perPageNum},areaId=${param.areaId})}" th:text="${idx}"></a>
+                    </li>
+
+                    <li  class="page-item" th:if="${pageMaker.next} == true and ${pageMaker.endPage > 0}">
+                        <a class="page-link" th:href="@{list(page=${pageMaker.endPage}+1,perPageNum=${pageMaker.cri.perPageNum},areaId=${param.areaId})}">다음</a>
+                    </li>
+                </ul>
+            </nav>
+
+        </div>
+        <a role="button" class="btn btn-primary" th:href="@{register}">상품등록</a>
+
+    </main>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+
+        function frmsubmit() {
+            if($("#inputTr input").val() == ''){
+                alert("값을 입력해주세요")
+                return false;
+            }
+            return true;
+        }
+
+        function visibleInputTr(){
+            $("#inputTr").show();
+        }
+
+        function invisibleInputTr(){
+            $("#inputTr").hide();
+            $("#inputTr input").val("");
+        }
+
+        $(document).on('ready', function () {
+
+            $("#perPageNum").on('change',function (event) {
+                $(this).val();
+                var areaId = [[${param.areaId}]] == null ? '' : [[${param.areaId}]];
+                location.href = "list?perPageNum=" + $(this).val() + "&areaId=" + areaId;
+            });
+
+            $('#exampleModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget); // Button that triggered the modal
+                var recipient = button.data('whatever'); // Extract info from data-* attributes
+                var title = button.data('title') // Extract info from data-* attributes
+                var body = button.data('body') // Extract info from data-* attributes
+                var confirm = button.data('confirm') // Extract info from data-* attributes
+                // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+                // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+                var modal = $(this);
+
+                if(title != null){
+                    modal.find('.modal-title').text(title);
+                }
+                modal.find('.modal-body').text(body);
+                modal.find('.modal-footer #confirmBtn').on("click", function () {
+                    location.href=confirm;
+                })
+
+            });
+
+            $('.updateBtn').on('click', function (event) {
+                var modal = $(this);
+                console.log(modal.parents("tr").html());
+                modal.parents("tr").find(".form-control").prev().hide();
+                modal.parents("tr").find(".form-control").each(function (index, value) {
+                    $(this).val($(this).prev().html());
+                })
+                modal.parents("tr").find(".form-control").show();
+                modal.parents("tr").find(".updateBtnTg").toggle();
+            });
+
+            $('.updateCancelBtn').on('click', function (event) {
+                var modal = $(this);
+                modal.parents("tr").find(".form-control").prev().show();
+                modal.parents("tr").find(".form-control").hide();
+                modal.parents("tr").find(".updateBtnTg").toggle();
+            });
+
+
+        });
+
+        /*]]>*/
+    </script>
+</section>
+</html>

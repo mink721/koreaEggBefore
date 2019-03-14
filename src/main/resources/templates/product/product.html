@@ -15,21 +15,21 @@
                 <div class="col-md-6">
                     <div class="mb-4">
                         <!-- Title -->
-                        <h2><strong>참좋은계란 대란 30구</strong></h2>
-                        <div><small>해섭인증받은 계란</small></div>
-                        <div class="text-muted">소비자가 : <del>5,000원</del></div>
-                        <div class="h4 my-2"><span class="badge badge-pill badge-danger mr-2">할인가</span>
-                            <strong class="text-danger">4,500원</strong></div>
+                        <h2><strong th:text="${product.name}">상품명</strong></h2>
+                        <div><small th:text="${product.subName}">서브상품명</small></div>
+                        <div class="text-muted">소비자가 : <del th:text="${product.consumer}">소비자가</del></div>
+                        <div class="h4 my-2" th:if="${product.consumer} != ${product.price}"><span class="badge badge-pill badge-danger mr-2">할인가</span>
+                            <strong class="text-danger" th:text="${product.price}">할인가</strong></div>
                         <!-- End Title -->
                         <!-- End Features List -->
                         <hr class="my-2">
                         <ul class="">
-                            <li class=" small">원산지 : 대한민국</li>
-                            <li class=" small">판매원 : 코리아에그</li>
-                            <li class=" small">최저구매수량 : 5</li>
+                            <li class=" small"  th:text="${product.origin}">원산지 : 대한민국</li>
+                            <li class=" small" th:text="${product.shopName}">판매원 : 코리아에그</li>
+                            <!--<li class=" small">최저구매수량 : 5</li>
                             <li class=" small">최대구매수량 : 1000</li>
                             <li class=" small">배송지역 : ㅇㅇ 100판이상(전국)</li>
-                            <li class=" small">판매기한 : ~ 2019.12.31</li>
+                            <li class=" small">판매기한 : ~ 2019.12.31</li>-->
                         </ul>
                         <hr class="my-2">
                         <div class="row align-items-center">
@@ -51,8 +51,8 @@
         <!-- End About Section -->
         <!-- History Section -->
         <div class="container">
-            <div class="align-items-lg-center">
-                        <img class="img-fluid" th:src="@{/img/test/6_0l.jpg}">
+            <div class="align-items-lg-center" th:text="${product.contents}">
+
             </div>
         </div>
     </main>

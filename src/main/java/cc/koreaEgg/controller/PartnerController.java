@@ -37,7 +37,7 @@ public class PartnerController {
     /*  상품 관리 */
     @GetMapping(value = "/product/list")
     public String listProduct(@ModelAttribute("cri") Criteria cri, Integer size, @AuthenticationPrincipal User user, Model model) {
-        model.addAttribute("productList", productService.selectProductList(cri, user.getShopId(), size));
+        model.addAttribute("productList", productService.selectProductList(cri, null, user.getShopId(), size));
 
         PageMaker pageMaker = new PageMaker();
         pageMaker.setCri(cri);
@@ -59,15 +59,16 @@ public class PartnerController {
         return  "redirect:/partner/product/list";
     }
 
+    /* TODO role 조건??*/
     @GetMapping(value = "/product/read")
-    public String readProduct(long id, Model model) {
-        model.addAttribute("product", productService.selectProduct(id));
+    public String readProduct(long id, Model model, @AuthenticationPrincipal User user) {
+        model.addAttribute("product", productService.selectProduct(id, null));
         return "partner/product";
     }
 
     @GetMapping(value = "/product/mod")
     public String modProduct(long id, Model model) {
-        model.addAttribute("board", productService.selectProduct(id));
+        model.addAttribute("board", productService.selectProduct(id, null));
         return "partner/product";
     }
 

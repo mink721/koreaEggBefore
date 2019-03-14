@@ -6,6 +6,7 @@ import cc.koreaEgg.service.ProductService;
 import cc.koreaEgg.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -49,8 +50,12 @@ public class ServiceController {
     }
 
     @RequestMapping(value = "/product", method = RequestMethod.GET)
-    public String productView(Model model){
-    model.addAttribute("product", new Product());
+    public String productView(long id, Model model, @AuthenticationPrincipal User user){
+        Role role = Role.USER;
+        if(user != null){
+            role = user.getRole();
+        }
+    model.addAttribute("product", productService.selectProduct(id, role));
     return  "product/product";
     }
 

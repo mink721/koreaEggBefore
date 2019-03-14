@@ -27,11 +27,11 @@
                                     <div class="col-12 col-sm-10">
                                         <select class="custom-select" name="size">
                                             <option selected="" value="">전체</option>
-                                            <option th:selected="${param.size} == 1" value="1">왕란</option>
-                                            <option th:selected="${param.size} == 2" value="2">특란</option>
-                                            <option th:selected="${param.size} == 3" value="3">대란</option>
-                                            <option th:selected="${param.size} == 4" value="4">중란</option>
-                                            <option th:selected="${param.size} == 5" value="5">소란</option>
+                                            <option th:selected="${#strings.equals(param.size, 1)}" value="1">왕란</option>
+                                            <option th:selected="${#strings.equals(param.size, 2)}" value="2">특란</option>
+                                            <option th:selected="${#strings.equals(param.size, 3)}" value="3">대란</option>
+                                            <option th:selected="${#strings.equals(param.size, 4)}" value="4">중란</option>
+                                            <option th:selected="${#strings.equals(param.size, 5)}" value="5">소란</option>
                                         </select>
                                     </div>
                                 </div>
@@ -93,17 +93,18 @@
             <!-- 상품 line-->
             <div class="row">
                 <div class="media align-items-center pr-lg-4 col-5">
-                    <img class="max-width-6 mr-1" th:src="@{/svg/business-icons/iStar_Design_Business_LineIcons_Live-85.svg}" alt="Image Description"/>
+                    <img class="max-width-6 mr-1" th:src="@{/svg/business-icons/iStar_Design_Business_LineIcons_Live-4.svg}" alt="Image Description"/>
                     <div class="media-body">
                         <p class="h4 mb-0">상품</p>
                     </div>
                 </div>
-                <div class="col-7 col-md-2 offset-md-5">
+                <!--TODO 정렬-->
+                <!--<div class="col-7 col-md-2 offset-md-5">
                     <select id="" class="form-control form-inline form-control-sm">
                         <option selected="">가격순</option>
                         <option>이름순</option>
                     </select>
-                </div>
+                </div>-->
             </div>
             <hr class="my-2">
             <!-- 상품 alert -->
@@ -113,25 +114,25 @@
 
             <!--상품 리스트 -->
             <div class="card-deck d-block d-lg-flex" th:each="item, row: ${productList}" th:with="numList=${#numbers.sequence(1,0)}" th:if="${row.even} or ${row.last} ">
-                <article class="card border-0 mb-2 " th:each="num : ${numList}" th:with="dataIndex=(${row.index} - ${num}),product=(${productList[dataIndex]})" th:unless="${row.last} and ${num} ">
+                <article class="card border-0 mb-2 " th:each="num : ${numList}" th:with="dataIndex=(${row.index} - ${num}),product=(${productList[dataIndex]})" th:unless="${row.count} % 2 == 1 and ${row.last} and ${num} ">
                         <div class="min-height-pl card-body row align-items-stretch no-gutters p-0">
                             <div class="col-4 col-sm-3 card-img-left border border-right-0 bg-img-hero" th:attr="data-bg-img-src=@{/img/test/10_0l.jpg}"></div>
                             <div class="col-8 col-sm-9 border border-left-0 rounded-right">
                                 <div class="p-3">
                                     <span class="d-block">
-                                        <a href="product" class="text-dark">
-                                        <strong th:text="${product.name}"></strong> <span class="badge badge-pill badge-danger">best</span>
+                                        <a th:href="@{product(id=${product.id})}" class="text-dark">
+                                        <strong th:text="${product.name}">상품명</strong> <span class="badge badge-pill badge-danger" th:if="${product.badge}!=null"></span>
                                         </a>
                                     </span>
-                                    <strong class="text-danger" th:text="${product.consumer}">4,500원</strong> <del class="small" th:text="${product.consumer}">5,000원</del>
-                                    <div class="small" th:text="${product.shopName}">코리아에그</div>
+                                    <strong class="text-danger" th:text="${product.price}+'원'">판매가</strong> <del class="small" th:text="${product.consumer}+'원'" th:if="${product.consumer} != ${product.price}">소비자가</del>
+                                    <div class="small" th:text="${product.shopName}">판매상점명</div>
                                     <!--<div class="small">5~5000판 / 전국</div>
                                     <div class="small">2019.12.31까지</div>-->
                                 </div>
                             </div>
                         </div>
                 </article>
-                <article class="card border-0 mb-2" th:each="num : ${numList}"  th:if="${row.last} and ${num} "></article>
+                <article class="card border-0 mb-2" th:each="num : ${numList}"  th:if="${row.count} % 2 == 1 and ${row.last} and ${num} "></article>
                 <!--<article class="card border-0 mb-2 ">
                         <div class="min-height-pl card-body row align-items-stretch no-gutters p-0">
                             <div class="col-4 col-sm-3 card-img-left border border-right-0 bg-img-hero" th:attr="data-bg-img-src=@{/img/test/10_0l.jpg}"></div>
@@ -160,7 +161,7 @@
                     </div>
                 </div>
                 <div class="col-5 col-md-2 offset-md-3 text-right">
-                    <a href="/agentList">자세히 보기</a>
+                    <a href="/agent/list">자세히 보기</a>
                 </div>
             </div>
             <hr class="my-2">
@@ -168,7 +169,7 @@
             <!-- 대리점 리스트 -->
             <div th:each="item, row: ${agentList}" th:with="numList=${#numbers.sequence(1,0)}" th:if="${row.even} or ${row.last} " class="card-deck d-block d-lg-flex">
                 <!--<span th:each="num : ${numList}" th:with="dataIndex=(${row.index} - ${num})" th:unless="${row.index} - ${num}==-1" th:text="${agentList[dataIndex]}"  ></span>-->
-                <article class="card border-0 mb-2" th:each="num : ${numList}" th:with="dataIndex=(${row.index} - ${num}),shop=(${agentList[dataIndex]})" th:unless="${row.last} and ${num} ">
+                <article class="card border-0 mb-2" th:each="num : ${numList}" th:with="dataIndex=(${row.index} - ${num}),shop=(${agentList[dataIndex]})" th:unless="${row.count} % 2 == 1 and ${row.last} and ${num} ">
                     <div class="min-height-pl card-body row align-items-stretch no-gutters p-0">
                         <div class="col-8 col-sm-9 border border-right-0 rounded-left">
                             <div class="p-3">
@@ -187,7 +188,7 @@
                         <div class="col-4 col-sm-3 card-img-right border border-left-0 bg-img-hero" th:attr="data-bg-img-src=@{/img/test/10_0l.jpg}"></div>
                     </div>
                 </article>
-                <article class="card border-0 mb-2" th:each="num : ${numList}"  th:if="${row.last} and ${num} "></article>
+                <article class="card border-0 mb-2" th:each="num : ${numList}"  th:if="${row.count} % 2 == 1 and ${row.last} and ${num} "></article>
             </div>
 
             <!-- 협력사 line -->
@@ -211,7 +212,7 @@
             <!-- 대리점 리스트 -->
             <div th:each="item, row: ${partnerList}" th:with="numList=${#numbers.sequence(1,0)}" th:if="${row.even} or ${row.last} " class="card-deck d-block d-lg-flex">
                 <!--<span th:each="num : ${numList}" th:with="dataIndex=(${row.index} - ${num})" th:unless="${row.index} - ${num}==-1" th:text="${agentList[dataIndex]}"  ></span>-->
-                <article class="card border-0 mb-2" th:each="num : ${numList}" th:with="dataIndex=(${row.index} - ${num}),shop=(${partnerList[dataIndex]})" th:unless="${row.last} and ${num} ">
+                <article class="card border-0 mb-2" th:each="num : ${numList}" th:with="dataIndex=(${row.index} - ${num}),shop=(${partnerList[dataIndex]})" th:unless="${row.count} % 2 == 1 and ${row.last} and ${num} ">
                     <div class="min-height-pl card-body row align-items-stretch no-gutters p-0">
                         <div class="col-8 col-sm-9 border border-right-0 rounded-left">
                             <div class="p-3">
@@ -230,7 +231,7 @@
                         <div class="col-4 col-sm-3 card-img-right border border-left-0 bg-img-hero" th:attr="data-bg-img-src=@{/img/test/10_0l.jpg}"></div>
                     </div>
                 </article>
-                <article class="card border-0 mb-2" th:each="num : ${numList}"  th:if="${row.last} and ${num} "></article>
+                <article class="card border-0 mb-2" th:each="num : ${numList}"  th:if="${row.count} % 2 == 1 and ${row.last} and ${num} "></article>
             </div>
 
         </div>

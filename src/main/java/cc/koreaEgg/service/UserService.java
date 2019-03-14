@@ -134,6 +134,13 @@ public class UserService implements UserDetailsService {
 
     public void createUserRoleReq(UserRoleReq userRoleReq){
         userMapper.createUserRoleReq(userRoleReq);
+
+        if(userRoleReq.getStatus() == CODE.END.getCode()){
+            User user = new User();
+            user.setId(userRoleReq.getUserId());
+            user.setRole(userRoleReq.getRole().name());
+            userMapper.updateUserRole(user);
+        }
     }
     public List<UserRoleReq> selectAllUserRoleReqList(Criteria cri, String userId, String userName, Integer status,  String reqName, String memo,  Date startDate, Date endDate){
        return userMapper.selectAllUserRoleReqList(cri, userId, userName, status, reqName, memo, startDate, endDate);
