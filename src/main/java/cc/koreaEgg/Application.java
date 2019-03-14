@@ -28,6 +28,11 @@ public class Application implements WebMvcConfigurer{
   @Value("${property.hello}")
   private String propertyHello;
 
+  @Value("${server.port}")
+  private int httpsPort;
+  @Value("${server.tomcat.port}")
+  private int httpPort;
+
 
   @Override
   public void addViewControllers(ViewControllerRegistry registry) {
@@ -81,9 +86,9 @@ public class Application implements WebMvcConfigurer{
   private Connector redirectConnector() {
     Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
     connector.setScheme("http");
-    connector.setPort(7777);
+    connector.setPort(httpPort);
     connector.setSecure(false);
-    connector.setRedirectPort(7776);
+    connector.setRedirectPort(httpsPort);
 
     return connector;
   }
