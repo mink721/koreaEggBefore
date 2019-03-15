@@ -68,6 +68,11 @@ public class HomeController {
     return "login";
   }
 
+  @RequestMapping(value = "/sendSMS", method = RequestMethod.GET)
+  public String sendSMS() {
+    return "admin/sendSMS";
+  }
+
   @RequestMapping(value = "/change/{role}/{name}", method = RequestMethod.GET)
   public String changeRole(@PathVariable("role") String changeRole, @PathVariable("name") String roleName, HttpServletRequest request) {
 

@@ -4,9 +4,12 @@ import cc.koreaEgg.entity.UploadFile;
 import cc.koreaEgg.service.AppService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -17,6 +20,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
@@ -28,7 +33,52 @@ public class FileController {
     @Autowired
     private AppService appService;
 
-    @RequestMapping(value = "", method = RequestMethod.POST)
+    @ResponseBody
+    @RequestMapping(value = "/file/upload", method = RequestMethod.POST)
+    public List<String> uploadImg(MultipartHttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        List<String> retVal = new ArrayList<String>();
+        String uploadFileDir = "/srv/data/temp/";
+
+                /*tempfile에 임시저장*/
+        Iterator<String> itr = request.getFileNames();
+        if (itr.hasNext()) {
+            MultipartFile mpf = request.getFile(itr.next());
+
+            /* 유니크 파일 패스 생성*/
+            String originalFileName = mpf.getOriginalFilename();
+            String originalFileExt = originalFileName.substring(originalFileName.lastIndexOf(".") + 1, originalFileName.length());
+            String uniqueFileName = UUID.randomUUID().toString();
+            String storagePathNameExt = uniqueFileName + "." + originalFileExt;
+
+            /* 파일 저장 */
+
+            File dir = new File(uploadFileDir);
+            if (!dir.isDirectory()) {
+                dir.mkdirs();
+            }
+
+
+            File lOutFile = new File (uploadFileDir + storagePathNameExt);
+            FileOutputStream lFileOutputStream = new FileOutputStream(lOutFile);
+            lFileOutputStream.write(mpf.getBytes());
+            lFileOutputStream.close();
+
+            /* 리스트로 리턴 */
+            retVal.add(storagePathNameExt);
+
+            // DB Insert
+            /*UploadFile uploadFile = new UploadFile();
+            uploadFile.setPath(storagePathNameExt);
+            uploadFile.setName(originalFileName);
+            uploadFile.setFileExtension(originalFileExt.toUpperCase());*/
+            //appService.createUploadFile(uploadFile);
+
+        }
+        return retVal;
+    }
+
+    /*@RequestMapping(value = "", method = RequestMethod.POST)
     public Map<String, Object> postImage(MultipartHttpServletRequest request, HttpServletResponse response) throws Exception {
 
         Map<String, Object> map = new HashMap<String, Object>();
@@ -147,8 +197,6 @@ public class FileController {
         return resizedImage;
     }
 
-    public static String upperCase(String str) {
-        return str == null ? null : str.toUpperCase();
-    }
+    */
 
 }

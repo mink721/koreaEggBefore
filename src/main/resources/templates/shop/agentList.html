@@ -8,13 +8,12 @@
         <div class="container space-2 space-3--lg">
             <div class="" th:each="shop, row: ${agentList}">
             <div class="row">
-                <div class="col-lg-6 mb-7 mb-lg-0">
+                <div class="col-lg-6 mb-7 mb-lg-0 row">
                     <!-- Contacts Info -->
-                   <!-- <a th:href="@{read(id=${shop.id})}">-->
-                        <h1 class="h4 mb-4" th:text="${shop.name}">서울 대리점</h1>
-                    <!--</a>-->
-                    <div class="row">
-                        <div class="col-sm-6 mb-4 mb-sm-0">
+                        <div class="col-6 mb-4 mb-sm-0">
+                            <!-- <a th:href="@{read(id=${shop.id})}">-->
+                            <h1 class="h4 mb-4" th:text="${shop.name}">서울 대리점</h1>
+                            <!--</a>-->
                             <h2 class="h6">대리점 정보</h2>
                             <address class="mb-0">
                                 <ul class="list-unstyled font-size-14 text-secondary mb-0">
@@ -23,15 +22,13 @@
                                 </ul>
                             </address>
                         </div>
-
-                        <div class="col-sm-6">
-                            <img class="img-fluid" th:src="@{/img/test/10_0l.jpg}" alt="Image Description">
+                        <div class="col-6">
+                            <img class="img-fluid" th:src="@{/img/test/t4.jpg}" alt="Image Description">
                         </div>
-                    </div>
                     <!-- End Contacts Info -->
                 </div>
                 <div class="col-lg-6">
-                    <div id="map" name="map" th:lon="${shop.lon}" th:lat="${shop.lat}" class="map js-g-map embed-responsive embed-responsive-21by9 h-100"></div>
+                    <div id="map" name="map" th:lon="${shop.lon}" th:lat="${shop.lat}" class="map js-g-map embed-responsive embed-responsive-21by9 height-400"></div>
                 </div>
             </div>
                 <hr class="my-4" th:unless="${row.last}">

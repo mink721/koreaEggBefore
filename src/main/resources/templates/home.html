@@ -116,7 +116,7 @@
             <div class="card-deck d-block d-lg-flex" th:each="item, row: ${productList}" th:with="numList=${#numbers.sequence(1,0)}" th:if="${row.even} or ${row.last} ">
                 <article class="card border-0 mb-2 " th:each="num : ${numList}" th:with="dataIndex=(${row.index} - ${num}),product=(${productList[dataIndex]})" th:unless="${row.count} % 2 == 1 and ${row.last} and ${num} ">
                         <div class="min-height-pl card-body row align-items-stretch no-gutters p-0">
-                            <div class="col-4 col-sm-3 card-img-left border border-right-0 bg-img-hero" th:attr="data-bg-img-src=@{/img/test/10_0l.jpg}"></div>
+                            <div class="col-4 col-sm-3 card-img-left border border-right-0 bg-img-hero" th:attr="data-bg-img-src=@{/img/test/t1.jpg}"></div>
                             <div class="col-8 col-sm-9 border border-left-0 rounded-right">
                                 <div class="p-3">
                                     <span class="d-block">
@@ -185,7 +185,7 @@
                                     <!--<div class="small text-danger">20km <span class="text-dark">왕란 외 2건</span></div>-->
                             </div>
                         </div>
-                        <div class="col-4 col-sm-3 card-img-right border border-left-0 bg-img-hero" th:attr="data-bg-img-src=@{/img/test/10_0l.jpg}"></div>
+                        <div class="col-4 col-sm-3 card-img-right border border-left-0 bg-img-hero" th:attr="data-bg-img-src=@{/img/test/t2.jpg}"></div>
                     </div>
                 </article>
                 <article class="card border-0 mb-2" th:each="num : ${numList}"  th:if="${row.count} % 2 == 1 and ${row.last} and ${num} "></article>
@@ -228,7 +228,7 @@
                                 <!--<div class="small text-danger">20km <span class="text-dark">왕란 외 2건</span></div>-->
                             </div>
                         </div>
-                        <div class="col-4 col-sm-3 card-img-right border border-left-0 bg-img-hero" th:attr="data-bg-img-src=@{/img/test/10_0l.jpg}"></div>
+                        <div class="col-4 col-sm-3 card-img-right border border-left-0 bg-img-hero" th:attr="data-bg-img-src=@{/img/test/t3.jpg}"></div>
                     </div>
                 </article>
                 <article class="card border-0 mb-2" th:each="num : ${numList}"  th:if="${row.count} % 2 == 1 and ${row.last} and ${num} "></article>

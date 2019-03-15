@@ -41,6 +41,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             //login page and registration end-point
             .antMatchers("/cast/**").hasAnyAuthority("ROLE_ADMIN,CAST_READ")
             .antMatchers("/priceInfo/**").hasAnyAuthority("ROLE_ADMIN,CAST_READ")
+            .antMatchers("/contact/**").authenticated()
               //all other requests
             //.anyRequest().authenticated()
             .anyRequest().permitAll()

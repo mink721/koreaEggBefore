@@ -9,7 +9,7 @@
 <section layout:fragment="content">
     <!-- Hire Us Form -->
     <div th:unless="${param.success}" class="container space-2 space-3--lg">
-        <form th:formaction="@{/registUser}" method="post"
+        <form th:action="@{/registUser}" method="post"
               class="js-validate w-lg-75 px-3 px-sm-9 mx-lg-auto form-signin"
               th:object="${user}">
             <input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
