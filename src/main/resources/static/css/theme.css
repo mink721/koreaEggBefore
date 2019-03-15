@@ -10643,7 +10643,8 @@ button:focus {
 }
 
 .u-header__navbar-brand-mobile {
-  width: 3.125rem;
+  /*width: 3.125rem;*/
+  width: 9rem;
 }
 
 .u-header__navbar-nav {
