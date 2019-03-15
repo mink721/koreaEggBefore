@@ -16612,6 +16612,14 @@ button:focus {
   height: 100vh;
 }
 
+.height-200 {
+  height: 12.5rem;
+}
+
+.height-300 {
+  height: 18.75rem;
+}
+
 .height-400 {
   height: 25rem;
 }
