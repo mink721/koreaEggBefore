@@ -1,11 +1,5 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  layout:decorate="~{layout/default}" >
-<head>
-    <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
-    <!-- default header name is X-CSRF-TOKEN -->
-    <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
-
-</head>
 <section layout:fragment="content">
     <!-- Hire Us Form -->
     <div th:unless="${param.success}" class="container space-2 space-3--lg">
@@ -223,13 +217,6 @@
             // iframe을 넣은 element를 보이게 한다.
             element_wrap.style.display = 'block';
         }
-
-
-        var token = $("meta[name='_csrf']").attr("content");
-        var header = $("meta[name='_csrf_header']").attr("content");
-        $(document).ajaxSend(function(e, xhr, options) {
-            xhr.setRequestHeader(header, token);
-        });
 
         $('#userId').on('blur', function(){
             var userId = $('#userId').val();

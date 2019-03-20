@@ -41,8 +41,7 @@
                             </div>
                         </div>
                         <div class="">
-                            <button type="button" class="btn-wide btn btn-outline-primary btn-sm ">장바구니담기</button>
-                            <button type="button" class="btn-wide btn btn-primary btn-sm ">구매하기</button>
+                            <a th:href="@{/cart/add(id=${product.id})}" role="button" class="btn-wide btn btn-outline-primary btn-sm">장바구니담기</a>
                         </div>
                     </div>
                 </div>

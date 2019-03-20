@@ -7,86 +7,72 @@
     <!-- ========== MAIN CONTENT ========== -->
     <main id="content" role="main">
         <!-- Hero Section -->
-        <div class="bg-img-hero" th:style="'background-image: url('+@{/img/test/000.jpg}+');'">
-            <!--<div class="d-lg-flex align-items-lg-center height-45vh&#45;&#45;lg">-->
-            <div class="d-lg-flex align-items-lg-center height-45vh--lg">
-                <!--검색 Form -->
-                <!-- Title -->
-                <div class="container space-1 space-0--lg mt-lg-8">
-                    <div class="bg-white shadow-sm rounded p-3">
-                        <h1 class="display-4 ">회원등급</h1>
-                        <p class="lead ">회원등급에 따라 서비스가 달라집니다. 자세한문의는 게시판 혹은 전화문의주세요</p>
-                    </div>
-                </div>
-            </div>
+        <div class="gradient-half-primary-v1 text-center rounded space-1 mt-lg-9">
+                <h2 class="h4 text-white">회원등급</h2>
+                <p class="text-white">회원등급에 따라 서비스가 달라집니다. 자세한문의는 게시판 혹은 전화문의주세요</p>
         </div>
         <!-- End Hero Section -->
-
         <!-- 난가정보 section -->
-        <div class="container">
-            <div class="mt-offset-9 mb-8">
-
+        <div class="container my-3">
                 <!-- Pricing -->
                 <div class="row justify-content-lg-center">
+                    <div class="col-md-6 col-lg-3 mb-3">
+                            <!-- Pricing -->
+                            <div class="card mb-3">
+                                <!-- Header -->
+                                <header class="card-header">
+                                    <h4 class="h6  mb-3">일반회원</h4>
+                                    <span class="d-block">
+                                      <span class="h2 text-dark">
+                                        Free
+                                      </span>
+                                    </span>
+                                </header>
+                                <!-- End Header -->
 
-                    <div class="col-md-6 col-lg-4 mb-3">
-                        <!-- Pricing -->
-                        <div class="card">
-                            <!-- Header -->
-                            <header class="card-header">
-                                <h4 class="h6  mb-3">일반회원</h4>
-                                <span class="d-block">
-                                  <span class="h2 text-dark">
-                                    Free
-                                  </span>
-                                </span>
-                            </header>
-                            <!-- End Header -->
-
-                            <!-- Content -->
-                            <div class="card-body">
-                                <ul class="list-unstyled mb-4">
-                                    <li class="font-size-14 py-2">상품 검색</li>
-                                    <li class="font-size-14 py-2">대리점 검색</li>
-                                </ul>
-                                <a sec:authorize="isAnonymous()" class="btn btn-block btn-sm btn-secondary text-white" href="/login">로그인/회원가입</a>
-                                <a sec:authorize="isAuthenticated()" class="btn btn-block btn-sm btn-secondary text-white" href="#">로그인/회원가입</a>
+                                <!-- Content -->
+                                <div class="card-body">
+                                    <ul class="list-unstyled mb-4">
+                                        <li class="font-size-14 py-2">상품 검색</li>
+                                        <li class="font-size-14 py-2">대리점 검색</li>
+                                    </ul>
+                                    <a sec:authorize="isAnonymous()" class="btn btn-block btn-sm btn-secondary text-white" href="/login">로그인/회원가입</a>
+                                    <a sec:authorize="isAuthenticated()" class="btn btn-block btn-sm btn-secondary text-white" href="#">로그인/회원가입</a>
+                                </div>
+                                <!-- End Content -->
                             </div>
-                            <!-- End Content -->
-                        </div>
-                        <!-- End Pricing -->
-                    </div>
-
-                    <div class="col-md-6 col-lg-4 mb-3">
-                        <!-- Pricing -->
-                        <div class="card">
-                            <!-- Header -->
-                            <header class="card-header">
-                                <h4 class="h6 text-primary mb-3">소매점</h4>
-                                <span class="d-block">
+                            <!-- End Pricing -->
+                            <div class="mb-3">
+                                <!-- Pricing -->
+                                <div class="card">
+                                    <!-- Header -->
+                                    <header class="card-header">
+                                        <h4 class="h6 text-primary mb-3">소매점</h4>
+                                        <span class="d-block">
                                   <span class="h2 text-dark">
                                     50,000
                                   </span>
                                   <span class="text-secondary font-size-14">/year</span>
                                 </span>
-                            </header>
-                            <!-- End Header -->
+                                    </header>
+                                    <!-- End Header -->
 
-                            <!-- Content -->
-                            <div class="card-body">
-                                <ul class="list-unstyled mb-4">
-                                    <li class="font-size-14 py-2 text-primary">소폭 할인된 가격</li>
-                                    <li class="font-size-14 py-2">상품 검색</li>
-                                    <li class="font-size-14 py-2">대리점 검색</li>
-                                </ul>
-                                <button type="button" class="btn btn-block btn-sm btn-primary">Upgrade</button>
+                                    <!-- Content -->
+                                    <div class="card-body">
+                                        <ul class="list-unstyled mb-4">
+                                            <li class="font-size-14 py-2 text-primary">소폭 할인된 가격</li>
+                                            <li class="font-size-14 py-2">상품 검색</li>
+                                            <li class="font-size-14 py-2">대리점 검색</li>
+                                        </ul>
+                                        <button type="button" class="btn btn-block btn-sm btn-primary">Upgrade</button>
+                                    </div>
+                                    <!-- End Content -->
+                                </div>
+                                <!-- End Pricing -->
                             </div>
-                            <!-- End Content -->
-                        </div>
-                        <!-- End Pricing -->
                     </div>
 
-                    <div class="col-md-6 col-lg-4 mb-3">
+                    <div class="col-md-6 col-lg-3 mb-3">
                         <!-- Pricing -->
                         <div class="card">
                             <!-- Header -->
@@ -118,7 +104,7 @@
                         <!-- End Pricing -->
                     </div>
 
-                    <div class="col-md-6 col-lg-4 mb-3">
+                    <div class="col-md-6 col-lg-3 mb-3">
                         <!-- Pricing -->
                         <div class="card">
                             <!-- Header -->
@@ -152,7 +138,7 @@
                         <!-- End Pricing -->
                     </div>
 
-                    <div class="col-md-6 col-lg-4 mb-3">
+                    <div class="col-md-6 col-lg-3 mb-3">
                         <!-- Pricing -->
                         <div class="card">
                             <!-- Header -->
@@ -188,7 +174,6 @@
                     </div>
                 </div>
                 <!-- End Pricing -->
-            </div>
         </div>
         <!-- End Pricing Section -->
 

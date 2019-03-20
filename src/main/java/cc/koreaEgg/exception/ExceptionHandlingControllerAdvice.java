@@ -75,7 +75,7 @@ public class ExceptionHandlingControllerAdvice {
 				ResponseStatus.class) != null)
 			throw exception;
 
-		log.error("Request: " + req.getRequestURI() + " raised " + exception);
+		log.error("Request: " + req.getRequestURI() + " raised " + exception.getCause().toString());
 
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("exception", exception);

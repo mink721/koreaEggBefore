@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/default"  >
+
+<section layout:fragment="content">
+  <!-- ========== MAIN CONTENT ========== -->
+  <main id="content" role="main">
+    <!-- About Section -->
+    <div class="container space-2 space-4--lg">
+
+      <!-- Empty Cart Notification Section -->
+          <div class="w-md-80 w-lg-60 text-center mx-md-auto">
+            <div class="mb-5">
+            <span class="u-icon u-icon--secondary u-icon--lg rounded-circle mb-4">
+              <span class="fa fa-shopping-basket u-icon__inner"></span>
+            </span>
+              <h1 class="h2">장바구니가 비었습니다</h1>
+              <p>상품을 검색후 장바구니에 넣어주세요</p>
+            </div>
+            <a class="btn btn-primary btn-wide" href="/">홈으로 가기</a>
+          </div>
+      <!-- End Empty Cart Notification Section -->
+
+    </div>
+  </main>
+</section>

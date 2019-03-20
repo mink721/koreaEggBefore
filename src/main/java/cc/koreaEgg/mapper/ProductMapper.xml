@@ -6,7 +6,23 @@
 <mapper namespace="cc.koreaEgg.mapper.ProductMapper">
 
     <select id="selectProductList" parameterType="map" resultType="product">
-        SELECT t.*, s.name AS shop_name,
+        SELECT  t.id,
+                t.shop_id,
+                t.origin,
+                t.consumer,
+                t.reg_date,
+                t.contents,
+                t.size,
+                t.name,
+                <if test="role ==null ">
+                    t.cost,
+                    t.store ,
+                    t.retail ,
+                    t.wholesale ,
+                    t.partner ,
+                    t.agent,
+                </if>
+                s.name AS shop_name,
             CASE WHEN #{role}='STORE' THEN store
                 WHEN #{role}='RETAILER' THEN retail
                 WHEN #{role}='WHOLESALER' THEN wholesale
@@ -27,7 +43,24 @@
     </select>
 
     <select id="selectProduct" parameterType="map" resultType="product">
-        SELECT t.*, s.name AS shop_name, CASE WHEN #{role}='STORE' THEN store
+        SELECT t.id,
+                t.shop_id,
+                t.origin,
+                t.consumer,
+                t.reg_date,
+                t.contents,
+                t.size,
+                t.name,
+                <if test="role ==null ">
+                    t.cost,
+                    t.store ,
+                    t.retail ,
+                    t.wholesale ,
+                    t.partner ,
+                    t.agent,
+                </if>
+                s.name AS shop_name,
+                CASE WHEN #{role}='STORE' THEN store
                 WHEN #{role}='RETAILER' THEN retail
                 WHEN #{role}='WHOLESALER' THEN wholesale
                 WHEN #{role}='PARTNER' THEN partner

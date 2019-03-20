@@ -42,6 +42,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/cast/**").hasAnyAuthority("ROLE_ADMIN,CAST_READ")
             .antMatchers("/priceInfo/**").hasAnyAuthority("ROLE_ADMIN,CAST_READ")
             .antMatchers("/contact/**").authenticated()
+            .antMatchers("/order/**").authenticated()
               //all other requests
             //.anyRequest().authenticated()
             .anyRequest().permitAll()

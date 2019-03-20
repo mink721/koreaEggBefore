@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/default"  >
+
+<section layout:fragment="content">
+  <!-- ========== MAIN CONTENT ========== -->
+  <main id="content" role="main">
+    <!-- About Section -->
+    <div class="container space-2 space-3--lg">
+
+      <!--난가정보 HR-->
+        <div class="text-center">
+          <span class="u-icon u-icon--secondary u-icon--md rounded-circle mb-4">
+              <span class="fa fa-shopping-basket u-icon__inner"></span>
+            </span>
+          <span class="h2">장바구니</span>
+        </div>
+
+      <div class="board">
+        <div class="board-heading row text-center">
+          <div class="col-12 col-sm-8">상품</div>
+          <div class="col-sm-1 hidden-sm d-none d-sm-block">수량</div>
+          <div class="col-sm-1 hidden-sm d-none d-sm-block">가격</div>
+          <div class="col-sm-1 hidden-sm d-none d-sm-block">합계</div>
+          <div class="col-sm-1 hidden-sm d-none d-sm-block"></div>
+        </div>
+        <ul class="list-unstyled">
+          <li th:each="item : ${session.cart.productsMap}" class="row board-row text-center">
+            <div class="col-12 col-sm-8 text-left">
+                <span th:text="${item.value.productName}"></span>
+                <span class="d-block d-sm-none" th:text="${item.value.qty}"></span>
+                <span class="d-block d-sm-none" th:text="${item.value.price}"></span>
+                <span class="d-block d-sm-none" th:text="${item.value.price} * ${item.value.qty}"></span>
+            </div>
+
+              <div class="col-sm-1 d-none d-sm-block"><span th:text="${item.value.qty}"></span></div>
+            <div class="col-sm-1 d-none d-sm-block"><span  th:text="${item.value.price}" >가격</span></div>
+            <div class="col-sm-1 d-none d-sm-block"><span th:text="${item.value.price} * ${item.value.qty}"  >합계</span></div>
+            <div class="col-sm-1 d-none d-sm-block"><a role="button" class="btn btn-xs btn-danger" th:href="@{/cart/revome(id=${item.value.productId})}">삭제</a></div>
+          </li>
+          <li>
+            <div class="col-12 text-right">
+              <strong>Subtotal</strong>
+              <strong class="ml-6" th:text="${session.cart.total}"></strong>
+            </div>
+            <div class="col-12 text-right border-bottom">
+              <strong>배송비</strong><!--TODO 배송비 어떻게?-->
+              <strong class="ml-6" th:text="${session.cart.total}"></strong>
+            </div>
+            <div class="col-12 text-right">
+              <strong class="h4">Total</strong>
+              <strong class="h4 ml-6" th:text="${session.cart.total}"></strong>
+            </div>
+            <div class="col-12 text-right mt-4">
+              <a role="button" class="btn btn-secondary" href="/">
+                쇼핑 계속하기
+              </a>
+              <a role="button" class="btn btn-primary" href="/order/checkout">
+                주문하기
+              </a>
+            </div>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+  </main>
+</section>

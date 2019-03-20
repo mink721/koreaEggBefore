@@ -13,7 +13,7 @@
                     <div class="mb-4">
                         <p class="h4 text-white">가까운 계란 판매점을 검색하세요</p>
                     </div>
-                    <form id="searchForm" th:action="@{/}" method="post"
+                    <form id="searchForm" th:action="@{/}" method="get"
                           class="js-validate w-lg-75 px-0 px-sm-9 mx-lg-auto justify-content-lg-between align-items-lg-center row">
                         <!--TODO 폼 너비 어떻게 조절? -->
                         <input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">

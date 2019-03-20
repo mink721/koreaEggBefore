@@ -3,5 +3,58 @@
 
 <section layout:fragment="mainContent">
     <!-- ========== MAIN CONTENT ========== -->
-    dd
+    <div class="space-1">
+        <table class="table table-bordered table-responsive-sm table-sm table-hover">
+            <thead>
+            <tr class="table-secondary">
+                <th class="text-sm-center">주문번호</th>
+                <th class="text-sm-center">주문자</th>
+                <th class="text-sm-center">결제금액</th>
+                <th class="text-sm-center">주문상태</th>
+                <th class="text-sm-center">날짜</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="info,row : ${orderList}">
+                <td><a th:href="@{read(id=${info.id})}"><span th:text="${info.id}"></span></a></td>
+                <td><span th:text="${info.orderName}"></span></td>
+                <td><span th:text="${info.total}"></span></td>
+                <td><span th:text="${info.status}"></span></td>
+                <td><span th:text="${#dates.format(info.regDate, 'yyyy.MM.dd')}"></span></td><!--적용일-->
+            </tr>
+            </tbody>
+        </table>
+
+        <!--<a role="button" class="btn btn-primary" th:unless="${pageMaker.endPage} == ${pageMaker.cri.page}"
+          th:href="@{/admin/priceInfo(page=${pageMaker.cri.page}+1,perPageNum=${pageMaker.cri.perPageNum})}">더보기</a>-->
+        <nav class="row">
+            <ul class="col-3 pagination justify-content-between" >
+                <li class="">총 목록개수 : <span th:text="${pageMaker.totalCount}"></span></li>
+                <li class="">
+                    <select class="form-control form-control-sm" id="perPageNum">
+                        <option th:selected="${pageMaker.cri.perPageNum} == 10" value="10" sele>10</option>
+                        <option th:selected="${pageMaker.cri.perPageNum} == 20" value="20">20</option>
+                        <option th:selected="${pageMaker.cri.perPageNum} == 30" value="30">30</option>
+                        <option th:selected="${pageMaker.cri.perPageNum} == 50" value="50">50</option>
+                        <option th:selected="${pageMaker.cri.perPageNum} == 100" value="100">100</option>
+                    </select>
+                </li>
+            </ul>
+            <ul class="col-9 pagination justify-content-end">
+
+                <li  class="page-item" th:if="${pageMaker.prev} == true">
+                    <a class="page-link" th:href="@{list(page=${pageMaker.startPage}-1,perPageNum=${pageMaker.cri.perPageNum},areaId=${param.areaId})}">이전</a>
+                </li>
+
+                <li  class="page-item" th:each="idx,iterStat : ${#numbers.sequence(pageMaker.startPage,pageMaker.endPage)}"  th:classappend="${pageMaker.cri.page} == ${idx} ? active : null">
+                    <a class="page-link" th:href="@{list(page=${idx},perPageNum=${pageMaker.cri.perPageNum},areaId=${param.areaId})}" th:text="${idx}"></a>
+                </li>
+
+                <li  class="page-item" th:if="${pageMaker.next} == true and ${pageMaker.endPage > 0}">
+                    <a class="page-link" th:href="@{list(page=${pageMaker.endPage}+1,perPageNum=${pageMaker.cri.perPageNum},areaId=${param.areaId})}">다음</a>
+                </li>
+            </ul>
+        </nav>
+
+    </div>
 </section>

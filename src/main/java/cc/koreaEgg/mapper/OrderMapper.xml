@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cc.koreaEgg.mapper.OrderMapper">
+
+    <insert id="createOrder" parameterType="Order">
+      insert into ORDERS (reg_date,status,total,user_Id,addr,order_name,tel,mobile,depositor)
+      values (NOW(),#{status},#{total},#{userId},#{addr},#{orderName},#{tel},#{mobile},#{depositor})
+      <selectKey keyProperty="id" order="AFTER" resultType="long">
+          SELECT LAST_INSERT_ID()
+      </selectKey>
+    </insert>
+    <insert id="createOrderItem" parameterType="map">
+        insert into ORDER_ITEM (order_id,product_id, price, qty)
+        values
+        <foreach collection="itemList" item="value" open="(" separator="),("  close=")">
+            #{id},
+            #{value.productId},
+            #{value.price},
+            #{value.qty}
+        </foreach>
+    </insert>
+
+    <insert id="createCart" parameterType="map">
+      insert into CART (user_id,product_Id,qty)
+      values (#{userId},#{productId}, qty)
+    </insert>
+
+    <update id="updateCart" parameterType="map">
+        UPDATE CART
+        SET qty = #{qty}
+        WHERE user_id = #{userId} AND product_Id = #{productId}
+    </update>
+
+    <select id="selectCart" parameterType="User" resultType="OrderItem">
+        SELECT p.name AS product_name, c.product_id, c.qty, CASE WHEN #{role}='STORE' THEN store
+                WHEN #{role}='RETAILER' THEN retail
+                WHEN #{role}='WHOLESALER' THEN wholesale
+                WHEN #{role}='PARTNER' THEN partner
+                WHEN #{role}='AGENT' THEN agent
+                ELSE consumer
+                END AS price FROM CART c, PRODUCT p
+                WHERE c.product_id = p.id
+                AND c.user_id = #{id}
+
+    </select>
+
+    <resultMap id="Order" type="Order">
+        <result column="id" property="id" />
+        <result column="reg_date" property="regDate" />
+        <result column="updated_date" property="updatedDate" />
+        <result column="status" property="status" />
+        <result column="total" property="total" />
+        <result column="user_id" property="userId" />
+        <result column="order_name" property="orderName" />
+        <result column="tel" property="tel" />
+        <result column="mobile" property="mobile" />
+        <result column="addr" property="addr" />
+        <result column="memo" property="memo" />
+        <result column="depositor" property="depositor" />
+        <collection property="itemList" resultMap="OrderItem"></collection>
+    </resultMap>
+    <resultMap id="OrderItem" type="OrderItem" >
+        <result column="order_id" property="orderId"/>
+        <result column="product_id" property="productId"/>
+        <result column="price" property="price"/>
+        <result column="qty" property="qty"/>
+        <result column="product_name" property="productName"/>
+    </resultMap>
+
+    <select id="selectOrderList" parameterType="map" resultMap="Order">
+        SELECT o.*, i.*, p.name AS product_name FROM ORDERS o, ORDER_ITEM i, PRODUCT p
+        WHERE o.id = i.order_id
+        AND i.product_id = p.id
+        AND o.user_Id = #{id}
+    </select>
+
+    <select id="selectOrderListByPartner" parameterType="map" resultMap="Order">
+        SELECT * FROM ORDERS o, ORDER_ITEM i, PRODUCT p, USER u
+        WHERE o.id = i.order_id
+        AND i.product_id = p.id
+        AND p.shop_id = u.shop_id
+        AND u.id = #{id}
+    </select>
+
+    <select id="readAllOrdersForCustomer" parameterType="long" resultType="Order">
+        SELECT * FROM ORDERS o where o.user_Id=#{userId}
+    </select>
+
+    <select id="readOrderById" parameterType="long" resultType="Order">
+        SELECT * FROM ORDERS o where o.id=#{id}
+    </select>
+
+    <delete id="deleteCart" parameterType="map">
+         DELETE FROM CART WHERE user_id = #{id} AND product_id = #{productId}
+    </delete>
+</mapper>

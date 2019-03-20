@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/default"  >
+  <!-- ========== MAIN CONTENT ========== -->
+  <main id="content" role="main" layout:fragment="content">
+    <!-- Checkout Form Section -->
+    <div class="container space-2 space-3--lg">
+      <div class="row">
+        <div class="col-lg-4 order-lg-2 mb-9 mb-lg-0">
+          <!-- Order Summary -->
+          <div class="bg-gray-100 border rounded p-5">
+            <!-- Title -->
+            <h2 class="h5 mb-0">주문 내역</h2>
+            <!-- End Title -->
+
+            <hr class="my-4">
+
+            <!-- Product -->
+            <div class="media" th:each="item :${session.cart.productsMap}">
+              <div class="d-flex position-relative mr-3">
+                <img class="u-lg-avatar rounded" src="../../assets/img/100x100/img5.jpg" alt="Image Description">
+              </div>
+              <div class="media-body">
+                <h4 class="h6 mb-0" th:text="${item.value.productName}">Space shoes</h4>
+                <small class="d-block text-secondary" th:text="'수량: '+${item.value.qty}">Size: 9</small>
+                <small class="d-block text-secondary" th:text="'가격: '+${item.value.price}">Quantity: 1</small>
+              </div>
+            </div>
+            <!-- End Product -->
+
+            <hr class="my-4">
+
+            <!-- Total -->
+            <!--<div class="media align-items-center mb-2">
+              <div class="mr-3">
+                <h4 class="h6 text-muted font-weight-normal mb-0">Subtotal</h4>
+              </div>
+              <div class="media-body text-right">
+                <span>$54</span>
+              </div>
+            </div>-->
+
+            <!--<div class="media align-items-center">
+              <div class="mr-3">
+                <h4 class="h6 text-muted font-weight-normal mb-0">Shipping</h4>
+              </div>
+              <div class="media-body text-right">
+                <span>$4.58</span>
+              </div>
+            </div>
+            <hr class="my-4">-->
+            <!-- End Total -->
+
+
+            <!-- Total -->
+            <div class="media align-items-center">
+              <div class="mr-3">
+                <h4 class="h6">합계</h4>
+              </div>
+              <div class="media-body text-right">
+                <span class="font-weight-medium" th:text="${session.cart.total}">$58.58</span>
+              </div>
+            </div>
+            <!-- End Total -->
+          </div>
+          <!-- End Order Summary -->
+        </div>
+
+        <div class="col-lg-8 order-lg-1">
+          <!-- Checkout Form -->
+          <form class="js-validate pr-lg-4" th:action="@{register}" method="post">
+            <input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <input type="hidden" name="userId" th:value="${#authentication.principal.id}">
+            <input type="text" name="orderName" placeholder="이름" th:value="${#authentication.principal.username}"/>
+            <input type="text" name="tel" placeholder="전화번호" th:value="${#authentication.principal.shopTel}"/>
+            <input type="text" name="mobile" placeholder="휴대전화" th:value="${#authentication.principal.mobile}"/>
+            <input type="text" name="addr" placeholder="주소" th:value="${#authentication.principal.address}"/>
+            <input type="text" name="memo" placeholder="기타하실말씀"/>
+
+            <!-- Payment -->
+              <div id="paymentStep">
+                <!-- Title -->
+                <div class="mb-4">
+                  <h2 class="h4">결제정보 입력</h2>
+                </div>
+                <!-- End Title -->
+
+                <!-- Button Group -->
+                <div class="row mb-6">
+                  입금은행 : 어어어어
+                  입금예정일 나엄ㄴ아
+                  <input type="text" name="depositor" placeholder="입금자명"/>
+                  입금자이름 (입금자의 이름이 정확하지 않을 경우 배송이 지연될 수 있습니다)
+                </div>
+                <!-- End Button Group -->
+
+                <!-- Buttons -->
+                <div class="d-sm-flex justify-content-sm-between align-items-sm-center">
+                  <a class="d-block mb-3 mb-sm-0" href="/cart">
+                    <span class="fa fa-arrow-left mr-2"></span>
+                    장바구니
+                  </a>
+                  <input type="submit" class="btn btn-primary btn-wide" value="다음단계"/>
+               </div>
+                <!-- End Buttons -->
+
+                <hr class="my-9">
+
+              </div>
+              <!-- End Payment -->
+          </form>
+          <!-- End Checkout Form -->
+        </div>
+      </div>
+    </div>
+    <!-- End Checkout Form Section -->
+  </main>
+  <!-- ========== END MAIN CONTENT ========== -->
+</html>

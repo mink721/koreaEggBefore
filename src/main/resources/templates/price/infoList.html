@@ -5,33 +5,31 @@
     <!-- ========== MAIN CONTENT ========== -->
     <main id="content" role="main">
         <!-- Hero Section -->
-        <div class="gradient-overlay-half-dark-v3 bg-img-hero" th:style="'background-image: url('+@{/img/test/000.jpg}+');'">
-            <div class="d-lg-flex align-items-lg-center height-45vh--lg">
-                <!--검색 Form -->
-                <div class="container space-1 space-0--lg mt-lg-8">
-                    <form class="w-lg-75 px-3 px-sm-9 mx-lg-auto justify-content-lg-between align-items-lg-center">
-                        <div class="bg-white shadow-sm rounded p-3 row">
-                            <div class="col-md-3 position-relative d-none d-md-block" >
-                                <a role="button" class="btn px-8 content-centered"
-                                        th:classappend="${param.id} == null? btn-primary : btn-secondary"
-                                        th:href="@{list}">전체</a>
-                            </div>
-                            <div class="col-md-9 row">
-                                <div class="col-4 col-md-3 pr-0 pl-1 d-block d-xl-none d-lg-none d-md-none ">
-                                    <a role="button" class="btn mb-2 d-block text-white"
-                                       th:classappend="${param.id} == null? btn-primary : btn-secondary"
-                                       th:href="@{list}">전체</a></div>
-                                    <div class="col-4 col-md-3 pr-0 pl-1" th:each="area : ${areaList}">
-                                        <a role="button" class="btn mb-2 d-block text-white" aria-pressed="true"
-                                           th:href="@{read(id=${area.id})}" th:text="*{area.areaName}"
-                                           th:classappend="${#strings.equals(param.id, #strings.toString(area.id))} ? btn-primary : btn-secondary"  ></a>
-                                    </div>
-                            </div>
+        <div class="gradient-half-primary-v1 text-center rounded space-1 mt-lg-9">
+            <!--검색 Form -->
+            <div class="container space-1 space-0--lg">
+                <form class="w-lg-75 px-3 px-sm-9 mx-lg-auto justify-content-lg-between align-items-lg-center">
+                    <div class="bg-white shadow-sm rounded p-3 row">
+                        <div class="col-md-3 position-relative d-none d-md-block" >
+                            <a role="button" class="btn px-8 content-centered"
+                                    th:classappend="${param.id} == null? btn-primary : btn-secondary"
+                                    th:href="@{list}">전체</a>
                         </div>
-                    </form>
-                </div>
-                <!--END 검색 폼-->
+                        <div class="col-md-9 row">
+                            <div class="col-4 col-md-3 pr-0 pl-1 d-block d-xl-none d-lg-none d-md-none ">
+                                <a role="button" class="btn mb-2 d-block text-white"
+                                   th:classappend="${param.id} == null? btn-primary : btn-secondary"
+                                   th:href="@{list}">전체</a></div>
+                                <div class="col-4 col-md-3 pr-0 pl-1" th:each="area : ${areaList}">
+                                    <a role="button" class="btn mb-2 d-block text-white" aria-pressed="true"
+                                       th:href="@{read(id=${area.id})}" th:text="*{area.areaName}"
+                                       th:classappend="${#strings.equals(param.id, #strings.toString(area.id))} ? btn-primary : btn-secondary"  ></a>
+                                </div>
+                        </div>
+                    </div>
+                </form>
             </div>
+            <!--END 검색 폼-->
         </div>
         <!-- End Hero Section -->
 
