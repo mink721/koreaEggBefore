@@ -2,63 +2,48 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="admin/adminDefault" >
 <section layout:fragment="content">
-
-    <div class="container space-2 space-3--lg">
-        <!--등록-->
-        <div  class="js-validate rounded p-sm-7 mx-lg-auto" >
             <!-- Contact Us Form -->
             <form method="post" th:action="@{answer}" th:object="${contact}">
                 <input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                 <input type="hidden" name="id" th:value="*{id}">
                     <span th:if="*{answerFlag}" class="text-danger">답변완료</span>
                     <span th:unless="*{answerFlag}" class="text-danger">답변대기</span>
-                    <div class="row mb-5">
-                        <div class="col-md-2">
-                            <label class="h6 small d-block text-uppercase mb-3 mb-lg-0">성명:</label>
-                        </div>
-                        <div class="col-md-10" th:text="*{reqName}">
-                        </div>
-                        <div class="col-md-2">
-                            <label class="h6 small d-block text-uppercase mb-3 mb-lg-0">연락처:</label>
-                        </div>
-                        <div class="col-md-10" th:text="*{reqMobile}">
-                        </div>
-                        <div class="col-md-2">
-                            <label class="h6 small d-block text-uppercase mb-3 mb-lg-0">제목:</label>
-                        </div>
-                        <div class="col-md-10" th:text="*{title}">
-                        </div>
-                        <div class="col-md-2">
-                            <label class="h6 small d-block text-uppercase mb-3 mb-lg-0">내용:</label>
-                        </div>
-                        <div class="col-md-10" th:text="*{contents}">
-                        </div>
-                        <div class="col-md-2">
-                            <label class="h6 small d-block text-uppercase mb-3 mb-lg-0">등록일:</label>
-                        </div>
-                        <div class="col-md-10" th:text="*{#dates.format(regDate, 'yyyy.MM.dd')}">
-                        </div>
-                        <div class="col-md-2">
-                            <label class="h6 small d-block text-uppercase mb-3 mb-lg-0">답변:</label>
-                        </div>
-                        <div class="col-md-10">
-                            <textarea name="answer" th:text="*{answer}"></textarea>
-                        </div>
+
+                <!-- INPUT -->
+                <div class="row form-group">
+                    <label class="col-sm-2 col-form-label">성명:</label>
+                    <div class="col-sm-10">
+                        <input class="form-control-plaintext" readonly type="text" th:field="*{reqName}" >
                     </div>
-
-
-                <div class="row">
-                    <div class="col-md-8 offset-md-4">
-                        <input type="submit" class="btn btn-primary btn-wide" value="답변완료"/>
+                    <label class="col-sm-2 col-form-label">연락처:</label>
+                    <div class="col-sm-10">
+                        <input class="form-control-plaintext" readonly type="text" th:field="*{reqMobile}" >
+                    </div>
+                    <label class="col-sm-2 col-form-label">제목:</label>
+                    <div class="col-sm-10">
+                        <input class="form-control-plaintext" readonly type="text" th:field="*{title}" >
+                    </div>
+                    <label class="col-sm-2 col-form-label">내용:</label>
+                    <div class="col-sm-10">
+                        <textarea class="form-control-plaintext" readonly type="text" th:field="*{contents}" ></textarea>
+                    </div>
+                    <label class="col-sm-2 col-form-label">등록일:</label>
+                    <div class="col-sm-10">
+                        <input class="form-control-plaintext" readonly type="text" th:value="*{#dates.format(regDate, 'yyyy.MM.dd')}" >
+                    </div>
+                    <label class="col-sm-2 col-form-label">답변:</label>
+                    <div class="col-sm-10">
+                        <textarea type="text" th:readonly="!${mod}" th:class="${mod}? 'form-control': 'form-control-plaintext'" th:field="*{answer}"
+                                  th:classappend="${#fields.hasErrors('answer')}? 'is-invalid'" ></textarea>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('answer')}" th:errors="*{answer}"></div>
+                    </div>
+                    <div class="col-12 text-center">
+                        <input type="submit" th:if="${mod}" class="btn btn-primary btn-wide" value="답변완료"/>
+                        <a role="button" th:unless="${mod}" class="btn btn-danger text-white" href="javascript:history.back();">이전</a>
                     </div>
                 </div>
             </form>
             <!-- End Contact Us Form -->
-        </div>
-        <!-- Contacts Section -->
-
-    </div>
-
     <script th:inline="javascript">
         /*<![CDATA[*/
 
@@ -66,3 +51,86 @@
     </script>
 </section>
 </html>
+
+
+<!--등록-->
+<div  th:if="${register}" class="js-validate rounded p-sm-7 mx-lg-auto" >
+    <!-- Contact Us Form -->
+    <form method="post">
+        <input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        <div class="row mb-5">
+            <div class="col-md-2">
+                <label class="h6 small d-block text-uppercase mb-3 mb-lg-0">성명:</label>
+                <!-- <span sec:authentication="principal.username"></span>-->
+            </div>
+            <div class="col-md-10">
+                <div class="js-form-message">
+                    <div class="js-focus-state input-group form">
+                        <sec:authentication property="principal.mobile" var="mobile">
+                            <input class="form-control form__input" type="text" name="reqName" th:value="${#authentication.principal.username}" required
+                                   data-msg="Please enter your frist name."
+                                   data-error-class="u-has-error"
+                                   data-success-class="u-has-success"
+                        </sec:authentication>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="col-md-2">
+                <label class="h6 small d-block text-uppercase mb-3 mb-lg-0">연락처:</label>
+            </div>
+            <div class="col-md-10">
+                <div class="js-form-message">
+                    <div class="js-focus-state input-group form">
+                        <input class="form-control form__input" type="text"  name="reqMobile" th:value="${#authentication.principal.mobile}" required
+                               data-msg="Please enter your frist name."
+                               data-error-class="u-has-error"
+                               data-success-class="u-has-success">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="col-md-2">
+                <label class="h6 small d-block text-uppercase mb-3 mb-lg-0">제목:</label>
+            </div>
+            <div class="col-md-10">
+                <div class="js-form-message">
+                    <div class="js-focus-state input-group form">
+                        <input class="form-control form__input" type="text" name="title" required
+                               data-msg="Please enter your frist name."
+                               data-error-class="u-has-error"
+                               data-success-class="u-has-success">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-5">
+            <div class="col-md-2">
+                <label class="h6 small d-block text-uppercase mb-3 mb-lg-0">내용:</label>
+            </div>
+            <div class="col-md-10">
+                <div class="js-form-message">
+                    <div class="js-focus-state input-group form">
+                                    <textarea class="form-control form__input" rows="4" name="contents" required
+                                              placeholder=""
+                                              aria-label=""
+                                              data-msg="Please enter a reason."
+                                              data-error-class="u-has-error"
+                                              data-success-class="u-has-success"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Input Form -->
+
+        <div class="row">
+            <div class="col-md-8 offset-md-4">
+                <input type="submit" class="btn btn-primary btn-wide" value="입력완료"/>
+            </div>
+        </div>
+    </form>
+    <!-- End Contact Us Form -->
+</div>
+<!-- Contacts Section -->

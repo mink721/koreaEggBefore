@@ -1,13 +1,10 @@
 package cc.koreaEgg.service;
 
-import cc.koreaEgg.controller.ControllerConstants;
 import cc.koreaEgg.entity.*;
 import cc.koreaEgg.mapper.OrderMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpSession;
-import java.util.List;
 import java.util.Map;
 
 @Service
@@ -32,7 +29,12 @@ public class CartService {
 
 		//카트에 있으면 수량변경
 		if (cartData.contains(productId)) {
-			cartData.changeProductQuantity(productId, qty);
+			cartData.addProductQuantity(productId, qty);
+			if(user != null){
+				//DB에도 넣기
+				addCartItem(user.getId(), cartData, productId, qty);
+			}
+
 		} else {
 			//카트에 없으면 유저 롤에 맞게 상품넣기
 			Role userRole = Role.USER;
@@ -79,7 +81,8 @@ public class CartService {
 
 	public void addCartItem(Long userId, CartData cartData, Long productId, Integer qty) {
 		if (cartData.contains(productId)) {
-			orderMapper.updateCart(userId, productId, qty);
+			OrderItem item = cartData.getProductsMap().get(productId);
+			orderMapper.updateCart(userId, productId, item.getQty());
 		} else {
 			orderMapper.createCart(userId, productId, qty);
 		}

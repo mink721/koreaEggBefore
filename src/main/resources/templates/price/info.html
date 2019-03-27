@@ -3,7 +3,6 @@
 
 <section layout:fragment="content">
     <!-- ========== MAIN CONTENT ========== -->
-    <main id="content" role="main">
         <!-- Hero Section -->
         <div class="gradient-half-primary-v1 text-center rounded space-1 mt-lg-9">
             <!--검색 Form -->
@@ -50,83 +49,30 @@
             </div>
             <hr class="my-2">
 
-            <!--지역 난가정보 테이블-->
-            <div class="collapse" id="test1">
-                <table class="table table-sm">
-                    <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
-                        <th scope="col">Handle</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td colspan="2">Larry the Bird</td>
-                        <td>@twitter</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <!-- END 지역 난가정보 -->
-
-
             <!--전체 난가정보-->
             <div>
                 <table class="table table-bordered table-responsive-sm table-sm">
                     <thead>
                         <tr class="table-secondary">
                             <th style="width:20%" class="text-sm-center">지역</th>
-                            <th style="width:15%" >왕</th>
-                            <th style="width:15%" >특</th>
-                            <th style="width:15%" >대</th>
-                            <th style="width:15%" >중</th>
-                            <th style="width:15%" >소</th>
-                            <th>경</th>
+                            <th style="width:15%" class="text-sm-center">왕</th>
+                            <th style="width:15%" class="text-sm-center" >특</th>
+                            <th style="width:15%" class="text-sm-center" >대</th>
+                            <th style="width:15%" class="text-sm-center" >중</th>
+                            <th style="width:15%" class="text-sm-center">소</th>
+                            <th  class="text-sm-center">경</th>
                         </tr>
                     </thead>
                     <tbody>
                     <div th:each="price : ${list}">
                         <tr>
                             <th class="text-sm-center" rowspan="2"><span th:text="${price.areaName}"></span><br/><span class="small" th:text="${#dates.format(price.regDate, 'yy.MM.dd')}">02.02</span></th>
-                            <td><span class="position-relative mr-2"><span th:text="${price.size1}"></span>
-                                <span th:text="${price.diff1}" th:unless="${price.diff1} ==0 "
-                                      th:classappend="${price.diff1} < 0 ? badge-info : null"
-                                      class="badge-xs badge-danger badge-pos rounded-circle mr--8px"></span></span></td>
-                            <td><span class="position-relative mr-2"><span th:text="${price.size2}"></span>
-                                <span th:text="${price.diff2}" th:unless="${price.diff2} ==0 "
-                                      th:classappend="${price.diff2} < 0 ? badge-info : null"
-                                      class="badge-xs badge-danger badge-pos rounded-circle mr--8px"></span></span></td>
-                            <td><span class="position-relative mr-2"><span th:text="${price.size3}"></span>
-                                <span th:text="${price.diff3}" th:unless="${price.diff3} ==0 "
-                                      th:classappend="${price.diff3} < 0 ? badge-info : null"
-                                      class="badge-xs badge-danger badge-pos rounded-circle mr--8px"></span></span></td>
-                            <td><span class="position-relative mr-2"><span th:text="${price.size4}"></span>
-                                <span th:text="${price.diff4}" th:unless="${price.diff4} ==0 "
-                                      th:classappend="${price.diff4} < 0 ? badge-info : null"
-                                      class="badge-xs badge-danger badge-pos rounded-circle mr--8px"></span></span></td>
-                            <td><span class="position-relative mr-2"><span th:text="${price.size5}"></span>
-                                <span th:text="${price.diff5}" th:unless="${price.diff5} ==0 "
-                                      th:classappend="${price.diff5} < 0 ? badge-info : null"
-                                      class="badge-xs badge-danger badge-pos rounded-circle mr--8px"></span></span></td>
-                            <td><span class="position-relative mr-2"><span th:text="${price.size6}"></span>
-                                <span th:text="${price.diff6}" th:unless="${price.diff6} ==0 "
-                                      th:classappend="${price.diff6} < 0 ? badge-info : null"
-                                      class="badge-xs badge-danger badge-pos rounded-circle mr--8px"></span></span></td>
+                            <td class="text-sm-center"><span th:text="${price.size1}"></span></td>
+                            <td class="text-sm-center"><span th:text="${price.size2}"></span></td>
+                            <td class="text-sm-center"><span th:text="${price.size3}"></span></td>
+                            <td class="text-sm-center"><span th:text="${price.size4}"></span></td>
+                            <td class="text-sm-center"><span th:text="${price.size5}"></span></td>
+                            <td class="text-sm-center"><span th:text="${price.size6}"></span></td>
                         </tr>
                         <tr>
                             <td colspan="6" class="py-0"><span class="span small" th:text="${price.memo}"></span></td>
@@ -134,9 +80,11 @@
                     </div>
                     </tbody>
                 </table>
+                <span th:with="url=${@urlService.parseParamLeaf(search)}">
+                    <div th:replace="layout/pageMaker :: pageMaker('read',${url})"></div>
+                </span>
             </div>
             <!--END 전체난가정보-->
         </div>
         <!--END 난가정보 section-->
-    </main>
 </section>

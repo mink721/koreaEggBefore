@@ -38,10 +38,7 @@ public interface ServiceMapper {
     ContactUs selectContactUs(@Param("id") long id);
 
     List<Board> selectBoardList();
-
     void deleteContactUs(long id);
-
     PriceCast selectPriceCast();
-
     void createUploadFile(UploadFile uploadFile);
 }

@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  layout:decorate="admin/adminDefault" >
 <section layout:fragment="content">
-    <main id="content" role="main">
-        <span class="h4 m-0 p-0" >난가정보관리</span>
-        <hr class="mt-1">
-        <!--검색창-->
-        <div class="row" >
-            <div class="col-2 px-1"><a role="button" class="btn btn-primary btn-block btn-sm"
-                                       th:classappend="${param.areaId} == null? btn-primary : btn-secondary"
-                                       th:href="@{list(perPageNum=${pageMaker.cri.perPageNum})}">전체</a></div>
-            <div th:each="area : ${areaList}">
-                <div class="col-2 px-1"><a role="button" class="btn btn-sm" aria-pressed="true"
+    <div class="mb-2">
+        <span class="h4" >난가정보관리 </span>
+    </div>
+    <!--검색창-->
+    <div class="row" >
+        <div class="col-12 px-1"><a role="button" class="btn btn-primary btn-sm"
+                                   th:classappend="${param.areaId} == null? btn-primary : btn-secondary"
+                                   th:href="@{list(perPageNum=${pageMaker.cri.perPageNum})}">전체</a>
+            <div th:each="area : ${areaList}" th:remove="tag">
+                <a role="button" class="btn btn-sm" aria-pressed="true"
                                            th:href="@{list(areaId=*{area.id},perPageNum=${pageMaker.cri.perPageNum})}" th:text="*{area.areaName}"
-                                           th:classappend="${#strings.equals(param.areaId, #strings.toString(area.id))} ? btn-primary : btn-secondary"  ></a></div>
+                                           th:classappend="${#strings.equals(param.areaId, #strings.toString(area.id))} ? btn-primary : btn-secondary"  ></a>
             </div>
-        </div>
+         </div>
+    </div>
 
         <!--난가정보목록-->
         <div class="space-1">
@@ -89,37 +90,9 @@
                 </div>
                 </tbody>
             </table>
-            <!--<a role="button" class="btn btn-primary" th:unless="${pageMaker.endPage} == ${pageMaker.cri.page}"
-              th:href="@{/admin/priceInfo(page=${pageMaker.cri.page}+1,perPageNum=${pageMaker.cri.perPageNum})}">더보기</a>-->
-            <nav class="row">
-                <ul class="col-3 pagination justify-content-between" >
-                    <li class="">총 목록개수 : <span th:text="${pageMaker.totalCount}"></span></li>
-                    <li class="">
-                        <select class="form-control form-control-sm" id="perPageNum">
-                            <option th:selected="${pageMaker.cri.perPageNum} == 10" value="10" sele>10</option>
-                            <option th:selected="${pageMaker.cri.perPageNum} == 20" value="20">20</option>
-                            <option th:selected="${pageMaker.cri.perPageNum} == 30" value="30">30</option>
-                            <option th:selected="${pageMaker.cri.perPageNum} == 50" value="50">50</option>
-                            <option th:selected="${pageMaker.cri.perPageNum} == 100" value="100">100</option>
-                     </select>
-                    </li>
-                </ul>
-                <ul class="col-9 pagination justify-content-end">
-
-                    <li  class="page-item" th:if="${pageMaker.prev} == true">
-                        <a class="page-link" th:href="@{list(page=${pageMaker.startPage}-1,perPageNum=${pageMaker.cri.perPageNum},areaId=${param.areaId})}">이전</a>
-                    </li>
-
-                    <li  class="page-item" th:each="idx,iterStat : ${#numbers.sequence(pageMaker.startPage,pageMaker.endPage)}"  th:classappend="${pageMaker.cri.page} == ${idx} ? active : null">
-                        <a class="page-link" th:href="@{list(page=${idx},perPageNum=${pageMaker.cri.perPageNum},areaId=${param.areaId})}" th:text="${idx}"></a>
-                    </li>
-
-                    <li  class="page-item" th:if="${pageMaker.next} == true and ${pageMaker.endPage > 0}">
-                        <a class="page-link" th:href="@{list(page=${pageMaker.endPage}+1,perPageNum=${pageMaker.cri.perPageNum},areaId=${param.areaId})}">다음</a>
-                    </li>
-                </ul>
-            </nav>
-
+            <span th:with="url=${@urlService.parseParamLeaf(search)}">
+                <div th:replace="layout/pageMaker :: pageMaker('list',${url})"></div>
+            </span>
         </div>
 
         <!-- Modal -->
@@ -142,7 +115,6 @@
                 </div>
             </div>
         </div>
-    </main>
 
     <script th:inline="javascript">
         /*<![CDATA[*/

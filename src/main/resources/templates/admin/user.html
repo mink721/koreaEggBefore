@@ -27,7 +27,7 @@
                             </select>
                             입금자명 <input class="form-control form-control-sm" type="text" name="reqName"/>
                             입금액 <input class="form-control form-control-sm" type="number" name="deposit"/>
-                            메모 <input class="form-control form-control-sm" type="text" name="memo"/>
+                            메모 <textarea class="form-control form-control-sm" type="text" name="memo"> 관리자 강제 변경</textarea>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
@@ -41,84 +41,98 @@
     <p class="h4" >회원상세관리</p>
     <hr/>
         <div>
-            <form th:formaction="@{mod}" method="post"
-                  class="w-lg-75 px-3 px-sm-9 mx-lg-auto "
-                  th:object="${user}">
+            <form th:formaction="@{mod}" method="post" th:object="${user}">
                 <input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-                <div class="form-group row my-0">
-                    <label class="h6 small col-3 col-md-2 col-form-label">아이디</label>
+
+                <div class="form-group row">
+
+                    <label class="col-3 col-md-2 col-form-label">아이디</label>
                     <div class="col-9 col-md-4">
-                        <label class="col-form-label" th:text="*{userId}"></label>
+                        <input type="text" readonly th:class="form-control-plaintext" th:field="*{userId}">
                     </div>
-                    <label class="h6 small col-3 col-md-2 col-form-label">회원등급</label>
+
+                    <label class="col-3 col-md-2 col-form-label">회원등급</label>
                     <div class="col-9 col-md-4">
-                        <label class="col-form-label" th:text="*{baseRole.roleName}"></label>
-                        <button type="button" class="btn btn-xs py-1 btn-danger updateBtnTg"
+                        <input type="hidden" th:field="*{baseRole}">
+                        <label th:class="col-form-label" th:text="*{baseRole.roleName}"></label>
+                        <button type="button" class="btn btn-xs btn-purple"
                                 data-toggle="modal"
                                 data-target="#exampleModal"
-                                data-title="삭제"
-                                data-body="삭제하시겠습니까?"
-                                >변경</button>
+                        >변경</button>
                     </div>
-                    <label class="h6 small col-3 col-md-2 col-form-label">성명</label>
+
+                    <label class="col-3 col-md-2 col-form-label">성명 <span class="text-danger">*</span></label>
                     <div class="col-9 col-md-4">
-                        <input type="text" readonly="" class="form-control-plaintext" th:field="*{userName}"/>
+                        <input type="text" th:readonly="!${modify}" th:class="${modify}? 'form-control': 'form-control-plaintext'"
+                               th:field="*{userName}" th:classappend="${#fields.hasErrors('userName')}? 'is-invalid'" />
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></div>
                     </div>
-                    <label class="h6 small col-3 col-md-2 col-form-label">핸드폰</label>
+                    <label class="col-3 col-md-2 col-form-label">핸드폰 <span class="text-danger">*</span></label>
                     <div class="col-9 col-md-4">
-                        <input type="text" readonly class="form-control-plaintext" th:field="*{mobile}"/>
+                        <input type="text" th:readonly="!${modify}" th:class="${modify}? 'form-control': 'form-control-plaintext'"
+                               th:field="*{phone}" th:classappend="${#fields.hasErrors('phone')}? 'is-invalid'" />
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div>
                     </div>
                     <label class="h6 small col-3 col-md-2 col-form-label">상호</label>
                     <div class="col-9 col-md-4">
-                        <input type="text" readonly class="form-control-plaintext" th:field="*{shopName}"/>
+                        <input type="hidden" th:field="*{shop.id}">
+                        <input type="text" th:readonly="!${modify}" th:class="${modify}? 'form-control': 'form-control-plaintext'"
+                               th:field="*{shop.name}" th:classappend="${#fields.hasErrors('shop.name')}? 'is-invalid'" />
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('shop.name')}" th:errors="*{shop.name}"></div>
                     </div>
                     <label class="h6 small col-3 col-md-2 col-form-label">전화</label>
                     <div class="col-9 col-md-4">
-                        <input type="text" readonly class="form-control-plaintext" th:field="*{shopTel}"/>
+                        <input type="text" th:readonly="!${modify}" th:class="${modify}? 'form-control': 'form-control-plaintext'"
+                               th:field="*{shop.tel}" th:classappend="${#fields.hasErrors('shop.tel')}? 'is-invalid'" />
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('shop.tel')}" th:errors="*{shop.tel}"></div>
                     </div>
                     <label class="h6 small col-3 col-md-2 col-form-label">주소</label>
                     <div class="col-9 col-md-10">
                         <div id="layer" style="display:none;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;">
                             <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnCloseLayer" style="cursor:pointer;position:absolute;right:-3px;top:-3px;z-index:1" onclick="closeDaumPostcode()" alt="닫기 버튼">
                         </div>
-                        <input id="addr" type="text" readonly class="form-control-plaintext" th:field="*{address}"/>
-                        <input type="hidden" id="postNum" name="postNum">
-                        <input type="hidden" id="logitude" th:field="*{longitude}">
-                        <input type="hidden" id="latitude" th:field="*{latitude}">
+                        <input id="addr" type="text" th:readonly="!${modify}" th:class="${modify}? 'form-control': 'form-control-plaintext'" th:field="*{shop.addr}"/>
+                        <input type="hidden" id="logitude" th:field="*{shop.postNum}">
+                        <input type="hidden" id="logitude" th:field="*{shop.lon}">
+                        <input type="hidden" id="latitude" th:field="*{shop.lat}">
                     </div>
                     <label class="h6 small col-3 col-md-2 col-form-label">상세주소</label>
                     <div class="col-9 col-md-4">
-                        <input type="text" readonly class="form-control-plaintext" th:field="*{addressDetail}"/>
+                        <input type="text" th:readonly="!${modify}" th:class="${modify}? 'form-control': 'form-control-plaintext'"  th:field="*{shop.addrDetail}"/>
                     </div>
                     <div class="col-12"></div>
                     <label class="h6 small col-3 col-md-2 col-form-label">가입일</label>
                     <div class="col-9 col-md-4">
-                        <label class="col-form-label" th:text="*{#dates.format(regDate, 'yyyy.MM.dd')}"></label>
+                        <input type="text" readonly th:class="form-control-plaintext" th:name="*{regDate}" th:value="*{#dates.format(regDate, 'yyyy.MM.dd')}">
                     </div>
                     <label class="h6 small col-3 col-md-2 col-form-label">만료일</label>
                     <div class="col-9 col-md-4">
-                        <label class="col-form-label" th:text="*{#dates.format(expireDate, 'yyyy.MM.dd')}"></label>
+                        <input type="text" readonly th:class="form-control-plaintext" th:name="*{expireDate}" th:value="*{#dates.format(expireDate, 'yyyy.MM.dd')}">
                     </div>
                     <label class="h6 small col-3 col-md-2 col-form-label">홈페이지</label>
                     <div class="col-9 col-md-4">
-                        <input type="text" readonly class="form-control-plaintext" th:field="*{homepage}"/>
+                        <input type="text" th:readonly="!${modify}" th:class="${modify}? 'form-control': 'form-control-plaintext'"
+                               th:field="*{shop.homepage}" th:classappend="${#fields.hasErrors('shop.homepage')}? 'is-invalid'" />
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('shop.homepage')}" th:errors="*{shop.homepage}"></div>
                     </div>
-                    <label class="h6 small col-3 col-md-2 col-form-label">로그인횟수</label>
+                    <label class="h6 small col-3 col-md-2 col-form-label">로그인날짜(횟수)</label>
                     <div class="col-9 col-md-4">
-                        <label class="col-form-label" th:text="*{loginCount}"></label>
+                        <label class="col-form-label" th:text="*{#dates.format(loginDate, 'yyyy.MM.dd')}+'('+*{loginCount}+')'"></label>
                     </div>
                     <label class="h6 small col-3 col-md-2 col-form-label">메모</label>
                     <div class="col-9 col-md-10">
-                        <textarea type="text" readonly class="form-control-plaintext" th:field="*{memo}"></textarea>
+                        <textarea type="text" th:readonly="!${modify}" th:class="${modify}? 'form-control': 'form-control-plaintext'" th:field="*{memo}"
+                                  th:classappend="${#fields.hasErrors('memo')}? 'is-invalid'" ></textarea>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('memo')}" th:errors="*{memo}"></div>
                     </div>
                 </div>
 
-                <input type="submit" class="btn btn-primary"  style="display: none" id="submitBtn" value="수정완료"/>
+                <input type="submit" class="btn btn-primary"  th:if="${modify}" id="submitBtn" value="수정완료"/>
+                <a role="button" class="btn btn-primary text-white" th:unless="${modify}" th:href="@{mod(id=${user.id})}">수정요청</a>
+                <a role="button" class="btn btn-danger text-white" th:href="@{remove(id=${user.id})}">삭제요청</a>
 
             </form>
-            <button class="btn btn-primary" onclick="visibleInput();" id="visibleInputBtn">수정요청</button>
-            <a role="button" class="btn btn-danger text-white" th:href="@{'/admin/deleteUser?id=' + ${user.id}}">삭제요청</a>
-            <a role="button" class="btn btn-warning text-white" th:href="@{'/admin/resetPwd?id=' + ${user.id}}">비밀번호초기화</a>
+            <!--<a role="button" class="btn btn-warning text-white" th:href="@{'/admin/resetPwd?id=' + ${user.id}}">비밀번호초기화</a>-->
         </div>
 
     <script th:inline="javascript" type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=af40a347c5a17c5118392cee56f35da6&libraries=services"></script>
@@ -126,24 +140,9 @@
     <script th:inline="javascript">
         /*<![CDATA[*/
 
-        var $inputList = $(".form-control-plaintext");
-
-        function visibleInput() {
-            $inputList.removeClass("form-control-plaintext");
-            $inputList.addClass("form-control");
-            $inputList.removeAttr("readonly");
-            $("#visibleInputBtn").hide();
-            $("#submitBtn").show();
-        }
-
         $(document).on('ready', function () {
 
-            /*$("#addr").on("focus", function(obj){
-                $("#addr").css("zIndex","-1");
-                sample3_execDaumPostcode();
-                obj.target.blur();
-            });*/
-            $("input[name='address']").focus(function (obj) {
+            $("#addr").focus(function (obj) {
                 $("#addr").css("zIndex","-1");
                 sample3_execDaumPostcode();
                 obj.target.blur();
@@ -152,7 +151,6 @@
         });
 
         // 우편번호 찾기 찾기 화면을 넣을 element
-        var element_wrap = document.getElementById('addrWrap');
         var element_layer = document.getElementById('layer');
 
         function closeDaumPostcode() {
@@ -184,13 +182,13 @@
                     geocoder.addressSearch(addr, function(result, status) {
                         // 정상적으로 검색이 완료됐으면
                         if (status === daum.maps.services.Status.OK) {
-                            document.getElementById("logitude").value = result[0].y;
-                            document.getElementById("latitude").value = result[0].x;
+                            document.getElementById("log").value = result[0].y;
+                            document.getElementById("lat").value = result[0].x;
                         }
                     });
 
                     // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                    document.getElementById('postNum').value = data.zonecode;
+                    //document.getElementById('postNum').value = data.zonecode;
                     document.getElementById("addr").value = addr;
 
                     // iframe을 넣은 element를 안보이게 한다.

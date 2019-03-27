@@ -15,7 +15,7 @@ public class Board {
     public static int BOARD_NEWS = 2;
 
     private Integer id;
-    private Integer status;
+    private Integer status; //CODE.ACTIVE , CODE.DELETE
     private String boardName;
     private Timestamp regDate;
 

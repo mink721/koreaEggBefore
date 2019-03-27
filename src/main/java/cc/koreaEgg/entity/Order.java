@@ -15,7 +15,7 @@ public class Order {
 	private Long id;
 	private Timestamp regDate;
 	private Timestamp updatedDate;
-	private String status;
+	private String status; //CODE.ORDER
 	private int total;
 	private Long userId;
 

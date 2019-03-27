@@ -5,7 +5,10 @@ import org.apache.ibatis.type.Alias;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
@@ -18,40 +21,31 @@ import java.util.List;
 public class User implements UserDetails {
 
   private Long id;
+
+  private Role baseRole;
+  private Role role;
+  private boolean roleChange;
+
+  private Integer status; //CODE.ACTIVE CODE.DELETE
+  @Size(min=1, max=20)
   private String userId;
   private String pwd;
+  @NotBlank
   private String userName;
-  private String mobile;
+  @Pattern(regexp = "^01\\d-?\\d{3,4}-?\\d{4}", message = "010-0000-0000 형식으로 입력해주세요")
+  private String phone;
+  private String memo;
+  private Timestamp birthday;
 
   private Long shopId;
-  private String shopName;
-  private String postNum;
-  private String address;
-  private String addressDetail;
-  private String shopTel;
-  /* TODO AN shop 이미지는 어떻게 저장함?*/
-  private String profileImage;
-
-  private double longitude;
-  private double latitude;
+  private Shop shop;
 
   private Timestamp regDate;
   private Timestamp updateDate;
-
-
-  //생년월일
-  private Timestamp birthday;
-  //로그인횟수
-  private Integer loginCount;
-  private String homepage;
-
-  private Role baseRole;
-  private String memo;
-  private Integer status;
-
-  private Role role;
   private Timestamp expireDate;
-  private boolean roleChange;
+
+  private Integer loginCount;
+  private Timestamp loginDate;
 
   List<GrantedAuthority> authorities;
   private boolean accountNonExpired = true;

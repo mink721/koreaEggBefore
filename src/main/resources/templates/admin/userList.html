@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  layout:decorate="admin/adminDefault" >
+<section class="content" layout:fragment="content">
+    <div class="mb-2">
+        <span class="h4" >회원관리 </span> <a role="button" href="/user/register" class="btn btn-primary btn-xs">회원추가</a>
+    </div>
+    <!--검색창-->
+    <form class="form-inline">
+        <div class="form-group row">
+            <select class="col-2 form-control mr-sm-2 " name="role">
+                <option value="" th:text="#{ROLE.label}"></option>
+                <option value="USER" th:text="#{ROLE.USER}" th:selected="${param.role == 'USER'}"></option>
+                <option value="STORE" th:text="#{ROLE.STORE}" th:selected="${param.role == 'STORE'}"></option>
+                <option value="RETAILER" th:text="#{ROLE.RETAILER}" th:selected="${param.role == 'RETAILER'}"></option>
+                <option value="WHOLESALER" th:text="#{ROLE.WHOLESALER}" th:selected="${param.role == 'WHOLESALER'}"></option>
+                <option value="PARTNER" th:text="#{ROLE.PARTNER}" th:selected="${param.role == 'PARTNER'}"></option>
+                <option value="AGENT" th:text="#{ROLE.AGENT}" th:selected="${param.role == 'AGENT'}"></option>
+            </select>
+            <input type="text" class="col-1 form-control mr-sm-2 " name="userId" th:value="${param.userId}" placeholder="ID">
+            <input type="text" class="col-1 form-control mr-sm-2 " name="userName" th:value="*{param.userName}" placeholder="성명" >
+            <input type="text" class="col-2 form-control mr-sm-2 " name="phone" th:value="*{param.phone}" placeholder="휴대폰" >
+            <input type="text" class="col-1 form-control mr-sm-2 " name="shopName" th:value="*{param.shopName}" placeholder="상호" >
+            <input type="text" class="col-3 form-control mr-sm-2 " name="address" th:value="*{param.address}" placeholder="주소(동까지만 검색가능)" >
+            <button type="submit" class="col-1 btn btn-default btn-wide">검색</button>
+        </div>
+    </form>
+    <!--회원목록-->
+    <div class="space-1">
+        <table class="table table-bordered table-responsive-sm table-sm table-hover">
+            <thead>
+            <tr class="table-secondary">
+                <th class="text-sm-center">NO</th>
+                <th class="text-sm-center">등급</th>
+                <th class="text-sm-center">ID</th>
+                <th class="text-sm-center">성명</th>
+                <th class="text-sm-center">휴대폰</th>
+                <th class="text-sm-center">상호</th>
+                <th class="text-sm-center">주소</th>
+                <th class="text-sm-center">가입일</th>
+                <th class="text-sm-center">만료일</th>
+                <th class="text-sm-center">마지막로그인</th>
+                <th class="text-sm-center">더보기</th>
+            </tr>
+            </thead>
+            <tbody>
+            <div th:each="user,index : ${userList}">
+                <tr>
+                    <td><span th:text="${index.index}+1"></span></td><!--no-->
+                    <td><span th:text="${user.role.roleName}"></span></td><!--등급-->
+                    <td><span th:text="${user.userId}"></span></td><!--ID-->
+                    <td><span th:text="${user.userName}"></span></td><!--성명-->
+                    <td><span th:text="${user.phone}"></span></td><!--휴대폰-->
+                    <td><span th:text="${user.shop.name}"></span></td><!--상호-->
+                    <td><span th:text="${user.shop.addr}"></span> <span th:text="${user.shop.addrDetail}"></span></td><!--주소-->
+                    <td><span th:text="${#dates.format(user.regDate, 'yyyy.MM.dd')}"></span></td><!--가입일-->
+                    <td><span th:text="${#dates.format(user.expireDate, 'yyyy.MM.dd')}"></span></td><!--만료일-->
+                    <td><span th:text="${#dates.format(user.loginDate, 'yyyy.MM.dd')}+'('+${user.loginCount}+')'"></span></td><!--로그인횟수-->
+                    <td><a th:href="@{'read?id=' + ${user.id}}">더보기</a></td><!--팩스, 홈페이지, -->
+                </tr>
+            </div>
+            </tbody>
+        </table>
+    </div>
+    <span th:with="url=${@urlService.parseParamLeaf(search)}">
+        <div th:replace="layout/pageMaker :: pageMaker('list',${url})"></div>
+    </span>
+    <!--<div  th:with="url=${@urlService.parseParamLeaf(${param})}" th:include="layout/pageMaker :: pageMaker(${url})"></div>-->
+</section>
+</html>

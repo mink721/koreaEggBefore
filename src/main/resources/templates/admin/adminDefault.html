@@ -26,6 +26,7 @@
         <script type="text/javascript" th:src="@{/vendor/jquery/dist/jquery.min.js}"></script>
         <script type="text/javascript" th:src="@{/vendor/jquery-migrate/dist/jquery-migrate.min.js}"></script>
         <script type="text/javascript" th:src="@{/vendor/popper.js/dist/umd/popper.min.js}"></script>
+        <script type="text/javascript" th:src="@{/js/kegg.js}"></script>
         <!--메뉴 작게하는 js-->
         <script src="https://cdn.jsdelivr.net/npm/jquery-match-height@0.7.2/dist/jquery.matchHeight.min.js"></script>
         <script type="text/javascript" th:src="@{/vendor/bootstrap/bootstrap.min.js}"></script>
@@ -120,15 +121,19 @@
                 <div class="navbar-header">
                     <a class="" href="/admin">코리아에그 관리자메뉴</a>
                     <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
-
                 </div>
             </div>
             <div class="top-right">
                 <div class="header-menu">
                     <div class="header-left">
-                        <a class="" href="/">코리아에그 홈페이지</a>
-                        <!--TODO 나중에 추가하기-->
-                        <!--<div class="dropdown for-notification">
+                        <div class="form-inline">
+                            <form class="search-form">
+                                <input class="form-control mr-sm-2" type="text" placeholder="Search ..." aria-label="Search">
+                                <button class="search-close" type="submit"><i class="fa fa-close"></i></button>
+                            </form>
+                        </div>
+
+                        <div class="dropdown for-notification">
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="notification" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-bell"></i>
                                 <span class="count bg-danger">3</span>
@@ -148,18 +153,66 @@
                                     <p>Server #3 overloaded.</p>
                                 </a>
                             </div>
-                        </div>-->
+                        </div>
 
+                        <div class="dropdown for-message">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="message" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-envelope"></i>
+                                <span class="count bg-primary">4</span>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="message">
+                                <p class="red">You have 4 Mails</p>
+                                <a class="dropdown-item media" href="#">
+                                    <span class="photo media-left"><img alt="avatar" src="images/avatar/1.jpg"></span>
+                                    <div class="message media-body">
+                                        <span class="name float-left">Jonathan Smith</span>
+                                        <span class="time float-right">Just now</span>
+                                        <p>Hello, this is an example msg</p>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item media" href="#">
+                                    <span class="photo media-left"><img alt="avatar" src="images/avatar/2.jpg"></span>
+                                    <div class="message media-body">
+                                        <span class="name float-left">Jack Sanders</span>
+                                        <span class="time float-right">5 minutes ago</span>
+                                        <p>Lorem ipsum dolor sit amet, consectetur</p>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item media" href="#">
+                                    <span class="photo media-left"><img alt="avatar" src="images/avatar/3.jpg"></span>
+                                    <div class="message media-body">
+                                        <span class="name float-left">Cheryl Wheeler</span>
+                                        <span class="time float-right">10 minutes ago</span>
+                                        <p>Hello, this is an example msg</p>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item media" href="#">
+                                    <span class="photo media-left"><img alt="avatar" src="images/avatar/4.jpg"></span>
+                                    <div class="message media-body">
+                                        <span class="name float-left">Rachel Santos</span>
+                                        <span class="time float-right">15 minutes ago</span>
+                                        <p>Lorem ipsum dolor sit amet, consectetur</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
                     </div>
+
+                    <div class="user-area dropdown float-right">
+                        <a class="" href="/">코리아에그 홈페이지</a>
+                    </div>
+
                 </div>
             </div>
         </header>
+        <!-- /#header -->
         <!-- Content -->
         <div class="content">
-            <section layout:fragment="content"></section>
+            <section class="content" layout:fragment="content"></section>
         </div>
+        <!-- /.content -->
     </div>
-
+    <!-- /#right-panel -->
     </body>
 
 </html>

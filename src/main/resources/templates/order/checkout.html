@@ -72,9 +72,9 @@
             <input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
             <input type="hidden" name="userId" th:value="${#authentication.principal.id}">
             <input type="text" name="orderName" placeholder="이름" th:value="${#authentication.principal.username}"/>
-            <input type="text" name="tel" placeholder="전화번호" th:value="${#authentication.principal.shopTel}"/>
-            <input type="text" name="mobile" placeholder="휴대전화" th:value="${#authentication.principal.mobile}"/>
-            <input type="text" name="addr" placeholder="주소" th:value="${#authentication.principal.address}"/>
+            <input type="text" name="tel" placeholder="전화번호" th:value="${#authentication.principal.shop.tel}"/>
+            <input type="text" name="mobile" placeholder="휴대전화" th:value="${#authentication.principal.phone}"/>
+            <input type="text" name="addr" placeholder="주소" th:value="${#authentication.principal.shop.addr}"/>
             <input type="text" name="memo" placeholder="기타하실말씀"/>
 
             <!-- Payment -->

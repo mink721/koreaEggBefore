@@ -21,6 +21,9 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 시큐리티 컨피그
+ */
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -41,6 +44,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             //login page and registration end-point
             .antMatchers("/cast/**").hasAnyAuthority("ROLE_ADMIN,CAST_READ")
             .antMatchers("/priceInfo/**").hasAnyAuthority("ROLE_ADMIN,CAST_READ")
+            //.antMatchers("/partner/**").hasAnyAuthority("ROLE_ADMIN,ROLE_PARTNER,ROLE_AGENT")
+            //.antMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN")
             .antMatchers("/contact/**").authenticated()
             .antMatchers("/order/**").authenticated()
               //all other requests

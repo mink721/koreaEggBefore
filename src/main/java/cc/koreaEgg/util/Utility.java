@@ -16,8 +16,4 @@ public class Utility {
 		return orderId;
 	}
 
-	public static Long generateAddressNumber(User customer) {
-		return (long) (Long.parseLong(customer.getPostNum())
-				* customer.getId() * Math.random());
-	}
 }

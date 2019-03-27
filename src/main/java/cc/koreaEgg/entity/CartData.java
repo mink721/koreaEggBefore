@@ -36,6 +36,11 @@ public class CartData implements Serializable {
 		orderItem.changeQty(qty);
 	}
 
+	public void addProductQuantity(Long productId, Integer qty) {
+		OrderItem orderItem = productsMap.get(productId);
+		orderItem.addQty(qty);
+	}
+
 	public void clearCart() {
 		productsMap.clear();
 	}

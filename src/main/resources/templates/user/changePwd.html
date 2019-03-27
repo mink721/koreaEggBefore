@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/default"  >
+
+<section layout:fragment="content">
+    <!-- ========== MAIN CONTENT ========== -->
+    <!-- CTA -->
+    <div th:replace="user/mypage.html :: header('마이페이지')"></div>
+    <!-- End CTA -->
+    <div class="container space-1">
+        <form th:formaction="@{password_change}" method="post" class="js-validate w-lg-60 px-3 px-sm-9 mx-lg-auto">
+            <input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+
+                <div class="alert alert-danger" id="serverFeedback" style="display: none">
+                    비밀번호가 일치하지 않습니다
+                </div>
+                <div class="form-group js-form-message form m-0 ">
+                    <label class="h6 small d-block text-uppercase">현재비밀번호<span class="text-danger">*</span></label>
+                    <div class="js-focus-state input-group form">
+                        <input type="password" class="form-control form__input" required
+                               name="pwd"
+                               placeholder="Password"
+                               aria-label="password"
+                               data-msg="필수입력"
+                               data-error-class="u-has-error"
+                               data-success-class="u-has-success"/>
+                    </div>
+                </div>
+
+                <div class="form-group form m-0 js-form-message">
+                    <label class="h6 small d-block text-uppercase">새로운비밀번호<span class="text-danger">*</span></label>
+                    <div class="js-focus-state input-group form">
+                        <input type="password" class="form-control form__input" required
+                               name="newPwd" id="newPwd"
+                               placeholder="Password"
+                               aria-label="password"
+                               data-msg="필수입력"
+                               data-error-class="u-has-error"
+                               data-success-class="u-has-success"/>
+                    </div>
+                </div>
+
+                <div class="form-group m-0 js-form-message">
+                    <label class="h6 small d-block text-uppercase">새로운비밀번호 확인<span class="text-danger">*</span></label>
+                    <div class="js-focus-state input-group form">
+                        <input type="password" class="form-control form__input" placeholder="confirmPassword"
+                               data-msg="비밀번호가 일치하지않습니다"
+                               data-rule-equalto="#newPwd"
+                               aria-label="confirmPassword"
+                               data-error-class="u-has-error"
+                               data-success-class="u-has-success"/>
+                    </div>
+                </div>
+                <div class="alert alert-blue" id="serverFeedback2" style="display: none">
+                    비밀번호가 변경되었습니다 잠시후 마이페이지로 이동합니다.
+                    <span id="serverFeedback2_alert"></span>
+                </div>
+            <div class="text-center mt-4">
+                <button type="button"  class="btn btn-primary" id="submitBtn">수정완료</button>
+                <a class="btn btn-secondary" href="/mypage">취소</a>
+            </div>
+
+        </form>
+        <!--<a role="button" class="btn btn-warning text-white" th:href="@{'/admin/resetPwd?id=' + ${user.id}}">비밀번호초기화</a>-->
+    </div>
+    <script>
+        /*<![CDATA[*/
+        $.HSCore.components.HSValidation.init('.js-validate');
+
+        $('#submitBtn').on('click', function(){
+            $.ajax({
+                url: 'password_change',
+                type: 'post',
+                data: {
+                    'pwd' : $("input[name='pwd']").val(),
+                    'newPwd' : $("input[name='newPwd']").val()
+                },
+                success: function(response){
+                    if (response == true) {
+                        $("#serverFeedback").hide();
+                        $("#serverFeedback2").show();
+                        var cnt = 4; // 1초 후에 시작할 번호
+                        var counter = setInterval(function() {
+                            if (cnt >= 1) {  // 마지막 초 단위 지정
+                                $('#serverFeedback2_alert').html(cnt + "초 후에 페이지를 이동합니다");
+                                cnt--;
+                            }else {
+                                clearInterval(counter);
+                                location.href="/mypage";
+                            }
+                        }, 1000); // 1초당 카운트
+
+        }else if (response == false) {
+                        $("#serverFeedback").show();
+                    }
+                }
+            });
+        });
+        /*]]>*/
+    </script>
+</section>

@@ -2,78 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  layout:decorate="~{layout/default}" >
 <section layout:fragment="content">
 
-    <div class="container space-2 space-3--lg">
-        <!--view-->
-        <div th:unless="${param.register}" th:object="${board}">
-            <div class="row" >
-                <span th:text="*{boardName}"></span>
-                <span th:text="*{title}"></span>
-                <span th:text="${#dates.format(board.regDate, 'yyyy.MM.dd')}"></span>
+    <div th:replace="board/boardList.html :: header"></div>
+    <div class="space-1">
+        <div th:fragment="board" class="container" th:unless="${modify} or ${register}" th:object="${board}">
+            <div class="row">
+                <div class="col-sm-1 text-danger align-text-bottom" th:text="*{boardName}"></div>
+                <div class="col-sm-9 h5" th:text="*{title}"></div>
+                <div class="col-sm-2 align-text-bottom" th:text="${#dates.format(board.regDate, 'yyyy.MM.dd')}"></div>
+                <div class="col-sm-12" th:utext="*{contents}"></div>
             </div>
-            <div th:text="*{contents}"></div>
-            <a  role="button" class="btn btn-primary" href="/boardList">목록</a>
+            <div class="text-center">
+                <a  role="button" class="btn btn-primary" th:href="@{list}">목록</a>
+            </div>
         </div>
-
-        <!--등록-->
-        <div  th:if="${param.register}" class="js-validate rounded p-sm-7 mx-lg-auto" >
-            <!-- Contact Us Form -->
-            <form action="/registerBoard" th:formaction="@{/registerBoard}" method="post" th:object="${board}">
-                <input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-                    <div class="row mb-5">
-                        <div class="col-md-2">
-                            <label class="h6 small d-block text-uppercase mb-3 mb-lg-0">유형:</label>
-                        </div>
-                        <div class="col-md-10">
-                            <select class="custom-select" th:field="*{boardId}" >
-                                <option value="1">공지</option>
-                                <option value="2">뉴스</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row mb-5">
-                        <div class="col-md-2">
-                            <label class="h6 small d-block text-uppercase mb-3 mb-lg-0">제목:</label>
-                        </div>
-                        <div class="col-md-10">
-                            <div class="js-form-message">
-                                <div class="js-focus-state input-group form">
-                                    <input class="form-control form__input" type="text" th:field="*{title}" required
-                                           data-msg="Please enter your frist name."
-                                           data-error-class="u-has-error"
-                                           data-success-class="u-has-success">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mb-5">
-                        <div class="col-md-2">
-                            <label class="h6 small d-block text-uppercase mb-3 mb-lg-0">내용:</label>
-                        </div>
-                        <div class="col-md-10">
-                            <div class="js-form-message">
-                                <div class="js-focus-state input-group form">
-                                    <textarea class="form-control form__input" rows="4"  th:field="*{contents}" required
-                                    placeholder=""
-                                    aria-label=""
-                                    data-msg="Please enter a reason."
-                                    data-error-class="u-has-error"
-                                    data-success-class="u-has-success"></textarea>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                <!-- End Input Form -->
-
-                <div class="row">
-                    <div class="col-md-8 offset-md-4">
-                        <input type="submit" class="btn btn-primary btn-wide" value="입력완료"/>
-                    </div>
-                </div>
-            </form>
-            <!-- End Contact Us Form -->
-        </div>
-        <!-- Contacts Section -->
-
     </div>
 
     <script th:inline="javascript">

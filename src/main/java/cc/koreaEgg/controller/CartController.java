@@ -126,20 +126,4 @@ public class CartController {
 		}
 	}
 
-	/**
-	 * Method to Clear the Products from shopping cart
-	 * 
-	 * @author Sai Upadhyayula
-	 * 
-
-	 * @return Shopping Cart View
-	 */
-	/*@RequestMapping(value = "/clear", method = RequestMethod.GET)
-	public String clearCart(Model model, HttpServletRequest request) {
-		CartData cartData = SessionUtils.getSessionVariables(request,
-				ControllerConstants.CART);
-		cartService.clearCart(cartData);
-		return "redirect:/cart";
-	}*/
-
 }

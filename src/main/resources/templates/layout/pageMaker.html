@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  layout:decorate="admin/adminDefault" >
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<nav th:fragment="pageMaker(targetUrl,urlParam)" class="row">
+    <ul class="col-auto mr-auto" >
+        <div class="form-row">
+            <span class="col-form-label">페이지당</span>
+            <div class="col-auto">
+                <select class="form-control form-control-sm" id="perPageNum" onchange="refreshPerPageNum()">
+                    <option th:selected="${pageMaker.cri.perPageNum} == 10" value="10" sele>10</option>
+                    <option th:selected="${pageMaker.cri.perPageNum} == 20" value="20">20</option>
+                    <option th:selected="${pageMaker.cri.perPageNum} == 30" value="30">30</option>
+                    <option th:selected="${pageMaker.cri.perPageNum} == 50" value="50">50</option>
+                    <option th:selected="${pageMaker.cri.perPageNum} == 100" value="100">100</option>
+                </select>
+            </div>
+            <span class="col-form-label ml-5">Total : <span th:text="${pageMaker.totalCount}"></span></span>
+        </div>
+    </ul>
+   <ul class="col-auto pagination justify-content-end" th:with="parameters = ${urlParam == ''} ? '' : ','+${urlParam} ">
+        <li  class="page-item" th:if="${pageMaker.prev} == true">
+            <a class="page-link" th:href="@{${targetUrl}(page=${pageMaker.startPage}-1,perPageNum=${pageMaker.cri.perPageNum}__${parameters}__)}">이전</a>
+        </li>
+
+        <li  class="page-item" th:each="idx,iterStat : ${#numbers.sequence(pageMaker.startPage,pageMaker.endPage)}"  th:classappend="${pageMaker.cri.page} == ${idx} ? active : null">
+            <a class="page-link" th:unless="${idx == 0}" th:href="@{${targetUrl}(page=${idx},perPageNum=${pageMaker.cri.perPageNum}__${parameters}__)}" th:text="${idx}"></a>
+        </li>
+
+        <li  class="page-item" th:if="${pageMaker.next} == true and ${pageMaker.endPage > 0}">
+            <a class="page-link" th:href="@{${targetUrl}(page=${pageMaker.endPage}+1,perPageNum=${pageMaker.cri.perPageNum}__${parameters}__)}">다음</a>
+        </li>
+    </ul>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+
+        function refreshPerPageNum() {
+            var val = document.getElementById("perPageNum").value;
+
+            [# th:if=" ${urlParam != ''}"]
+                var param =  /*[[ @{${targetUrl}(__${urlParam}__)} ]]*/
+                    param = param + '&perPageNum=' +val
+            [/]
+            [# th:if=" ${urlParam == ''}"]
+                var param =  /*[[ @{${targetUrl}} ]]*/
+                    param = param + '?perPageNum=' + val
+            [/]
+            //console.log(param)
+            location.href = param;
+        }
+        /*]]>*/
+    </script>
+</nav>
+</body>
+</html>

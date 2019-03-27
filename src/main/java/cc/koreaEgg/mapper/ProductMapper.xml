@@ -32,6 +32,7 @@
                 END AS price
           FROM PRODUCT t, SHOP s
         WHERE t.shop_id = s.id
+        AND t.status = 11
         <if test="shopId!=null and !shopId.equals('')">
             AND s.id = #{shopId}
         </if>
@@ -68,7 +69,7 @@
                 ELSE consumer
                 END AS price
         FROM PRODUCT t, SHOP s
-        WHERE t.shop_id = s.id AND t.id = #{id}
+        WHERE t.shop_id = s.id AND t.id = #{id} AND t.status = 11
     </select>
     <!-- TODO 상품등록 -->
     <insert id="createProduct" parameterType="product">
@@ -79,21 +80,47 @@
         </selectKey>
     </insert>
 
+    <!--TODO userId 넣기 (수정한사람)-->
     <insert id="createPrice" parameterType="price">
-        INSERT INTO PRICE (product_id, user_id, cost, consumer, store, retail, wholeSale, partner, agent, reg_date)
-        VALUES (#{productId}, #{userId},#{cost},#{consumer},#{store},#{retail},#{wholeSale},#{partner},#{agent},NOW())
+        INSERT INTO PRICE (product_id, cost, consumer, store, retail, wholesale, partner, agent, reg_date)
+        VALUES (#{productId},#{cost},#{consumer},#{store},#{retail},#{wholesale},#{partner},#{agent},NOW())
     </insert>
 
-    <insert id="createShop" parameterType="shop">
-        INSERT INTO SHOP (name, post_num, address, address_detail, tel, profile_image, lon, lat, reg_date, homepage)
-        VALUES (#{name},#{postNum},#{address},#{addressDetail},#{tel},#{profileImage},#{lon},#{lat},NOW(),#{homepage})
-        <selectKey keyProperty="id" resultType="Long" order="AFTER">
-            SELECT LAST_INSERT_ID()
-        </selectKey>
-    </insert>
+    <update id="updateProduct" parameterType="Product">
+        UPDATE PRODUCT
+        SET name = #{name}
+        ,size = #{size}
+        ,origin = #{origin}
+        ,cost = #{cost}
+        ,consumer = #{consumer}
+        ,store = #{store}
+        ,retail = #{retail}
+        ,wholesale = #{wholesale}
+        ,partner = #{partner}
+        ,agent = #{agent}
+        ,contents = #{contents}
+        WHERE id = #{id}
+    </update>
 
-    <select id="selectShopList" parameterType="map" resultType="shop">
-      SELECT s.*, ST_DISTANCE(POINT(#{lon}, #{lat}), POINT(s.lon, s.lat)) AS dist FROM SHOP s, USER u WHERE s.id = u.shop_id AND u.base_role = #{role} ORDER BY dist
-    </select>
+    <update id="deleteProduct" parameterType="Product">
+        UPDATE PRODUCT
+        SET status = 99
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateProductPrice" parameterType="Price">
+        UPDATE PRODUCT
+        SET
+        consumer = #{consumer}
+        <if test="cost neq null">,cost = #{cost}</if>
+        ,store = #{store}
+        ,retail = #{retail}
+        ,wholesale = #{wholesale}
+        ,partner = #{partner}
+        ,agent = #{agent}
+        WHERE id = #{productId}
+    </update>
+
+
 
 </mapper>

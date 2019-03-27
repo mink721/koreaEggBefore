@@ -31,6 +31,13 @@ public class OrderItem{
 		}
 	}
 
+	public void addQty(Integer qty) {
+		if(qty == null){
+			qty = 1;
+		}
+			this.qty += qty;
+	}
+
 	public int getTotal() {
 		int amount = 0;
 			amount += price * qty;

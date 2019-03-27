@@ -15,7 +15,6 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 /**
- * The type Enhance mybatis language driver.
  * mybatis 쿼리 날릴때 ? 표시에 변수명 보여주는 클래스
  */
 @Slf4j

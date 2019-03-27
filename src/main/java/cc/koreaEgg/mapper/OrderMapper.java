@@ -15,7 +15,6 @@ public interface OrderMapper {
 	Map<Long, OrderItem> selectCart(User user);
 
 	void createCart(long userId, Long productId, Integer qty);
-
 	void updateCart(long userId, Long productId, Integer qty);
 
 	List<Product> readAllOrderItems(Order order);

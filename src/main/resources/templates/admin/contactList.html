@@ -2,10 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"  layout:decorate="admin/adminDefault" >
 <section layout:fragment="content">
     <main id="content" role="main">
-        <span class="h4 m-0 p-0" >문의관리</span>
-        <hr class="mt-1">
+        <div class="mb-2">
+            <span class="h4" >문의관리 </span>
+        </div>
         <!--검색창-->
         <div class="row" >
+            <div class="col-12 px-1">
                 <a role="button" class="btn btn-primary btn-sm"
                    th:classappend="${param.status} == null? btn-primary : btn-secondary"
                    th:href="@{list(perPageNum=${pageMaker.cri.perPageNum})}">전체</a>
@@ -15,6 +17,7 @@
                 <a role="button" class="btn btn-primary btn-sm"
                    th:classappend="${#strings.equals(param.status, 1)} ? btn-primary : btn-secondary"
                    th:href="@{list(perPageNum=${pageMaker.cri.perPageNum},status=1)}">답변완료</a>
+            </div>
         </div>
 
         <!--게시판 목록-->
@@ -38,102 +41,22 @@
                         <td><a th:href="@{read(id=${board.id})}"><span th:text="${board.title}"></span></a></td>
                         <td><span th:text="${board.reqName}"></span></td>
                         <td><span th:text="${#dates.format(board.regDate, 'yyyy.MM.dd')}"></span></td><!--적용일-->
-                        <td><a th:unless="${board.answerFlag}" role="button" class="btn btn-xs py-1 btn-secondary" th:href="@{read(id=${board.id})}">답변</a>
+                        <td><a th:unless="${board.answerFlag}" role="button" class="btn btn-xs py-1 btn-secondary" th:href="@{mod(id=${board.id})}">답변</a>
                         </td><!--수정-->
                     </tr>
                 </div>
                 </tbody>
             </table>
-
-
-            <!--<a role="button" class="btn btn-primary" th:unless="${pageMaker.endPage} == ${pageMaker.cri.page}"
-              th:href="@{/admin/priceInfo(page=${pageMaker.cri.page}+1,perPageNum=${pageMaker.cri.perPageNum})}">더보기</a>-->
-            <nav class="row">
-                <ul class="col-3 pagination justify-content-between" >
-                    <li class="">총 목록개수 : <span th:text="${pageMaker.totalCount}"></span></li>
-                    <li class="">
-                        <select class="form-control form-control-sm" id="perPageNum">
-                            <option th:selected="${pageMaker.cri.perPageNum} == 10" value="10" sele>10</option>
-                            <option th:selected="${pageMaker.cri.perPageNum} == 20" value="20">20</option>
-                            <option th:selected="${pageMaker.cri.perPageNum} == 30" value="30">30</option>
-                            <option th:selected="${pageMaker.cri.perPageNum} == 50" value="50">50</option>
-                            <option th:selected="${pageMaker.cri.perPageNum} == 100" value="100">100</option>
-                     </select>
-                    </li>
-                </ul>
-                <ul class="col-9 pagination justify-content-end">
-
-                    <li  class="page-item" th:if="${pageMaker.prev} == true">
-                        <a class="page-link" th:href="@{list(page=${pageMaker.startPage}-1,perPageNum=${pageMaker.cri.perPageNum},boardId=${param.boardId})}">이전</a>
-                    </li>
-
-                    <li  class="page-item" th:each="idx,iterStat : ${#numbers.sequence(pageMaker.startPage,pageMaker.endPage)}"  th:classappend="${pageMaker.cri.page} == ${idx} ? active : null">
-                        <a class="page-link" th:href="@{list(page=${idx},perPageNum=${pageMaker.cri.perPageNum},boardId=${param.boardId})}" th:text="${idx}"></a>
-                    </li>
-
-                    <li  class="page-item" th:if="${pageMaker.next} == true and ${pageMaker.endPage > 0}">
-                        <a class="page-link" th:href="@{list(page=${pageMaker.endPage}+1,perPageNum=${pageMaker.cri.perPageNum},boardId=${param.boardId})}">다음</a>
-                    </li>
-                </ul>
-            </nav>
-            <a th:href="@{register}" class="btn btn-xs btn-primary">글 등록</a>
+            <span th:with="url=${@urlService.parseParamLeaf(search)}">
+                <div th:replace="layout/pageMaker :: pageMaker('list',${url})"></div>
+            </span>
 
         </div>
 
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">코리아에그</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        ...
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-                        <button type="button" class="btn btn-primary" id="confirmBtn">확인</button>
-                    </div>
-                </div>
-            </div>
-        </div>
     </main>
 
     <script th:inline="javascript">
         /*<![CDATA[*/
-
-        $(document).on('ready', function () {
-
-            $("#perPageNum").on('change',function (event) {
-                $(this).val();
-                var boardId = [[${param.boardId}]] == null ? '' : [[${param.boardId}]];
-                location.href = "list?perPageNum=" + $(this).val() + "&boardId=" + boardId;
-            });
-
-            $('#exampleModal').on('show.bs.modal', function (event) {
-                var button = $(event.relatedTarget); // Button that triggered the modal
-                var recipient = button.data('whatever'); // Extract info from data-* attributes
-                var title = button.data('title') // Extract info from data-* attributes
-                var body = button.data('body') // Extract info from data-* attributes
-                var confirm = button.data('confirm') // Extract info from data-* attributes
-                // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-                // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-                var modal = $(this);
-
-                if(title != null){
-                    modal.find('.modal-title').text(title);
-                }
-                modal.find('.modal-body').text(body);
-                modal.find('.modal-footer #confirmBtn').on("click", function () {
-                    location.href=confirm;
-                })
-
-            });
-
-        });
 
         /*]]>*/
     </script>

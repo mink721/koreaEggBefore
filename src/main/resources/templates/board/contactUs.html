@@ -3,103 +3,72 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorator="layout/default"  >
 <section layout:fragment="content">
 
-    <div class="container space-2 space-3--lg">
-        <!--view-->
-        <div th:unless="${register}" th:object="${contact}">
-            <div class="row" >
-                <span th:if="*{answerFlag}" class="text-danger">답변완료</span>
-                <span th:unless="*{answerFlag}" class="text-danger">답변대기</span>
-                <span th:text="*{title}"></span>
-                <span th:text="*{#dates.format(regDate, 'yyyy.MM.dd')}"></span>
+    <div th:replace="board/contactList.html :: header"></div>
+
+    <div class="space-1 container">
+        <form method="post" th:action="@{register}" th:object="${contact}">
+            <input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <input type="hidden" name="id" th:value="*{id}">
+            <span th:if="*{answerFlag}" class="text-danger">답변완료</span>
+            <span th:unless="*{answerFlag}" class="text-danger">답변대기</span>
+            <span th:unless="${modify} or ${register}" th:text="*{#dates.format(regDate, 'yyyy.MM.dd')}"></span>
+
+            <!-- INPUT -->
+            <div class="row form-group">
+                <label class="col-sm-2 col-form-label ">성명:</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" th:readonly="!${modify} and !${register}" th:class="${modify} or ${register}? 'form-control': 'form-control-plaintext'"
+                           name="reqName" th:classappend="${#fields.hasErrors('reqName')}? 'is-invalid'"
+                            th:value="${register}? ${#authentication.principal.username} : *{reqName} "
+                    >
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('reqName')}" th:errors="*{reqName}"></div>
+                </div>
             </div>
-            <div th:text="*{contents}"></div>
-            <div th:text="*{answer}"></div>
-            <div th:text="*{#dates.format(answerDate, 'yyyy.MM.dd')}"></div>
-            <a  role="button" class="btn btn-primary" th:href="list">목록</a>
-        </div>
 
-        <!--등록-->
-        <div  th:if="${register}" class="js-validate rounded p-sm-7 mx-lg-auto" >
-            <!-- Contact Us Form -->
-            <form method="post">
-                <input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-                    <div class="row mb-5">
-                        <div class="col-md-2">
-                            <label class="h6 small d-block text-uppercase mb-3 mb-lg-0">성명:</label>
-                           <!-- <span sec:authentication="principal.username"></span>-->
-                        </div>
-                        <div class="col-md-10">
-                            <div class="js-form-message">
-                                <div class="js-focus-state input-group form">
-                                    <sec:authentication property="principal.mobile" var="mobile">
-                                    <input class="form-control form__input" type="text" name="reqName" th:value="${#authentication.principal.username}" required
-                                           data-msg="Please enter your frist name."
-                                           data-error-class="u-has-error"
-                                           data-success-class="u-has-success"
-                                    </sec:authentication>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mb-5">
-                        <div class="col-md-2">
-                            <label class="h6 small d-block text-uppercase mb-3 mb-lg-0">연락처:</label>
-                        </div>
-                        <div class="col-md-10">
-                            <div class="js-form-message">
-                                <div class="js-focus-state input-group form">
-                                    <input class="form-control form__input" type="text"  name="reqMobile" th:value="${#authentication.principal.mobile}" required
-                                           data-msg="Please enter your frist name."
-                                           data-error-class="u-has-error"
-                                           data-success-class="u-has-success">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mb-5">
-                        <div class="col-md-2">
-                            <label class="h6 small d-block text-uppercase mb-3 mb-lg-0">제목:</label>
-                        </div>
-                        <div class="col-md-10">
-                            <div class="js-form-message">
-                                <div class="js-focus-state input-group form">
-                                    <input class="form-control form__input" type="text" name="title" required
-                                           data-msg="Please enter your frist name."
-                                           data-error-class="u-has-error"
-                                           data-success-class="u-has-success">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mb-5">
-                        <div class="col-md-2">
-                            <label class="h6 small d-block text-uppercase mb-3 mb-lg-0">내용:</label>
-                        </div>
-                        <div class="col-md-10">
-                            <div class="js-form-message">
-                                <div class="js-focus-state input-group form">
-                                    <textarea class="form-control form__input" rows="4" name="contents" required
-                                    placeholder=""
-                                    aria-label=""
-                                    data-msg="Please enter a reason."
-                                    data-error-class="u-has-error"
-                                    data-success-class="u-has-success"></textarea>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                <!-- End Input Form -->
+            <div class="row form-group">
+                <label class="col-sm-2 col-form-label">연락처:</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" th:readonly="!${modify} and !${register}" th:class="${modify} or ${register}? 'form-control': 'form-control-plaintext'"
+                           name="reqMobile" th:classappend="${#fields.hasErrors('reqMobile')}? 'is-invalid'"
+                           th:value="${register}? ${#authentication.principal.phone} : *{reqMobile} "
+                    >
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('reqName')}" th:errors="*{reqMobile}"></div>
+                </div>
+            </div>
 
-                <div class="row">
-                    <div class="col-md-8 offset-md-4">
-                        <input type="submit" class="btn btn-primary btn-wide" value="입력완료"/>
+            <div class="row form-group">
+                <label class="col-sm-2 col-form-label">제목:</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" th:readonly="!${modify} and !${register}" th:class="${modify} or ${register}? 'form-control': 'form-control-plaintext'"
+                           th:field="*{title}" th:classappend="${#fields.hasErrors('title')}? 'is-invalid'"
+                    >
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <label class="col-sm-2 col-form-label">내용:</label>
+                <div class="col-sm-10">
+                    <textarea   rows="6" class="form-control" type="text" th:readonly="!${modify} and !${register}" th:class="${modify} or ${register}? 'form-control': 'form-control-plaintext'"
+                           th:field="*{contents}" th:classappend="${#fields.hasErrors('contents')}? 'is-invalid'"
+                    ></textarea>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('contents')}" th:errors="*{title}"></div>
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <div th:unless="!${modify} and !${register}" th:remove="tag" >
+                    <label class="col-sm-2 col-form-label">답변:</label>
+                    <div class="col-sm-10" th:text="*{answer}">
                     </div>
                 </div>
-            </form>
-            <!-- End Contact Us Form -->
-        </div>
-        <!-- Contacts Section -->
 
+                <div class="col-12 text-center">
+                    <input type="submit" th:if="${modify} or ${register}" class="btn btn-primary btn-wide" value="입력완료"/>
+                    <a role="button" th:unless="${modify} or ${register}" class="btn btn-danger text-white" href="javascript:history.back();">이전</a>
+                </div>
+            </div>
+        </form>
     </div>
 
     <script th:inline="javascript">

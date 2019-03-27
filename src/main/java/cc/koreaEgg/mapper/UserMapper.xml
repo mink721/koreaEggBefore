@@ -5,67 +5,82 @@
 
 <mapper namespace="cc.koreaEgg.mapper.UserMapper">
 
-    <!-- USER TABLE -->
-    <select id="selectUserByName" resultType="User">
+    <resultMap id="User" type="User" >
+        <result  column="id" property="id" />
+        <result  column="base_role" property="baseRole" />
+        <result  column="role" property="role" />
+        <result  column="role_change" property="roleChange" />
+        <result  column="status" property="status" />
+        <result  column="user_id" property="userId" />
+        <result  column="pwd" property="pwd" />
+        <result  column="user_name" property="userName" />
+        <result  column="phone" property="phone" />
+        <result  column="memo" property="memo" />
+        <result  column="birthday" property="birthday" />
+        <result  column="shop_id" property="shopId" />
+        <result  column="reg_date" property="regDate" />
+        <result  column="update_date" property="updateDate" />
+        <result  column="expire_date" property="expireDate" />
+        <result  column="login_count" property="loginCount" />
+        <result  column="login_date" property="loginDate" />
+        <result  column="s_id" property="shop.id" />
+        <result  column="s_name" property="shop.name" />
+        <result  column="s_post_num" property="shop.postNum" />
+        <result  column="s_addr" property="shop.addr" />
+        <result  column="s_addr_detail" property="shop.addrDetail" />
+        <result  column="s_tel" property="shop.tel" />
+        <result  column="s_profile_image" property="shop.profileImage" />
+        <result  column="s_lon" property="shop.lon" />
+        <result  column="s_lat" property="shop.lat" />
+        <result  column="s_reg_date" property="shop.regDate" />
+        <result  column="s_homepage" property="shop.homepage" />
+    </resultMap>
+
+    <sql id="selectUserSql">
         SELECT
-          if( IFNULL(currentRole,'USER') = u.base_role , u.base_role, currentRole ) AS role,
-          expired AS expire_date,
-          if( IFNULL(currentRole,'USER') = u.base_role , 0, 1 ) AS role_change,
-          u.*, r.role
-          FROM USER u left join
+            if( IFNULL(currentRole,'USER') = u.base_role , u.base_role, currentRole ) AS role
+            ,if( IFNULL(currentRole,'USER') = u.base_role , 0, 1 ) AS role_change
+            ,expired AS expire_date
+            ,u.*
+            ,s.id AS s_id
+            ,s.name AS s_name
+            ,s.post_num AS s_post_num
+            ,s.addr AS s_addr
+            ,s.addr_detail AS s_addr_detail
+            ,s.tel AS s_tel
+            ,s.profile_image AS s_profile_image
+            ,s.lon AS s_lon
+            ,s.lat AS s_lat
+            ,s.reg_date AS s_reg_date
+            ,s.homepage AS s_homepage
+            FROM USER u left join
             (
             SELECT *, if(expire_date &lt; now(), 'USER' , role ) AS currentRole,
             if(expire_date > now(), expire_date , null ) AS expired
             FROM USER_ROLE_REQ WHERE status=29 AND id in (select max(id) from USER_ROLE_REQ group by user_id)
-            ) r on u.id = r.user_id
+            ) r on u.id = r.user_id left join SHOP s on u.shop_id = s.id
+    </sql>
+
+    <!-- USER TABLE -->
+    <select id="selectUserByName" resultMap="User">
+        <include refid="selectUserSql" />
         WHERE u.status = 1 AND u.user_name LIKE CONCAT('%',#{userName},'%')
     </select>
 
 
-    <select id="selectUserByUserId" parameterType="map" resultType="user">
-        SELECT
-          if( IFNULL(currentRole,'USER') = u.base_role , u.base_role, currentRole ) AS role,
-          expired AS expire_date,
-          if( IFNULL(currentRole,'USER') = u.base_role , 0, 1 ) AS role_change,
-          u.*, r.role
-          FROM USER u left join
-            (
-            SELECT *, if(expire_date &lt; now(), 'USER' , role ) AS currentRole,
-            if(expire_date > now(), expire_date , null ) AS expired
-            FROM USER_ROLE_REQ WHERE status=29 AND id in (select max(id) from USER_ROLE_REQ group by user_id)
-            ) r on u.id = r.user_id
+    <select id="selectUserByUserId" parameterType="map" resultMap="User">
+        <include refid="selectUserSql" />
         WHERE u.status = 1 AND u.user_id = #{userId}
     </select>
 
-    <select id="selectRoleChangeList" resultType="User">
-        SELECT
-        if( IFNULL(currentRole,'USER') = u.base_role , u.base_role, currentRole ) AS role,
-        expired AS expire_date,
-        if( IFNULL(currentRole,'USER') = u.base_role , 0, 1 ) AS role_change,
-        u.*, r.role
-        FROM USER u left join
-        (
-        SELECT *, if(expire_date &lt; now(), 'USER' , role ) AS currentRole,
-        if(expire_date > now(), expire_date , null ) AS expired
-        FROM USER_ROLE_REQ WHERE status=29 AND id in (select max(id) from USER_ROLE_REQ group by user_id)
-        ) r on u.id = r.user_id
+    <select id="selectRoleChangeList" resultMap="User">
+        <include refid="selectUserSql" />
         WHERE u.status = 1 AND IFNULL(currentRole,'USER') &lt;&gt; u.base_role
     </select>
 
-
     <!--유저 전체 검색-->
-    <select id="selectAllUser" parameterType="map" resultType="User">
-        SELECT
-        if( IFNULL(currentRole,'USER') = u.base_role , u.base_role, currentRole ) AS role,
-        expired AS expire_date,
-        if( IFNULL(currentRole,'USER') = u.base_role , 0, 1 ) AS role_change,
-        u.*, r.role
-        FROM USER u left join
-        (
-        SELECT *, if(expire_date &lt; now(), 'USER' , role ) AS currentRole,
-        if(expire_date > now(), expire_date , null ) AS expired
-        FROM USER_ROLE_REQ WHERE status=29 AND id in (select max(id) from USER_ROLE_REQ group by user_id)
-        ) r on u.id = r.user_id
+    <select id="selectAllUser" parameterType="map" resultMap="User">
+        <include refid="selectUserSql" />
         WHERE u.status = 1
         <if test="userId!=null and !userId.equals('')">
             AND u.user_id LIKE CONCAT('%',#{userId},'%')
@@ -73,14 +88,14 @@
         <if test="userName!=null and !userName.equals('')">
             AND u.user_name LIKE CONCAT('%',#{userName},'%')
         </if>
-        <if test="mobile!=null and !mobile.equals('')">
-            AND u.mobile LIKE CONCAT('%',#{mobile},'%')
+        <if test="phone!=null and !phone.equals('')">
+            AND u.phone LIKE CONCAT('%',#{phone},'%')
         </if>
         <if test="shopName!=null and !shopName.equals('')">
-            AND u.shop_name LIKE CONCAT('%',#{shopName},'%')
+            AND s.name LIKE CONCAT('%',#{shopName},'%')
         </if>
         <if test="address!=null and !address.equals('')">
-            AND u.address LIKE CONCAT('%',#{address},'%')
+            AND s.addr LIKE CONCAT('%',#{address},'%')
         </if>
         <if test="role!=null and !role.equals('')">
             AND u.base_role = #{role}
@@ -91,36 +106,45 @@
 
     <select id="selectCountAllUser" parameterType="map" resultType="int">
         SELECT count(*)
-        FROM USER
-        WHERE status = 1
+        FROM USER u left join
+        (
+        SELECT *, if(expire_date &lt; now(), 'USER' , role ) AS currentRole,
+        if(expire_date > now(), expire_date , null ) AS expired
+        FROM USER_ROLE_REQ WHERE status=29 AND id in (select max(id) from USER_ROLE_REQ group by user_id)
+        ) r on u.id = r.user_id left join SHOP s on u.shop_id = s.id
+        WHERE u.status = 1
         <if test="userId!=null and !userId.equals('')">
-            AND user_id LIKE CONCAT('%',#{userId},'%')
+            AND u.user_id LIKE CONCAT('%',#{userId},'%')
         </if>
         <if test="userName!=null and !userName.equals('')">
-            AND user_name LIKE CONCAT('%',#{userName},'%')
+            AND u.user_name LIKE CONCAT('%',#{userName},'%')
         </if>
-        <if test="mobile!=null and !mobile.equals('')">
-            AND mobile LIKE CONCAT('%',#{mobile},'%')
+        <if test="phone!=null and !phone.equals('')">
+            AND u.phone LIKE CONCAT('%',#{phone},'%')
         </if>
         <if test="shopName!=null and !shopName.equals('')">
-            AND shop_name LIKE CONCAT('%',#{shopName},'%')
+            AND s.name LIKE CONCAT('%',#{shopName},'%')
         </if>
         <if test="address!=null and !address.equals('')">
-            AND address LIKE CONCAT('%',#{address},'%')
+            AND s.addr LIKE CONCAT('%',#{address},'%')
         </if>
         <if test="role!=null and !role.equals('')">
-            AND base_role = #{role}
+            AND u.base_role = #{role}
         </if>
     </select>
 
     <!--TODO AN 유저등록 UserServiceTest 테스트 만들어놈-->
     <insert id="createUser" parameterType="User">
-      INSERT INTO USER (user_id, user_name, pwd, mobile, shop_id, reg_date)
-      VALUES (#{userId},#{userName},#{pwd},#{mobile},#{shopId},NOW())
+      INSERT INTO USER (user_id, user_name, pwd, phone, shop_id, reg_date)
+      VALUES (#{userId},#{userName},#{pwd},#{phone},#{shopId},NOW())
     </insert>
 
-    <select id="selectUserById" parameterType="long" resultType="user">
-      SELECT * FROM USER WHERE id = #{id}
+    <select id="selectUserById" parameterType="long" resultMap="User">
+        <include refid="selectUserSql" /> WHERE u.id = #{id}
+    </select>
+
+    <select id="selectUserByPhone" parameterType="String" resultMap="User">
+        <include refid="selectUserSql" /> WHERE u.phone = #{phone}
     </select>
 
       <!--TODO AN 비밀번호 찾기용-->
@@ -132,13 +156,23 @@
 
     <update id="updateUser" parameterType="User">
         UPDATE USER
-        SET base_role = #{baseRole}
-        , status = #{status}
-        , user_name = #{userName}
-        , pwd = #{pwd}
-        , mobile = #{mobile}
-        , shop_id = #{shopId}
+        SET user_name = #{userName}
+        , phone = #{phone}
+        , memo = #{memo}
         , update_date = NOW()
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateShop" parameterType="Shop">
+        UPDATE SHOP
+        SET name = #{name}
+        , post_num = #{postNum}
+        , addr = #{addr}
+        , addr_detail = #{addrDetail}
+        , tel = #{tel}
+        , lon = #{lon}
+        , lat = #{lat}
+        , homepage = #{homepage}
         WHERE id = #{id}
     </update>
 
@@ -146,11 +180,13 @@
         UPDATE USER
         SET base_role = #{role}
         WHERE id = #{id}
+        AND base_role != 'ADMIN'
     </update>
 
     <update id="countUpVisit" parameterType="long">
         UPDATE USER
         SET login_count = login_count+1
+        ,login_date = NOW()
         WHERE id = #{id}
     </update>
 
@@ -237,8 +273,53 @@
         select role from USER_ROLE_REQ where user_id = #{userId} and expire_date &lt;  now() order by id desc  limit 1
     </select>
 
+    <insert id="createAuthNum" parameterType="AuthNum">
+        INSERT INTO AUTH_NUM (phone, auth_num, reg_date) VALUES (#{phone},#{authNum},NOW())
+    </insert>
 
+    <select id="selectAuthNum" parameterType="AuthNum" resultType="AuthNum">
+        SELECT * FROM AUTH_NUM
+        WHERE phone = #{phone}
+        AND auth_num = #{authNum}
+        AND reg_date + INTERVAL 3 MINUTE &gt;= NOW()
+    </select>
 
+    <insert id="createShop" parameterType="shop">
+        INSERT INTO SHOP (name, post_num, addr, addr_detail, tel, profile_image, lon, lat, reg_date, homepage)
+        VALUES (#{name},#{postNum},#{addr},#{addrDetail},#{tel},#{profileImage},#{lon},#{lat},NOW(),#{homepage})
+        <selectKey keyProperty="id" resultType="Long" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
 
+    <resultMap id="Shop" type="Shop">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="postNum" column="post_num"/>
+        <result property="addr" column="addr" />
+        <result property="addrDetail" column="addr_detail" />
+        <result property="tel" column="tel"/>
+        <result property="profileImage" column="profile_image"/>
+        <result property="lon" column="lon"/>
+        <result property="lat" column="lat"/>
+        <result property="regDate" column="reg_date"/>
+        <result property="homepage" column="homepage"/>
+        <collection property="products"  ofType="Product">
+            <result property="id" column="p_id" />
+            <result property="shopId" column="p_shop_id" />
+            <result property="name" column="p_name" />
+        </collection>
+    </resultMap>
+
+    <select id="selectShopList" parameterType="map" resultMap="Shop">
+      SELECT s.*, ST_DISTANCE(POINT(#{lon}, #{lat}), POINT(s.lon, s.lat)) AS dist,
+              p.id AS p_id, p.shop_id AS p_shop_id, p.name AS p_name
+              FROM SHOP s left join PRODUCT p on p.shop_id = s.id, USER u
+              WHERE s.id = u.shop_id
+              AND p.visible=1
+              AND p.status=11
+              AND u.base_role = #{role}
+              ORDER BY dist
+    </select>
 
 </mapper>

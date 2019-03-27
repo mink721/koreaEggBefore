@@ -3,7 +3,7 @@
 <section layout:fragment="content">
     <!-- Hire Us Form -->
     <div th:unless="${param.success}" class="container space-2 space-3--lg">
-        <form th:action="@{/registUser}" method="post"
+        <form th:action="@{register}" method="post"
               class="js-validate w-lg-75 px-3 px-sm-9 mx-lg-auto form-signin"
               th:object="${user}">
             <input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
@@ -76,7 +76,7 @@
                     <label class="h6 small d-block text-uppercase">핸드폰<span class="text-danger">*</span></label>
                     <div class="js-focus-state input-group form">
                         <input type="tel" class="form-control form__input" required
-                               th:field="*{mobile}"
+                               th:field="*{phone}"
                                placeholder="010-0000-0000"
                                aria-label="tel"
                                data-msg="필수입력"
@@ -115,7 +115,7 @@
                     <div id="addrWrap" class="position-absolute" style="display:none; border:1px solid #d4d7dd; height:400px;">
                         <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">
                     </div>
-                    <input id="addr" type="text" class="form-control form__input" name="address"
+                    <input id="addr" type="text" class="form-control form__input" name="addr"
                            placeholder="건물명,도로명,지번으로 검색하세요"
                            aria-label="Default example with button"
                            aria-describedby="inputGroup-sizing-default"

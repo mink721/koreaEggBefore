@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="user/myPageLayout"  >
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/default"  >
 <head>
     <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
     <!-- default header name is X-CSRF-TOKEN -->
     <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
     <link  th:href="@{/vendor/cropper/css/cropper.css}" rel="stylesheet">
-
     <link th:href="@{/vendor/textareaEditor/summernote-lite.css}" rel="stylesheet">
 
 

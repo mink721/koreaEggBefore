@@ -24,5 +24,20 @@ public class Price {
     private int agent;
     private Timestamp regDate;
 
+    public Price(){
+
+    }
+
+    public Price(Product pd){
+        this.productId = pd.getId();
+        this.cost = pd.getCost();
+        this.consumer = pd.getConsumer();
+        this.store = pd.getStore();
+        this.retail = pd.getRetail();
+        this.wholesale = pd.getWholesale();
+        this.partner = pd.getPartner();
+        this.agent = pd.getAgent();
+    }
+
 
 }

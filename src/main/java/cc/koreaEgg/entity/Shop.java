@@ -5,7 +5,9 @@ import lombok.Setter;
 import lombok.ToString;
 import org.apache.ibatis.type.Alias;
 
+import javax.validation.constraints.NotBlank;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * Created by mink721 on 2019-03-12.
@@ -18,10 +20,12 @@ import java.sql.Timestamp;
 public class Shop {
 
     private Long id;
+    @NotBlank
     private String name;
     private String postNum;
-    private String address;
-    private String addressDetail;
+    @NotBlank
+    private String addr;
+    private String addrDetail;
     private String tel;
     /* TODO AN shop 이미지는 어떻게 저장함?*/
     private String profileImage;
@@ -32,4 +36,6 @@ public class Shop {
     private Timestamp regDate;
 
     private String homepage;
+
+    private List<Product> products;
 }

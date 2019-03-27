@@ -3,8 +3,6 @@ package cc.koreaEgg.controller;
 import cc.koreaEgg.entity.*;
 import cc.koreaEgg.service.CartService;
 import cc.koreaEgg.service.OrderService;
-import cc.koreaEgg.service.PaymentService;
-import cc.koreaEgg.util.SessionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -15,14 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 public class OrderController {
@@ -30,54 +24,20 @@ public class OrderController {
 	@Autowired
 	private OrderService orderService;
 	@Autowired
-	private PaymentService paymentService;
-	@Autowired
 	private CartService cartService;
-//	@Autowired
-//	private ProductConfigService productConfigService;
-	@SuppressWarnings("unused")
-	private HttpSession session;
 
 	private static String orderHistoryPage = "template/ordersList";
 	private static String orderDetailsPage = "template/orderDetails";
 
-	@RequestMapping(value = "/createOrderByCC", method = RequestMethod.POST)
-	public String createOrder(Model model, @AuthenticationPrincipal User customer,
-			HttpServletRequest request, HttpServletResponse response) throws ParseException,
-			IOException {
+	@RequestMapping(value = "/order/checkout")
+	public String checkOutCart(Model model, @AuthenticationPrincipal User customer, HttpSession session) {
 
-		session = SessionUtils.createSession(request);
-		// Retrieve Details about the Cart,Customer and Address Details
-		// used to create detailed Order
-
-		//Order order = orderService.createOrder(cartService, customer, request);
-		/*payAmountByCreditCard(creditCardForm, request);
-
-		SessionUtils.setSessionVariables(order, request, "orderDetails");
-		List<Product> productsList = orderService.getAllOrderItems(order);
-		StringBuffer sb = new StringBuffer();
-		sb.append("Hello " + customer.getUserName() + "\n");
-		sb.append("Thank you for shopping at eShopper.Happy Shopping!!\n");
-		sb.append("OrderId-" + order.getOrderId() + "/n");
-		sb.append("Products-/n");
-		for (Product p : productsList) {
-			sb.append(p.getName() + "  Rs." + p.getPrice() + "\n");
+		CartData cartData = (CartData)session.getAttribute("cart");
+		if(cartData.getTotal() == 0){
+			return "/order/cart";
 		}
-		sb.append("Your Order Status is: " + order.getOrderStatus());
-		sb.append("You will get further notification.Once your order is processed");
-		mailSenderService.sendEmail(customer.getEmailAddress(),
-				customer.getUserName(), sb.toString(),
-				"Order Confirmation for " + customer.getUserName());*/
-		return "redirect:order";
+		return "/order/checkout";
 	}
-
-	/*public void payAmountByCreditCard(CreditCardForm creditCardForm,
-			HttpServletRequest request) throws IOException {
-
-		creditCardForm = paymentService.gatherCardDetails(creditCardForm,
-				request);
-		paymentService.payByCreditCard(creditCardForm);
-	}*/
 
 	@RequestMapping(value = "/order/register", method = RequestMethod.POST)
 	public String registerOreder(Model model, HttpSession session, Order order) {
@@ -104,6 +64,9 @@ public class OrderController {
 		pageMaker.setTotalCount(10);
 
 		model.addAttribute("pageMaker", pageMaker);
+
+		List<String> search = Arrays.asList();
+		model.addAttribute("search", search);
 
 		return "/user/orderList";
 	}

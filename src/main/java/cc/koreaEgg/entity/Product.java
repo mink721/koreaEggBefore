@@ -20,15 +20,16 @@ public class Product {
     private String name;
     private String subName;
     private Integer size;
+    private Integer status;
 
     private String origin;
-    private Integer cost;
     private Integer consumer; //소비자사
     private Integer store;
     private Integer retail;
     private Integer wholesale;
     private Integer partner;
     private Integer agent;
+    private Integer cost;
     private Integer price;
 
     private Timestamp regDate;
@@ -41,5 +42,7 @@ public class Product {
     private String imagePath;
 
     private String shopName;
+
+    private boolean visible;
 
 }

@@ -14,10 +14,8 @@ public interface ProductMapper {
     long createProduct(Product product);
     long createPrice(Price price);
 
-    void createShop(Shop shop);
-    List<Shop> selectShopList(@Param("cri") Criteria cri,
-                              @Param("lon") double lon,
-                              @Param("lat") double lat,
-                              @Param("role") String role);
-    User selectUserById(long id);
+    void updateProduct(Product product);
+    void updateProductPrice(Price price);
+
+    void deleteProduct(long id);
 }

@@ -28,11 +28,21 @@ public class ProductService {
         return productMapper.selectProduct(id, role);
     }
 
-    public void createShop(Shop shop){ productMapper.createShop(shop);}
-
-    public List<Shop> selectShopList(Criteria cri, double lon, double lat, String role){ return productMapper.selectShopList(cri, lon, lat, role);}
-
     public List<Product> selectProductList(Criteria cri, Role role, Long shopId, Integer size) {
         return productMapper.selectProductList(cri, role, shopId, size);
+    }
+
+    public void updateProduct(Product product) {
+        productMapper.updateProduct(product);
+        productMapper.createPrice(new Price(product));
+    }
+
+    public void updatePrice(Price price) {
+        productMapper.updateProductPrice(price);
+        productMapper.createPrice(price);
+    }
+
+    public void deleteProduct(long id) {
+        productMapper.deleteProduct(id);
     }
 }

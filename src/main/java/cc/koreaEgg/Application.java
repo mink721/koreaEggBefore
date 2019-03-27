@@ -13,12 +13,19 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 @SpringBootApplication
 @Slf4j
@@ -93,9 +100,42 @@ public class Application implements WebMvcConfigurer{
     return connector;
   }
 
+  @Configuration
+  public interface BeanInterface {
+
+    @Bean
+    static UrlService urlService() {
+      return new UrlService();
+    }
+  }
+
+  public static class UrlService {
+
+    public String parseParamLeaf(List<String> paramNames) {
+      {
+        StringBuffer sb = new StringBuffer(0);
+
+        for ( String paramName : paramNames )
+        {
+          if ( sb.length() > 0 )
+          {
+            sb.append(",");
+          }
+          sb.append(paramName).append("=${").append(paramName).append("}");
+        }
+
+        return sb.toString();
+      }
+    }
+
+  }
+
   // Used when launching as an executable jar or war
   public static void main(String[] args) {
-    SpringApplication.run(Application.class, args);
+    //SpringApplication.run(Application.class, args);
+
+    ConfigurableApplicationContext context = SpringApplication.run(Application.class, args);
+    UrlService urlService = context.getBean(UrlService.class);
   }
 
 }

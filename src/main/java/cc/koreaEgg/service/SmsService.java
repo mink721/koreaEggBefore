@@ -1,5 +1,6 @@
 package cc.koreaEgg.service;
 
+import cc.koreaEgg.entity.AuthNum;
 import cc.koreaEgg.entity.ContactUs;
 import cc.koreaEgg.entity.sms.SmsRequest;
 import cc.koreaEgg.entity.sms.SmsSendRequest;
@@ -9,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
@@ -18,11 +20,10 @@ import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.net.URLEncoder;
@@ -42,7 +43,7 @@ public class SmsService {
     private String adminMobile = "01080790179";
     private String adminTitle = "[코리아에그 웹 에러]";
 
-    public SmsSendResponse sendSms(SmsSendRequest req) throws Exception {
+    public SmsSendResponse sendSms(SmsSendRequest req) {
 
             final String boundary = "____boundary____";
             Map<String, String> sms = oMapper.convertValue(req, Map.class);
@@ -64,9 +65,13 @@ public class SmsService {
             File imageFile = new File(req.getImagePath());
             if(imageFile.exists()){
 
-                builder.addPart("image",
-                        new FileBody(imageFile, ContentType.create("application/octet-stream"),
-                                URLEncoder.encode(imageFile.getName(), encodingType)));
+                try {
+                    builder.addPart("image",
+                            new FileBody(imageFile, ContentType.create("application/octet-stream"),
+                                    URLEncoder.encode(imageFile.getName(), encodingType)));
+                } catch (UnsupportedEncodingException e) {
+                    throw new DataIntegrityViolationException(e.getMessage());
+                }
             }
 
             HttpEntity entity = builder.build();
@@ -75,8 +80,9 @@ public class SmsService {
             HttpPost post = new HttpPost(req.getSms_url());
             post.setEntity(entity);
 
-            HttpResponse res = client.execute(post);
-
+        HttpResponse res = null;
+        try {
+            res = client.execute(post);
             String result = "";
             if(res != null){
                 BufferedReader in = new BufferedReader(new InputStreamReader(res.getEntity().getContent(), encodingType));
@@ -90,10 +96,13 @@ public class SmsService {
             SmsSendResponse response = oMapper.readValue(result,SmsSendResponse.class);
             log.trace(response.toString());
             return response;
+        } catch (IOException e) {
+            throw new DataIntegrityViolationException(e.getMessage());
+        }
 
     }
 
-    public Object sendSmsInfo(SmsRequest req) throws Exception{
+    public Object sendSmsInfo(SmsRequest req){
 
         log.trace(req.toString());
 
@@ -104,33 +113,46 @@ public class SmsService {
         for (Field field : fields) {
             if (Modifier.isPrivate(field.getModifiers())) {
                 field.setAccessible(true);
-                sms.add(new BasicNameValuePair(field.getName(), field.get(req).toString())); // SMS 아이디
+                try {
+                    sms.add(new BasicNameValuePair(field.getName(), field.get(req).toString())); // SMS 아이디
+                } catch (IllegalAccessException e) {
+                    throw new DataIntegrityViolationException(e.getMessage());
+                }
             }
         }
 
         HttpClient client = HttpClients.createDefault();
         HttpPost post = new HttpPost(req.getSms_url());
-        post.setEntity(new UrlEncodedFormEntity(sms, encodingType));
 
-        HttpResponse res = client.execute(post);
-
-        String result = "";
-        if(res != null){
-            BufferedReader in = new BufferedReader(new InputStreamReader(res.getEntity().getContent(), encodingType));
-            String buffer = null;
-            while((buffer = in.readLine())!=null){
-                result += buffer;
+        try {
+            post.setEntity(new UrlEncodedFormEntity(sms, encodingType));
+            HttpResponse res = client.execute(post);
+            String result = "";
+            if(res != null){
+                InputStreamReader rd = new InputStreamReader(res.getEntity().getContent(), encodingType);
+                BufferedReader in = new BufferedReader(rd);
+                String buffer = null;
+                while((buffer = in.readLine())!=null){
+                    result += buffer;
+                }
+                in.close();
             }
-            in.close();
-        }
 
-        Object response = oMapper.readValue(result, req.getResponseClass() );
-        log.trace(response.toString());
-        return response;
+            Object response = oMapper.readValue(result, req.getResponseClass() );
+            log.trace(response.toString());
+            return response;
+            /*TODO throw 수정*/
+        } catch (UnsupportedEncodingException e) {
+            throw new DataIntegrityViolationException(e.getMessage());
+        } catch (ClientProtocolException e) {
+            throw new DataIntegrityViolationException(e.getMessage());
+        } catch (IOException e) {
+            throw new DataIntegrityViolationException(e.getMessage());
+        }
 
     }
 
-    public void contacUsSms(ContactUs cu) throws Exception {
+    public void contacUsSms(ContactUs cu){
         SmsSendRequest req = new SmsSendRequest();
 
         req.setReceiver(koreaEggMobile);
@@ -138,12 +160,28 @@ public class SmsService {
         req.setMsg("");
 
         SmsSendResponse res = sendSms(req);
+        alertAdmin(res);
 
+    }
+
+    private void alertAdmin(SmsSendResponse res){
         if( res.getResult_code() != 1 ){
             SmsSendRequest adminReq = new SmsSendRequest();
             adminReq.setReceiver(adminMobile);
-            req.setTitle(adminTitle);
+            adminReq.setTitle(adminTitle);
             sendSms(adminReq);
         }
+    }
+
+    public void authSms(AuthNum auth){
+
+        SmsSendRequest req = new SmsSendRequest();
+
+        req.setReceiver(auth.getPhone());
+        req.setTitle("[코리아에그]");
+        req.setMsg("인증번호["+ auth.getAuthNum() +"]를 입력해 주세요");
+
+        SmsSendResponse res = sendSms(req);
+        alertAdmin(res);
     }
 }
